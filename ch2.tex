@@ -1,0 +1,189 @@
+Se puede aplicar el método HIL para una alta variedad de procesos, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
+
+\subsection{Hardware in the loop}\label{HILdef}
+
+HIL es un método utilizado en donde los comandos de un controlador son conectados a un sistema en la cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo, requiere un desarrollo en tiempo real, de esta manera se puede realizar las pruebas e iteraciones necesarias para poder validar el componente.
+
+ Esta emulación se realiza en tiempo real, y consta de un controlador que se conecta con estímulos virtuales realistas o también se utiliza para determinar si el modelo utilizado para la planta es válido. Al utilizar el modelo HIL se obtiene también ahorro en costos y en practicidad, ya que al poder evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
+
+La técnica HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control, el primer método consiste en que las pruebas realizadas son verificadas en una simulación de los componentes dinámicos, y la segunda técnica se basa en realizar ensayos con dispositivos de hardware.
+Se puede aplicar el método HIL para una alta variedad de sistemas, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
+
+La historia de primeros empleos utilizando el método HIL comienza en la segunda mitad del siglo XX, para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo pero al pasar del tiempo el método HIL fue empleado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
+Una ventaja del método HIL es que se reduce la posibilidad de que después de que el producto se encuentra en producción se descubran problemas graves en su funcionamiento. Es una herramienta que se utiliza para optimizar el diseño y para depurar el Hardware/software.
+
+En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realizar una prueba en condición real, la cual puede aumentar el costo y el tiempo de implementación, si tomamos un ejemplo de un sistema de navegación de un avión si se hace una prueba real puede resultar en una tragedia, además de tener la posibilidad de destrucción del avión. Si por el contrario se realiza solo la simulación el tiempo y el costo disminuyen pero se ve comprometido la precisión del objetivo. Por esta razón el HIL está en el lugar adecuado entre tiempo, costo y precisión.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/hilexperimental}
+	\caption{Precisión, tiempo y costo de un HIL vs Hardware vs simulación}
+	{Fuente: \cite{pouriahil}}
+	\label{fig:hilexperimental}
+\end{figure}
+
+Algunos factores que se toman en cuenta para aplicar el método HIL son los siguientes:
+
+\begin{itemize}
+	\item Para pruebas muy costosas o que pueden causar mucho daño en el sistema real.
+	\item Cuando los parámetros no son lineales y difíciles de recrear con precisión en la realidad.
+	\item Si el software de control tiene una complejidad elevada.
+\end{itemize}
+
+Una de las técnicas más utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración es cuando se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite la producción del producto.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/diagramav}
+	\caption{Ciclo en V para el desarrollo de proyectos en la industria}
+	{Fuente: \cite{pouriahil}}
+	\label{fig:ciclov}
+\end{figure}
+
+El método HIL se estructura de la siguiente manera:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/estructurahil}
+	\caption{Estructura general de un sistema de emulación HIL}
+	{Fuente: \cite{jaimehil}}
+	\label{fig:estructurahil}
+\end{figure}
+
+Se divide en tres componentes  básicos, en la simulación se encuentra el modelo de la planta controlada la cual debe ser programada, a pesar de que en esta parte se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actué como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. El componente del DUT es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra programado el algoritmo en el cual se establecen los mandos las cuales fueron transmitidas por dispositivos al simulador para poder hacer las pruebas respectivas de la planta.
+
+ En la componente de comunicación entre la planta y el controlador, hay varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser conversión de señales analógicas y digitales, bus de comunicación serial o paralelo, protocolos de red.
+ 
+ \subsection{Motor de corriente continua}
+ 
+ Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Algunos ejemplos de donde se encuentran este tipo de motor es en elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
+ 
+ Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes  el estátor, el rotor (Armadura del motor), el colector y las escobillas fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}. Entre el estátor que es el componente fijo y uno móvil denominado el rotor se produce flujos magnéticos que interactúan con el objetivo de producir un par electromagnético co-lineal con el eje del motor.
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.7\linewidth]{img/motorcc}
+ 	\caption{Diagrama de una máquina CC}
+ 		{Fuente: \cite{chapman}}
+ 	\label{fig:motorcc}
+ \end{figure}
+ 
+ \subsection{Control por armadura de un motor DC}
+ En la figura \ref{fig:modelomotor} se observa el modelo  de un motor DC controlado por armadura
+ 
+  \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.7\linewidth]{img/motordcarmadura}
+ 	\caption{Modelo de un motor DC}
+ 	\label{fig:modelomotor}
+ \end{figure}
+ 
+ Para este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generado por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El torque desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este torque tiene la función de accionar el sistema que posee una inercia total $J_{eq}$   y el $\theta$ es la posición angular del eje del motor.
+ 
+ El rotor genera un campo, en el cual se crea un voltaje inducido $e_{b}$  que va en dirección opuesta al suministro de armadura, este voltaje se le llama fuerza contra- electromotriz y esta es proporcional a la velocidad de rotación $W_{n}$  y  el flujo que es creado por el campo, siendo constante. 
+ 
+ La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ conectada a una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor esta en movimiento. El diagrama de bloques que representa a este tipo de motores es:
+ 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.7\linewidth]{img/diagramadebloquesarmadura}
+ 	\caption{Diagramas de bloques de un motor DC controlado por armadura}
+ 	\label{fig:diagramadebloquesarmadura}
+ \end{figure}
+ 
+ Para controlar la velocidad se debe  ajustar el voltaje que es aplicado a la armadura y dependiendo de su polaridad se determina la dirección de rotación del motor.  Las ecuaciones  que representan un control por armadura de un motor DC son las siguientes:
+
+	
+ \begin{center}
+ 	 \begin{equation}
+ 	 	\left\lbrace	
+ 		\begin{matrix}
+ 			   \tau_{m}= J_{m} \frac{d^{2}\theta}{dt^{2}}+b_{m}\frac{d\theta}{dt}\\
+ 				e_{a}=R_{a}I_{a}+L_{a}\frac{di_{a}}{dt}+ e_{b} \\
+ 				e_{b}=k_{b}\frac{d \theta }{d t} \\
+ 				\tau_{m}=k_{i}I_{a}
+ 		\end{matrix}
+ 		\right.
+ 		\label{ec:motorarmadura}%
+ 		\textup{Ecuaciones de un motor DC controlado por armadura}
+ 	\end{equation}
+ 		
+ \end{center}
+
+         
+\subsection{Control por campo} 
+En la figura \ref{fig:motorcampo} se observa el modelo de un motor DC controlado por armadura:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/motorcampo1}
+	\caption{Modelo de un motor DC controlado por campo}
+	\label{fig:motorcampo}
+\end{figure}
+      
+
+La corriente de armadura se mantiene constante y el campo es suministrado por un voltaje ajustable $e_{f}$.  El torque que se crea por el motor es proporcional al flujo que se genera por la corriente de armadura, la corriente de campo y la longitud de los conductores, el torque es utilizado para mover la carga de inercia total y vencer la fricción viscosa.El sistema se representa de la siguiente manera:
+          
+  \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=0.7\linewidth]{img/motorcampo}
+ 	\caption{Motor DC controlado por campo}
+ 	\label{fig:ecuacionesmotorcampo}
+ \end{figure}
+
+ Las ecuaciones que representan al motor DC controlado por campo son las siguientes:  
+ \begin{center}
+	\begin{equation}
+		\left\{	
+		\begin{matrix}
+			\tau = K_{T} i_{f}\\
+		    \tau =J\frac{d^{2}\theta}{dt}+B\frac{d\theta}{dt} \\
+			e_{f}=R_{f} i_{f}+ L_{f}\frac{d i_{f} }{d t} 
+		\end{matrix}
+		\right.	
+		%\text{Ecuaciones de un motor DC controlado por campo}
+		
+	\end{equation}
+	
+\end{center}
+
+%Se seleccionará la plataforma tecnológica para el diseño de la interfaz de emulación, incluyendo información fundamental sobre los conceptos relacionados al tema.
+
+
+
+%Según la Real Academia Española la palabra emular se puede definir como $"$imitar las acciones de otro procurando igualarlas e incluso excederlas$"$ {\cite{raeemular}}, como ya se explico anteriormente el método HIL utilizá una mezcla entre un controlador real y un emulador que en este caso es la planta de segundo orden. Para esto se necesita un emulador que se puede definir como un dispositivo que cuenta con un software el cual es capaz de replicar otro dispositivo o componente para igualarlo  o mejorarlo, para el caso de esta tesis será una planta de segundo orden.
+
+
+%Emulación vs Simulación
+\subsection{Simular }
+%Simulación
+Una simulación computacional es un proceso que consiste en utilizar funciones o técnicas matemáticas para aproximar el modelo de un sistema dinámico, entonces el algoritmo que se utilice debe evaluar el modelo en un intervalo de tiempo, para asi poder obtener las variables caracteristicas del sistema simulado{\cite{simulacion}}
+
+%Emulación
+\subsection{Emular}
+Según la RAE, un proceso de emulación se define como $"$imitar las acciones de otro procurando igualarlas e incluso excederlas$"$ {\cite{raeemular}}. En este sentido, un emulador se puede definir como un dispositivo que cuenta con un software el cual es capaz de replicar a otro dispositivo o componente para igualarlo  o mejorarlo. {\cite{larusse}}
+
+\subsection{Diferencias entre simular y emular}
+
+Como se puede apreciar el proceso de emular y simular tienen diferentes definiciones, por este motivo en la tabla \ref{tab:simulacionvsemulacion} exponen las diferencias más significativas.
+   
+\begin{table}[H]
+	
+	\caption{Diferencias entre simular y emular}
+	\begin{center}	
+		\begin{tabular}{|p{17.5em}|p{17.5em}|}
+			
+			\hline
+			\textbf{Simular } & \textbf{Emular} \\
+			\hline
+			No incorpora módulos periféricos de harware adicionales  & Es aplicado en sistemas de Software y hardware \\
+			\hline
+			No necesariamente cumple con todas las reglas del sistema que simula & Las reglas son fijas y no se pueden cambiar o el sistema falla \\
+			\hline
+			Se puede separar la simulación del mundo real  & Tiene el objetivo de ocupar el lugar de la realidad  \\
+			\hline
+			Son más utilizados para pruebas de comportamiento interno de equipos & Son más utilizados para pruebas del comportamiento externos de otros equipos \\
+			\hline
+		\end{tabular}%
+	\end{center}
+	\label{tab:simulacionvsemulacion}%
+\end{table}%

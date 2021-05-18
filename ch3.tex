@@ -1,0 +1,177 @@
+
+%Existen diversas herramientas para emular procesos, las cuáles difieren según su aplicación. Algunas de ellas serán expuestas a continuación: 
+
+% LabView 
+% NI Instruments
+% 
+%
+
+
+% por qué emular y no simular
+
+
+% selección de emulador
+
+
+%
+
+Para emular la planta de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos realistas y precisos. Para esto se tomo en cuenta lo siguiente:
+
+\begin{itemize}
+	
+	\item Se debe generar un gráfico de la respuesta obtenida.
+	\item El lenguaje de programación debe permitir realizar los cálculos matemáticos necesarios para emular la planta. 
+	\item Se necesita un dispositivo que cuente con un puerto de comunicación serial 
+	\item Se necesita un dispositivo con una velocidad de procesamiento compatible con el hardware que se va a utilizar. 
+	\item La emulación debe hacerse mediante cálculos matemáticos sin consumir recursos excesivos en el dispositivo.
+	
+	  
+\end{itemize}
+
+%Se necesitaba un dispositivo real que pudiera cumplir con los requerimientos para realizar la emulación de la planta de segundo orden, de las cuales se obtuvo dos opciones la primera fue un filtro Sallen-Key y el segundo fue un computador personal
+
+\subsection{Emulación mediante un circuito electrónico}
+
+
+Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de una planta.  
+
+En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros de la planta deseada. 
+
+Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente a la planta que se desea emular
+
+
+%Este tipo de filtros se utiliza como un circuito que permite implementar filtros activos de orden superior.
+
+Su topología se basa en un filtro activo de segundo orden, que cuenta con un amplificador operacional no inversor, dos resistencias y dos condensadores. El circuito utilizado se puede apreciar en la figura \ref{fig:sallenkey} 
+
+ \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/sallenkey}
+	\caption{Circuito Sallen-Key}
+	\label{fig:sallenkey}
+\end{figure}
+
+El modelo de un sistema de control segundo orden corresponde a la ecuación \ref{ec:segundoorden}:
+
+ \begin{center}
+	\begin{equation}\label{ec:segundoorden}
+		F(s)=\frac{W_{n}^{2}}{s^{2}+2\zeta W_{n}S+W_{n}^{2}}
+		%\textup{Ecuación que representa una planta de segundo orden}
+	\end{equation}	
+\end{center}
+
+La ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
+
+ \begin{center}
+	\begin{equation}\label{ec:sallenkey}
+		\frac{V_{0}}{V_{i}}=\frac{K}{S^{2}R_{1}R_{2}C_{1}C_{2}+S(R_{1}C_{1}+R_{2}C_{1}+R_{1}C_{2}*(1-k))+1}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+	
+	\end{center}
+
+Al tratarse de un buffer la ganancia k=1:
+ \begin{center}
+ 	\begin{equation}
+ 		\frac{V_{0}}{V_{i}}=\frac{1}{S^{2}R_{1}R_{2}C_{1}C_{2}+S(R_{1}C_{1}+R_{2}C_{1})+1}
+ 		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+ 	\end{equation}
+ 	
+ \end{center}
+
+Al despejar la ecuación para que se asemeje a la ecuación de control de segundo orden:
+
+ \begin{center}
+	\begin{equation}
+		\frac{V_{0}}{V_{i}}=\frac{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}{S^{2}+S\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}+\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+	
+\end{center}
+
+Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores de la planta y fijando alguno de los componentes que conforman el circuito. En la interfaz principal de matlab se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key
+
+
+\subsection{Matlab}
+
+Matlab es considerado un sistema de cómputo numérico que tiene un lenguaje de programación propio, es una herramienta que permite manejar cálculos relacionados con ingeniería y ciencia.
+
+Se implemento la planta de segundo orden en el Simulink para que se comunicara por puerto serial con el controlador real y obtener de esta manera una comunicación de la planta con el controlador, pero este método mostró tres grandes desventajas
+
+\begin{itemize}
+	
+	\item La primera es que la comunicación serial no era en tiempo real y los dos dispositivos no podian comunicarse
+	\item El segundo problema es que no se puede ajustar los valores de la planta de segundo orden.
+    \item Es una herramienta que no posee una licencia libre
+\end{itemize}
+
+
+ \subsection{LabVIEW}
+
+Es un entorno de programación gráfica, el cual  se basa en tareas de medición y experimentación, es aplicado en ámbitos de distribución eléctrica y control de procesos, entre otros.
+
+Existe un añadido de LabVIEW, que es LabVIEW-Multisim el cuál contiene el módulo de simulación y control de sistemas de lazo abierto y cerrado.Pero existe un inconveniente con esta herramienta.
+
+\begin{itemize}
+	
+	\item textual cambiar "Programadores en LabVIEW necesitan utilizar objetos específicos para el tipo de datos con los que trabajan y el tipo de extracción que quieren llevar a cabo, La matriz junto con las constantes se debe conectar al objeto de la extracción para extraer los datos deseados"
+	\item Se utilizan bloques con los cuales no se pueden ajustar los valores de la planta de segundo orden
+\end{itemize}
+
+ \subsection{Python}
+ 
+Es un lenguaje de programación libre, el cual tiene diferentes aplicaciones como lo es el desarrollo web y software, ciencia de datos (aprendizaje automático, análisis de datos), cálculo científico y numérico.
+
+Una de las razones para escoger este lenguaje es que la revista científica IEEE Spectrum realizan un ranking de los lenguajes de programación mas populares . Como se muestra en la imagen \ref{fig:ranking} 
+
+ \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/ranking}
+	\caption{Ranking de lenguajes de programación mas porpulares del 2020}
+	\label{fig:ranking}
+    \cite{lang}
+\end{figure}    
+
+
+Python permite instalar varias librerías, se instalaron varias para crear la planta de segundo orden y la interfaz gráfica 
+
+\begin{itemize}
+	
+	\item \textbf{tkinter:} Este paquete viene incluido en Python, sirve para desarrollar interfaces gráficas de usuarios(GUI).
+	
+	El módulo thinker cuenta con componentes gráficos llamados Widgets, los cuales deben seguir una jerarquía para crear la interfaz, Los más utilizados son:
+	
+	\subitem \textbf{TK:} Es la ventana principal de la interfaz, es donde se coloca los widgets	
+	\subitem \textbf{Frame:}Es un marco que permite dar estilos a la interfaz
+	\subitem \textbf{Label:} Permite mostrar texto o imagen 
+	\subitem \textbf{Entry:}Permite introducir textos cortos, estilos formulario
+	\subitem \textbf{Text:}Introduce textos largos
+	\subitem \textbf{Button:}Permite ejecutar una función al pulsar
+	\item \textbf{matplotlib.pyplot:}Esta librería permite generar gráficos 2d que se basan en datos que puede estar en listas o arreglos.
+	
+	Pyplot es un módulo del paquete matplotlib
+	
+	\item \textbf{numpy:} Significa "Numerical Python" permite proporcionar estructuras de datos con matrices. Se trabaja con varias funciones:
+	\subitem \textbf{np.array():} permite trabajar con  matrices n-dimensionales, con forma de filas y columnas, ubicados en varios elementos de memoria.
+	\subitem\textbf{np.linspace():}Esta función genera un arreglo formado por n cantidad de números equiespaciados en un intervalo dado.
+	
+	\subitem\textbf{np.append():}Permite agregar elementos al final del arreglo 
+
+	\subitem\textbf{np.insert():} Se puede utilizar el método insert para insertar un elemento o columna.
+	
+	\item \textbf{tkinter.font:} Permite especificar el nombre,tamaño y estilo de la fuente que se utiliza 
+	\item \textbf{control.matlab:} La librería de control implementa operaciones comunes para el análisis y diseño de sistemas de control de retroalimentación.Puede hacer uso de otras libbrerías como NumPy y SciPy
+	
+	la herramienta control.matlab permite utilizar mucha de las funciones de  MATLAB Control Systems Toolbox
+	
+	\item \textbf{time:}
+	Esta librería permite obtener un rango de tiempo de una función
+	\item \textbf{serial:} Esta librería permite configurar y utilizar el puerto serial.  
+ 
+\end{itemize}
+
+
+
+%El dispositivo real que se utilizó fue la computadora y se escogió entre los siguientes lenguajes de programación para tener una plataforma tecnológica que permita emular la planta:
+
+
