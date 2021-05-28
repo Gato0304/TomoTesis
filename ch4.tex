@@ -1,23 +1,56 @@
 Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomo el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
 
-Las cuales se pueden organizar en esta manera:
+Las cuales se pueden organizar de la siguiente forma:
  \begin{center}
  \begin{equation}
  	\left\{
-	\begin{matrix}&\dot{W}=I_{M}\left ( \frac{K_{M}}{J_{M}} \right )-W_{M}\left (\frac{F_{M} }{J_{M}}\right )\\& \dot{I_{M}} = V_{M}\left ( \frac{1}{L_{M}} \right )-I_{M}\left ( \frac{R_{M}}{L_{M}} \right )-W_{M}\left (  \right \frac{1}{L_{M}} )
+	\begin{matrix}
+		&\dot{W}_{M}=I_{M}\left ( \frac{K_{M}}{J_{M}} \right )-W_{M}\left (\frac{F_{M} }{J_{M}}\right )\\
+		& \dot{I_{M}} = V_{M}\left ( \frac{1}{L_{M}} \right )-I_{M}\left ( \frac{R_{M}}{L_{M}} \right )-W_{M}\left (  \right \frac{1}{L_{M}} )
     \end{matrix}
 \right.
 		\label{ec:motorarmadura2}%
 		%\textup{Ecuaciones de un motor DC controlado por armadura}	
 	\end{equation}
 \end{center}
- Con el siguiente sistema de ecuación se puede obtener una planta de segundo orden que cumpla con los siguientes parámetros
+ Se busco un sistema  estudio el sistema "The DC Motor Control Trainer" (DCMCT), conocido como Quanser y como nos referiremos a el a partir de ahora y el cual cumple con los siguientes parámetros presentados en el manual de uso del dispositivo
+ 
+  \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=1\linewidth]{img/quanser}
+ 	\caption{Parámetros Quanser}
+ 	\label{fig:Quanser}
+ 	\cite{q}
+ \end{figure}  
+ 
+ 
+ Se tomo los parámetro $ J_{m}$ del Quanser para calcular el $ J_{equi}$, despreciando la fricción y usando los Siguientes parámetros $M_{l}=0.068kg$ y $r_{l}=0.0248m$
+ 
+ \begin{center}
+ 	\begin{equation}
+ 		J_{equi}=J_{m}+J_{l}\left ( \frac{R_{eje}}{R_{l}} \right )
+ 	\end{equation}
+\end{center}
+
+Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y donde las relaciones entre los radios es de 1.
+
+
+
+\begin{center}
+	\begin{equation}
+		J_{equi}=J_{m}+\frac{M_{l}r_{l}^{2}}{2}
+	\end{equation}
+\end{center}
+
+Obteniendo los parámetros de \ref{ec:valoresmotorarmadura} que se tomaran para emular la planta   
  \begin{center}
 	 \begin{equation}
-		 K_{M}=0.0502\frac{Nm}{A}}\\
-		 J_{equiv}= 21,4567*10^{-6}\\
-		 R_{m}=10.6\Omega\\
-		 L_{m}=0.82m H
+		\begin{matrix}
+			K_{M}=0.0502\frac{Nm}{A}\\ 
+			J_{equiv}= 21,4567*10^{-6} Kg.m^{2}\\ 
+			R_{m}=10.6\Omega\\ 
+			L_{m}=0.82m H	
+		\end{matrix}
 		 \label{ec:valoresmotorarmadura}%
 	\end{equation}
 \end{center}
@@ -107,32 +140,17 @@ Como se pudo observar los motores de segundo orden que se van a estudiar tienen 
 	\end{equation}
 \end{center}
 
-resolviendo las ecuaciones diferenciales se tiene que 
+Resolviendo las ecuaciones diferenciales se tiene que 
 
 \begin{center}
 	\begin{equation}
-		a_{2}\ddot{y}+a_{1}\dot{y}+a_{0}y=b_{0}U 
-		\label{ec:ecdiferencial}%
-	\end{equation}
-\end{center}
-
-\begin{center}
-	\begin{equation}
-	 	x_{1}=y
-		\label{ec:solecdiferencial}%
-	\end{equation}
-\end{center}
-
-\begin{center}
-	\begin{equation}
-		dot{x_{1}}=dot{y}=dot{x_{2}}
-		\label{ec:solecdiferencial1}%
-	\end{equation}
-\end{center}
-\begin{center}
-	\begin{equation}
-		\ddot{x_{1}}=\ddot{y}=x_{3}
+		\begin{matrix}
+		a_{2}\ddot{y}+a_{1}\dot{y}+a_{0}y=b_{0}U \\
+	 	x_{1}=y\\
+		\dot{x_{1}}=\dot{y}=\dot{x_{2}}\\
+		\ddot{x_{1}}=\ddot{y}=x_{3}\\
 		\label{ec:solecdiferencial2}%
+		\end{matrix}
 	\end{equation}
 \end{center}
 
@@ -156,3 +174,18 @@ Obteniendo el siguiente espacio de estado
 		\label{ec:espaciodestado2}%
 	\end{equation}
 \end{center}
+
+\section{Diseñar la interfaz de emulación de la planta de segundo orden}
+
+La plataforma tecnológica que se selecciono fue Python la cual cumple con todas las requisitos requeridos en el capitulo \ref{CAP:tecni}, y con las librerías explicadas en la sección de Python.
+
+Se utilizo la interfaz gráfica tkinter la cual se configuro para que se pudieran cambiar los términos que componen a la ecuación de la planta  planteada de segundo orden, aunque se preestablecio los datos para el funcionamiento del Quanser, los elementos se pueden cambiar para que se pueda emular cualquier planta de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}
+
+
+Se habilito otra entrada para poder insertar el puerto por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde nos saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
+
+Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
+ 
+Por último se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza.
+
+ 

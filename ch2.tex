@@ -1,18 +1,19 @@
 Se puede aplicar el método HIL para una alta variedad de procesos, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
 
-\subsection{Hardware in the loop}\label{HILdef}
+\section{Hardware in the loop}\label{HILdef}
 
-HIL es un método utilizado en donde los comandos de un controlador son conectados a un sistema en la cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo, requiere un desarrollo en tiempo real, de esta manera se puede realizar las pruebas e iteraciones necesarias para poder validar el componente.
+HIL es un método utilizado en donde los comandos de un controlador son conectados a un sistema en la cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo requiere un desarrollo en tiempo real, de esta manera se pueden realizar las pruebas e iteraciones necesarias para poder validar el componente.
 
- Esta emulación se realiza en tiempo real, y consta de un controlador que se conecta con estímulos virtuales realistas o también se utiliza para determinar si el modelo utilizado para la planta es válido. Al utilizar el modelo HIL se obtiene también ahorro en costos y en practicidad, ya que al poder evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
+ Esta emulación se realiza en tiempo real; consta de un controlador que se conecta con estímulos virtuales realistas o también se utiliza para determinar si el modelo utilizado para la planta es válido. Al utilizar el modelo HIL se obtiene también ahorro en costos y mejoras practicidad, ya que al poder evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
 
 La técnica HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control, el primer método consiste en que las pruebas realizadas son verificadas en una simulación de los componentes dinámicos, y la segunda técnica se basa en realizar ensayos con dispositivos de hardware.
 Se puede aplicar el método HIL para una alta variedad de sistemas, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
 
-La historia de primeros empleos utilizando el método HIL comienza en la segunda mitad del siglo XX, para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo pero al pasar del tiempo el método HIL fue empleado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
-Una ventaja del método HIL es que se reduce la posibilidad de que después de que el producto se encuentra en producción se descubran problemas graves en su funcionamiento. Es una herramienta que se utiliza para optimizar el diseño y para depurar el Hardware/software.
+La historia de primeros usos el método HIL comienza en la segunda mitad del siglo XX para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo.No obstante, al pasar del tiempo el método HIL fue utilizado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
 
-En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realizar una prueba en condición real, la cual puede aumentar el costo y el tiempo de implementación, si tomamos un ejemplo de un sistema de navegación de un avión si se hace una prueba real puede resultar en una tragedia, además de tener la posibilidad de destrucción del avión. Si por el contrario se realiza solo la simulación el tiempo y el costo disminuyen pero se ve comprometido la precisión del objetivo. Por esta razón el HIL está en el lugar adecuado entre tiempo, costo y precisión.
+Una ventaja del método HIL es que se reduce la posibilidad de que después que el producto se encuentra en producción se descubran problemas graves en su funcionamiento. Es una herramienta que se utiliza para optimizar el diseño y para depurar el hardware/software.
+
+En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realizar una prueba en condición real, la cual puede aumentar el costo y el tiempo de implementación, si tomamos un ejemplo de un sistema de navegación de un avión si se hace una prueba real puede resultar en una tragedia, además de tener la posibilidad de destrucción del avión. Si por el contrario se realiza solo la simulación, el tiempo y el costo disminuyen pero se ve comprometido la precisión del objetivo. Por esta razón el HIL está en el lugar adecuado entre tiempo, costo y precisión.
 
 \begin{figure}[H]
 	\centering
@@ -54,9 +55,9 @@ Se divide en tres componentes  básicos, en la simulación se encuentra el modelo 
 
  En la componente de comunicación entre la planta y el controlador, hay varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser conversión de señales analógicas y digitales, bus de comunicación serial o paralelo, protocolos de red.
  
- \subsection{Motor de corriente continua}
+ \section{Motor de corriente continua}
  
- Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Algunos ejemplos de donde se encuentran este tipo de motor es en elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
+ Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Algunos ejemplos de donde se encuentran este tipo de motores es en elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
  
  Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes  el estátor, el rotor (Armadura del motor), el colector y las escobillas fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}. Entre el estátor que es el componente fijo y uno móvil denominado el rotor se produce flujos magnéticos que interactúan con el objetivo de producir un par electromagnético co-lineal con el eje del motor.
  
@@ -68,7 +69,7 @@ Se divide en tres componentes  básicos, en la simulación se encuentra el modelo 
  	\label{fig:motorcc}
  \end{figure}
  
- \subsection{Control por armadura de un motor DC}
+ \section{Control por armadura de un motor DC}
  En la figura \ref{fig:modelomotor} se observa el modelo  de un motor DC controlado por armadura
  
   \begin{figure}[H]
@@ -80,7 +81,7 @@ Se divide en tres componentes  básicos, en la simulación se encuentra el modelo 
  
  Para este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generado por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El torque desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este torque tiene la función de accionar el sistema que posee una inercia total $J_{eq}$   y el $\theta$ es la posición angular del eje del motor.
  
- El rotor genera un campo, en el cual se crea un voltaje inducido $e_{b}$  que va en dirección opuesta al suministro de armadura, este voltaje se le llama fuerza contra- electromotriz y esta es proporcional a la velocidad de rotación $W_{n}$  y  el flujo que es creado por el campo, siendo constante. 
+ El rotor genera un campo, en el cual se crea un voltaje inducido $e_{b}$  que va en dirección opuesta al suministro de armadura. A este voltaje se le llama fuerza contra- electromotriz y esta es proporcional a la velocidad de rotación $W_{n}$  y  el flujo que es creado por el campo, siendo constante. 
  
  La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ conectada a una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor esta en movimiento. El diagrama de bloques que representa a este tipo de motores es:
  
@@ -111,7 +112,7 @@ Se divide en tres componentes  básicos, en la simulación se encuentra el modelo 
  \end{center}
 
          
-\subsection{Control por campo} 
+\section{Control por campo} 
 En la figura \ref{fig:motorcampo} se observa el modelo de un motor DC controlado por armadura:
 \begin{figure}[H]
 	\centering
@@ -141,7 +142,6 @@ La corriente de armadura se mantiene constante y el campo es suministrado por un
 		\end{matrix}
 		\right.	
 		%\text{Ecuaciones de un motor DC controlado por campo}
-		
 	\end{equation}
 	
 \end{center}
@@ -154,15 +154,15 @@ La corriente de armadura se mantiene constante y el campo es suministrado por un
 
 
 %Emulación vs Simulación
-\subsection{Simular }
+\section{Simular }
 %Simulación
 Una simulación computacional es un proceso que consiste en utilizar funciones o técnicas matemáticas para aproximar el modelo de un sistema dinámico, entonces el algoritmo que se utilice debe evaluar el modelo en un intervalo de tiempo, para asi poder obtener las variables caracteristicas del sistema simulado{\cite{simulacion}}
 
 %Emulación
-\subsection{Emular}
+\section{Emular}
 Según la RAE, un proceso de emulación se define como $"$imitar las acciones de otro procurando igualarlas e incluso excederlas$"$ {\cite{raeemular}}. En este sentido, un emulador se puede definir como un dispositivo que cuenta con un software el cual es capaz de replicar a otro dispositivo o componente para igualarlo  o mejorarlo. {\cite{larusse}}
 
-\subsection{Diferencias entre simular y emular}
+\section{Diferencias entre simular y emular}
 
 Como se puede apreciar el proceso de emular y simular tienen diferentes definiciones, por este motivo en la tabla \ref{tab:simulacionvsemulacion} exponen las diferencias más significativas.
    
