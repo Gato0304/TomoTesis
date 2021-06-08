@@ -1,6 +1,6 @@
 Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomó el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
 
-Las cuales se pueden organizar de la siguiente forma:
+Se desea controlar la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{m}$), ya que la corriente de campo es constante ($I_{c}$). Por lo tanto, las ecuaciones se pueden organizar de la siguiente forma:
  \begin{center}
  \begin{equation}
  	\left\{
@@ -13,7 +13,9 @@ Las cuales se pueden organizar de la siguiente forma:
 		%\textup{Ecuaciones de un motor DC controlado por armadura}	
 	\end{equation}
 \end{center}
- Se estudió el sistema "Quanser DC Motor Control Trainer" (DCMCT), el cual será referenciado a continuación en este documento como motor Quanser. En las especificaciones técnicas de este dispositivo se exponen los parámetros indicados en la figura \ref{fig:Quanser}
+
+
+ Se estudió el sistema "Quanser DC Motor Control Trainer" (DCMCT), el cual será referenciado a continuación en este documento como motor Quanser. En las especificaciones técnicas de este dispositivo se exponen los parámetros indicados en la figura \ref{fig:Quanser}.
  
   \begin{figure}[H]
  	\centering
@@ -53,7 +55,7 @@ A continuación en la ecuación \ref{ec:valoresmotorarmadura} se agrupan los parám
 	\end{equation}
 \end{center}
 
-De acuerdo con la información presentada anteriormente se obtiene el modelo de espacio de estado descrito con la ecuación \ref{ec:espaciodeestado1q} y \ref{ec:espaciodeestado2q}. Del cual se obtiene la función de transferencia indicada en la ecuación. 
+De acuerdo con la información presentada anteriormente se obtiene el modelo de espacio de estado descrito con la ecuación \ref{ec:espaciodeestado1q} y \ref{ec:espaciodeestado2q}. Del cual se obtiene la función de transferencia indicada en la ecuación \ref{ec:plantaarmadura}. 
 
 
 %El sistema de segundo orden emulará es el motor Quanser la cual cumple con las características anteriores, para así poder realizar las pruebas necesarias para evaluar el comportamiento de la planta con un controlador real. Al realizar el espacio de estado de la planta se obtiene%
@@ -126,6 +128,13 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 	\end{equation}
 \end{center}
 
+\begin{center}
+	\begin{equation}
+		\frac{Y(s)}{U(s)}= \frac{2.855e^{6}}{s^{2}+1.293e^{4}s+1.433e^{5}} 
+		\label{ec:plantaarmadura}%
+	\end{equation}
+\end{center}
+
 Para una planta de segundo orden genérica se tiene la ecuación \ref{ec:plantasegundo}
 \begin{center}
 	\begin{equation}
@@ -180,9 +189,10 @@ Obteniendo el siguiente espacio de estado
 
 \section{Diseño de la interfaz de emulación de la planta de segundo orden}
 
-La plataforma tecnológica que se selecciono fue Python la cual cumple con todas las requisitos requeridos en el capitulo \ref{CAP:tecni}, y con las librerías explicadas en la sección de Python.
+De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada fue Python. 
 
-Se utilizo la interfaz gráfica tkinter la cual se configuro para que se pudieran cambiar los términos que componen a la ecuación de la planta  planteada de segundo orden, aunque se preestablecio los datos para el funcionamiento del Quanser, los elementos se pueden cambiar para que se pueda emular cualquier planta de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}
+\subsection{Interfaz gráfica:}
+Para el diseño de la interfaz gráfica se consideró la biblioteca tkinter, que es parte de la herramientas que se pueden utilizar en Python, la cual se configuró para que se pudieran cambiar los términos que componen a la ecuación de la planta  planteada de segundo orden, aunque se preestablecio los datos para el funcionamiento del motor Quanser, los elementos se pueden cambiar para que se pueda emular cualquier planta de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}
 
 
 Se habilito otra entrada para poder insertar el puerto por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde nos saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
