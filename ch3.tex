@@ -38,7 +38,7 @@ Los filtros electrónicos son elementos que discriminan un conjunto de frecuencia
 
 En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros de la planta deseada. 
 
-Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente a la planta que se desea emular
+Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente a la planta que se desea emular.
 
 
 %Este tipo de filtros se utiliza como un circuito que permite implementar filtros activos de orden superior.
@@ -135,37 +135,37 @@ Según la revista científica IEEE Spectrum en el 2020 Python se encontraba como u
 
  Programar en Python no se traduce en un uso excesivo de memoria del sistema ya que este se adapta a las condiciones del programa, siendo una ventaja ya que dependerá de las habilidades del programador el uso de los recursos, pudiendo optimizar el programa para ser utilizado en una computadora de bajos recursos.  
 
-Python permite instalar varias librerías, bibliotecas y herramientas para realizar entornos gráficos y cálculos científicos, modelado de sistemas complejos y estadísticos, algunas de las librerias mas importantes aplicadas al modelado de sistemas de control  son:
+Python permite instalar varias librerías, bibliotecas y herramientas para realizar entornos gráficos y cálculos científicos, modelado de sistemas complejos y estadísticos, algunas librerias de utilidad para el modelado de sistemas de control e interfaces de usuario son:
  
 
 \begin{itemize}
 	
-	\item \textbf{tkinter:} Este paquete viene incluido en Python, sirve para desarrollar interfaces gráficas de usuarios(GUI).
+	\item \textbf{tkinter:} Este paquete viene incluido en Python, sirve para desarrollar interfaces gráficas de usuarios (GUI).
 	
-	El módulo tkinker cuenta con componentes gráficos llamados Widgets, los cuales deben seguir una jerarquía para crear la interfaz, Los más utilizados son:
+	El módulo tkinker cuenta con componentes gráficos llamados Widgets, los cuales deben seguir una jerarquía para crear la interfaz, algunos de relevancia son:
+	\subitem \textbf{tkinter.font:} Permite especificar el nombre,tamaño y estilo de la fuente que se utiliza.
+	\subitem \textbf{TK:} Es la ventana principal de la interfaz, es donde se colocan los widgets.
+	\subitem \textbf{Frame: }Es un marco que permite dar estilos a la interfaz.
+	\subitem \textbf{Label:} Permite mostrar texto o imagen. 
+	\subitem \textbf{Entry: }Permite introducir textos cortos, estilo formulario.
+	\subitem \textbf{Text: }Introduce textos largos.
+	\subitem \textbf{Button: }Permite ejecutar una función al pulsar.
+	\item \textbf{matplotlib:} Esta librería permite generar gráficos 2d que se basan en datos que pueden estar en listas o arreglos.
 	
-	\subitem \textbf{TK:} Es la ventana principal de la interfaz, es donde se coloca los widgets	
-	\subitem \textbf{Frame:}Es un marco que permite dar estilos a la interfaz
-	\subitem \textbf{Label:} Permite mostrar texto o imagen 
-	\subitem \textbf{Entry:}Permite introducir textos cortos, estilos formulario
-	\subitem \textbf{Text:}Introduce textos largos
-	\subitem \textbf{Button:}Permite ejecutar una función al pulsar
-	\item \textbf{matplotlib.pyplot:} Esta librería permite generar gráficos 2d que se basan en datos que puede estar en listas o arreglos.
+	Dentro de esta librería, se encuentra módulo Pyplot el cuál es de utilidad para imprimir la imagen de un gráfico.
 	
-	Pyplot es un módulo del paquete matplotlib
+	\item \textbf{numpy:} Significa "Numerical Python" permite proporcionar estructuras de datos con matrices. Para el modelado de sistemas lineales de control, numpy cuenta con  algunos métodos y funciones que permiten operar matemáticamente funciones de transferencia. Algunas de estas funciones son:
+	\subitem \textbf{np.array():} Permite trabajar con  matrices n-dimensionales, con forma de filas y columnas, ubicados en varios elementos de memoria.
+	\subitem\textbf{np.linspace():} Esta función genera un arreglo formado por n cantidad de números equiespaciados en un intervalo dado.
 	
-	\item \textbf{numpy:} Significa "Numerical Python" permite proporcionar estructuras de datos con matrices. Se trabaja con varias funciones:
-	\subitem \textbf{np.array():} permite trabajar con  matrices n-dimensionales, con forma de filas y columnas, ubicados en varios elementos de memoria.
-	\subitem\textbf{np.linspace():}Esta función genera un arreglo formado por n cantidad de números equiespaciados en un intervalo dado.
-	
-	\subitem\textbf{np.append():}Permite agregar elementos al final del arreglo. 
+	\subitem\textbf{np.append():} Permite agregar elementos al final del arreglo. 
 
 	\subitem\textbf{np.insert():} Se puede utilizar el método insert para insertar un elemento o columna.
 	
-	\item \textbf{tkinter.font:} Permite especificar el nombre,tamaño y estilo de la fuente que se utiliza. 
-	\item \textbf{control.matlab:} La librería de control implementa operaciones comunes para el análisis y diseño de sistemas de control de retroalimentación.Puede hacer uso de otras libbrerías como NumPy y SciPy.
+	 
+	\item \textbf{control.matlab:} La librería de control implementa operaciones comunes para el análisis y diseño de sistemas de control de retroalimentación. Puede hacer uso de otras librerías como NumPy y SciPy.
 	
-	la herramienta control.matlab permite utilizar mucha de las funciones de  MATLAB Control Systems Toolbox.
+	La herramienta control.matlab permite utilizar mucha de las funciones de  MATLAB Control Systems Toolbox.
 	
 	\item \textbf{time:}
 	Esta librería permite obtener un rango de tiempo de una función.
@@ -175,7 +175,9 @@ Python permite instalar varias librerías, bibliotecas y herramientas para realiz
 
 \section{Comparación entre los sistemas considerados para la emulación }
 
-En este capitulo se consideraron cuatro sistemas posibles para emular la planta de segundo orden, los cuales se presentan a continuación con en una comparación entre estos dispositivos y los requisitos
+En esta sección se consideran las herramientas descritas anteriormente que son de utilidad para emular la planta de segundo orden. En la tabla \ref{tab:requisitos} se presentan el resultado de la comparación entre estas herramientas, tomando en cuenta los criterios expuestos a inicios de este capitulo.
+
+
 
 
 \begin{table}[H]
@@ -211,7 +213,7 @@ En este capitulo se consideraron cuatro sistemas posibles para emular la planta 
 
 \end{table}%
 
-
+En esta tabla se muestra que la herramienta que cumple con todos los criterios es Python. Por lo tanto se considerara como la herramienta de desarrollo para el modelado de la planta.
 
 
 %El dispositivo real que se utilizó fue la computadora y se escogió entre los siguientes lenguajes de programación para tener una plataforma tecnológica que permita emular la planta:

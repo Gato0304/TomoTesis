@@ -1,4 +1,4 @@
-Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomo el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
+Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomó el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
 
 Las cuales se pueden organizar de la siguiente forma:
  \begin{center}
@@ -13,18 +13,16 @@ Las cuales se pueden organizar de la siguiente forma:
 		%\textup{Ecuaciones de un motor DC controlado por armadura}	
 	\end{equation}
 \end{center}
- Se busco un sistema  estudio el sistema "The DC Motor Control Trainer" (DCMCT), conocido como Quanser y como nos referiremos a el a partir de ahora y el cual cumple con los siguientes parámetros presentados en el manual de uso del dispositivo
+ Se estudió el sistema "Quanser DC Motor Control Trainer" (DCMCT), el cual será referenciado a continuación en este documento como motor Quanser. En las especificaciones técnicas de este dispositivo se exponen los parámetros indicados en la figura \ref{fig:Quanser}
  
   \begin{figure}[H]
  	\centering
  	\includegraphics[width=1\linewidth]{img/quanser}
  	\caption{Parámetros Quanser}
  	\label{fig:Quanser}
- 	\cite{q}
  \end{figure}  
  
- 
- Se tomo los parámetro $ J_{m}$ del Quanser para calcular el $ J_{equi}$, despreciando la fricción y usando los Siguientes parámetros $M_{l}=0.068kg$ y $r_{l}=0.0248m$
+Para el cálculo del momento de inercia equivalente del motor ($J_{equi}$) se tomo el parámetro $ J_{m}$ del motor Quanser y los valores de la masa del disco $M_{l}=0.068kg$ y el radio del disco $r_{l}=0.0248m$.
  
  \begin{center}
  	\begin{equation}
@@ -42,7 +40,7 @@ Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y donde las relaciones entre los radios 
 	\end{equation}
 \end{center}
 
-Obteniendo los parámetros de \ref{ec:valoresmotorarmadura} que se tomaran para emular la planta   
+A continuación en la ecuación \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se utilizarán en la emulación para el modelo de la planta.   
  \begin{center}
 	 \begin{equation}
 		\begin{matrix}
@@ -55,7 +53,10 @@ Obteniendo los parámetros de \ref{ec:valoresmotorarmadura} que se tomaran para e
 	\end{equation}
 \end{center}
 
-El sistema de segundo orden que se intenta emular es el Quanser la cual cumple con las características anteriores, para así poder realizar las pruebas necesarias para evaluar el comportamiento de la planta con un controlador real. Al realizar el espacio de estado de la planta se obtiene
+De acuerdo con la información presentada anteriormente se obtiene el modelo de espacio de estado descrito con la ecuación \ref{ec:espaciodeestado1q} y \ref{ec:espaciodeestado2q}. Del cual se obtiene la función de transferencia indicada en la ecuación. 
+
+
+%El sistema de segundo orden emulará es el motor Quanser la cual cumple con las características anteriores, para así poder realizar las pruebas necesarias para evaluar el comportamiento de la planta con un controlador real. Al realizar el espacio de estado de la planta se obtiene%
 
 \begin{center}
 	\begin{equation}
@@ -87,6 +88,7 @@ El sistema de segundo orden que se intenta emular es el Quanser la cual cumple c
 				I_{M}
 			\end{bmatrix}
 		\end{matrix}\right.	
+		\label{ec:espaciodeestado1q}%
     \end{equation}
 \end{center}
 
@@ -119,7 +121,8 @@ El sistema de segundo orden que se intenta emular es el Quanser la cual cumple c
 				W_{M}\\ 
 				I_{M}
 			\end{bmatrix}
-		\end{matrix}\right.	
+		\end{matrix}\right.
+	\label{ec:espaciodeestado2q}%	
 	\end{equation}
 \end{center}
 
@@ -175,7 +178,7 @@ Obteniendo el siguiente espacio de estado
 	\end{equation}
 \end{center}
 
-\section{Diseñar la interfaz de emulación de la planta de segundo orden}
+\section{Diseño de la interfaz de emulación de la planta de segundo orden}
 
 La plataforma tecnológica que se selecciono fue Python la cual cumple con todas las requisitos requeridos en el capitulo \ref{CAP:tecni}, y con las librerías explicadas en la sección de Python.
 
@@ -186,6 +189,19 @@ Se habilito otra entrada para poder insertar el puerto por el cual se va a reali
 
 Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
  
-Por último se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza.
+Por último, se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza.
 
- 
+
+En el inicio del código se define las librerías que se utilizaran para el desarrollo de la planta de segundo orden, se definirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
+\begin{itemize}
+	\item sError1 = 'Error: 01'  # Error. Campo de puerto esta vacio
+	\item sError2 = 'Error: 02'  # Error. No hay conexion de puerto
+	\item sError3 = 'Error: 03'  # configure la planta
+	\item sError4 = 'Error: 04'  # Error en conexión
+\end{itemize} 
+
+Luego se definen los arreglos vacios de entrada, salida y tiempo, con los inputs se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
+
+Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los planta dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de 499 valores antes de  salir.
+
+Una vez terminada la comunicación se calcula los valores de sobrepico, tiempo de alza y tiempo de establecimiento, tomados de los valores que proporciona la gráfica.

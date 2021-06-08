@@ -2,14 +2,15 @@ Se puede aplicar el método HIL para una alta variedad de procesos, las cuales pu
 
 \section{Hardware in the loop}\label{HILdef}
 
-HIL es un método utilizado en donde los comandos de un controlador son conectados a un sistema en la cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo requiere un desarrollo en tiempo real, de esta manera se pueden realizar las pruebas e iteraciones necesarias para poder validar el componente.
+HIL es un método utilizado en donde los comandos de un controlador son conectados a un sistema en el cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo requiere un desarrollo en tiempo real, de esta manera se pueden realizar las pruebas e iteraciones necesarias para poder validar el componente.
 
- Esta emulación se realiza en tiempo real; consta de un controlador que se conecta con estímulos virtuales realistas o también se utiliza para determinar si el modelo utilizado para la planta es válido. Al utilizar el modelo HIL se obtiene también ahorro en costos y mejoras practicidad, ya que al poder evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
+ Esta emulación se realiza en tiempo real; consta de un controlador que se conecta con estímulos virtuales realistas o también se utiliza para determinar si el modelo utilizado para la planta es válido. Al utilizar el método HIL se obtiene también ahorro en costos y mejoras practicidad, ya que al poder evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
 
-La técnica HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control, el primer método consiste en que las pruebas realizadas son verificadas en una simulación de los componentes dinámicos, y la segunda técnica se basa en realizar ensayos con dispositivos de hardware.
+El uso HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control. En primer lugar consiste en que las pruebas realizadas son verificadas en una simulación de los componentes dinámicos, y la segunda técnica se basa en realizar ensayos con dispositivos de hardware.
+
 Se puede aplicar el método HIL para una alta variedad de sistemas, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
 
-La historia de primeros usos el método HIL comienza en la segunda mitad del siglo XX para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo.No obstante, al pasar del tiempo el método HIL fue utilizado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
+La historia de primeros usos el método HIL comienza en la segunda mitad del siglo XX para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo. No obstante, al pasar del tiempo el método HIL fue utilizado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
 
 Una ventaja del método HIL es que se reduce la posibilidad de que después que el producto se encuentra en producción se descubran problemas graves en su funcionamiento. Es una herramienta que se utiliza para optimizar el diseño y para depurar el hardware/software.
 
@@ -122,7 +123,7 @@ En la figura \ref{fig:motorcampo} se observa el modelo de un motor DC controlado
 \end{figure}
       
 
-La corriente de armadura se mantiene constante y el campo es suministrado por un voltaje ajustable $e_{f}$.  El torque que se crea por el motor es proporcional al flujo que se genera por la corriente de armadura, la corriente de campo y la longitud de los conductores, el torque es utilizado para mover la carga de inercia total y vencer la fricción viscosa.El sistema se representa de la siguiente manera:
+La corriente de armadura se mantiene constante y el campo es suministrado por un voltaje ajustable $e_{f}$.  El torque que se crea por el motor es proporcional al flujo que se genera por la corriente de armadura, la corriente de campo y la longitud de los conductores, el torque es utilizado para mover la carga de inercia total y vencer la fricción viscosa. El sistema se representa de la siguiente manera:
           
   \begin{figure}[H]
  	\centering
