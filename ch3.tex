@@ -20,11 +20,11 @@ Para emular la planta de segundo orden, es necesario cumplir con ciertos requeri
 \begin{itemize}
 	
 	\item Se debe generar un gráfico de la respuesta obtenida.
-	\item El lenguaje de programación debe permitir realizar los cálculos matemáticos necesarios para emular la planta. 
-	\item Se necesita un dispositivo que cuente con un puerto de comunicación serial 
+	\item El lenguaje de programación debe permitir realizar los cálculos matemáticos necesarios para emular el sistema. 
+	\item Se necesita un dispositivo que cuente con un puerto de comunicación serial. 
 	\item Se necesita un dispositivo con una velocidad de procesamiento compatible con el hardware que se va a utilizar. 
 	\item La emulación debe hacerse mediante cálculos matemáticos sin consumir recursos excesivos en el dispositivo.
-    \item Poseer licencia libre
+    \item Poseer licencia libre.
 	
 	  
 \end{itemize}
@@ -36,9 +36,9 @@ Para emular la planta de segundo orden, es necesario cumplir con ciertos requeri
 
 Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de una planta.  
 
-En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros de la planta deseada. 
+En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. 
 
-Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente a la planta que se desea emular.
+Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
 
 
 %Este tipo de filtros se utiliza como un circuito que permite implementar filtros activos de orden superior.
@@ -90,14 +90,14 @@ Al despejar la ecuación para que se asemeje a la ecuación de control de segundo 
 	
 \end{center}
 
-Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores de la planta y fijando alguno de los componentes que conforman el circuito. En la interfaz principal de matlab se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key.
+Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito. En la interfaz principal de matlab se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key.
 
 
 \section{Matlab}
 
 Matlab es considerado un sistema de cómputo numérico que tiene un lenguaje de programación propio, es una herramienta que permite manejar cálculos relacionados con ingeniería y ciencia.
 
-Se implementó la planta de segundo orden en Simulink para que se comunicara por puerto serial con el controlador real y obtener de esta manera una comunicación de la planta con el controlador, pero este método no cumple con los requerimientos debido a las siguientes desventajas:
+Se implementó la planta de segundo orden en Simulink para que se comunicara por puerto serial con el controlador real y obtener de esta manera una comunicación del sistema con el controlador, pero este método no cumple con los requerimientos debido a las siguientes desventajas:
 
 \begin{itemize}
 	
@@ -175,7 +175,7 @@ Python permite instalar varias librerías, bibliotecas y herramientas para realiz
 
 \section{Comparación entre los sistemas considerados para la emulación }
 
-En esta sección se consideran las herramientas descritas anteriormente que son de utilidad para emular la planta de segundo orden. En la tabla \ref{tab:requisitos} se presentan el resultado de la comparación entre estas herramientas, tomando en cuenta los criterios expuestos a inicios de este capitulo.
+En esta sección se consideran las herramientas descritas anteriormente que son de utilidad para emular el sistema de segundo orden. En la tabla \ref{tab:requisitos} se presentan el resultado de la comparación entre estas herramientas, tomando en cuenta los criterios expuestos a inicios de este capitulo.
 
 
 
@@ -187,7 +187,7 @@ En esta sección se consideran las herramientas descritas anteriormente que son d
 		
 		
 				\centering
-				\caption{Comparación entre los sistemas o software y los requisitos para la emulación de la planta}
+				\caption{Comparación entre los sistemas o software y los requisitos para la emulación del sistema.}
 				\resizebox{15cm}{!} {
 				\begin{tabular}{|p{7.785em}|p{9.5em}|p{11.5em}|p{7.5em}|p{10.5em}|}
 					\hline
@@ -213,7 +213,7 @@ En esta sección se consideran las herramientas descritas anteriormente que son d
 
 \end{table}%
 
-En esta tabla se muestra que la herramienta que cumple con todos los criterios es Python. Por lo tanto se considerara como la herramienta de desarrollo para el modelado de la planta.
+En esta tabla se muestra que la herramienta que cumple con todos los criterios es Python. Por lo tanto se considerara como la herramienta de desarrollo para el modelado del sistema.
 
 
 %El dispositivo real que se utilizó fue la computadora y se escogió entre los siguientes lenguajes de programación para tener una plataforma tecnológica que permita emular la planta:

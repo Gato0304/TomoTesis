@@ -1,21 +1,63 @@
-Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomó el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
+\section{Fundamentos}
+Para el modelado del sistema se tomó en cuenta un motor de segundo orden que cumple con las ecuaciones en \ref{ec:motorarmadura}. De donde se obtiene el sistema de ecuaciones mostrado en \ref{ec:motorarmadura2}.
 
-Se desea controlar la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{m}$), ya que la corriente de campo es constante ($I_{c}$). Por lo tanto, las ecuaciones se pueden organizar de la siguiente forma:
- \begin{center}
- \begin{equation}
- 	\left\{
-	\begin{matrix}
-		&\dot{W}_{M}=I_{M}\left ( \frac{K_{M}}{J_{M}} \right )-W_{M}\left (\frac{F_{M} }{J_{M}}\right )\\
-		& \dot{I_{M}} = V_{M}\left ( \frac{1}{L_{M}} \right )-I_{M}\left ( \frac{R_{M}}{L_{M}} \right )-W_{M}\left (  \right \frac{1}{L_{M}} )
-    \end{matrix}
-\right.
+\begin{center}
+	\begin{equation}
+		\left\{
+		\begin{matrix}
+			&\dot{\omega }_{M}=I_{M}\left ( \frac{K_{M}}{J_{M}} \right )-\omega_{M}\left (\frac{F_{M} }{J_{M}}\right )\\
+			& \dot{I_{M}} = V_{M}\left ( \frac{1}{L_{M}} \right )-I_{M}\left ( \frac{R_{M}}{L_{M}} \right )-\omega _{M}\left (  \right \frac{1}{L_{M}} )
+		\end{matrix}
+		\right.
 		\label{ec:motorarmadura2}%
 		%\textup{Ecuaciones de un motor DC controlado por armadura}	
 	\end{equation}
 \end{center}
 
+%Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomó el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
 
+Tomando como variables de estado la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{m}$), ya que la corriente de campo es constante ($I_{c}$), se toman las ecuaciones \ref{ec:espaciodeestado1q} en el siguiente espacio de estado:
+ 
+\begin{center}
+	\begin{equation}
+		\left\{\begin{matrix}
+			\begin{bmatrix}
+				& \dot{\omega _{M}}\\ 
+				& \dot{I_{M}}
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				& \frac{-F_{M}}{J_{M}} & \frac{K_{M}}{J_{M}} & \\ 
+				&  \frac{-K_{M}}{L_{M}}& \frac{-R_{M}}{L_{M}} & \\ 
+			\end{bmatrix}
+			\begin{bmatrix}
+				& \omega _{M} \\ 
+				& I_{M}
+			\end{bmatrix}
+			+
+			\begin{bmatrix}
+				& 0 \\ 
+				& \frac{1}{L_{M}}
+			\end{bmatrix}
+			V_{M}\\ 
+			Y=\begin{bmatrix}
+				1 & 0
+			\end{bmatrix}
+			\begin{bmatrix}
+				\omega_{M}\\ 
+				I_{M}
+			\end{bmatrix}
+		\end{matrix}\right.	
+		\label{ec:espaciodeestado1q}%
+	\end{equation}
+\end{center}
+
+ \section{DCMCT}
+ 
+ 
  Se estudió el sistema "Quanser DC Motor Control Trainer" (DCMCT), el cual será referenciado a continuación en este documento como motor Quanser. En las especificaciones técnicas de este dispositivo se exponen los parámetros indicados en la figura \ref{fig:Quanser}.
+ 
+ 
  
   \begin{figure}[H]
  	\centering
@@ -23,8 +65,11 @@ Se desea controlar la velocidad angular del motor ($\omega_{m}$) y la corriente 
  	\caption{Parámetros Quanser}
  	\label{fig:Quanser}
  \end{figure}  
- 
-Para el cálculo del momento de inercia equivalente del motor ($J_{equi}$) se tomo el parámetro $ J_{m}$ del motor Quanser y los valores de la masa del disco $M_{l}=0.068kg$ y el radio del disco $r_{l}=0.0248m$.
+
+
+Para la representación de los parámetros del motor Quanser en espacio de estados se toman los valores de \ref{fig:Quanser}. 
+
+Para el cálculo del momento de inercia equivalente del motor ($J_{equi}$) se tomó el parámetro $ J_{m}$ y los valores de la masa del disco $M_{l}=0.068kg$ y el radio del disco $r_{l}=0.0248m$.
  
  \begin{center}
  	\begin{equation}
@@ -32,7 +77,7 @@ Para el cálculo del momento de inercia equivalente del motor ($J_{equi}$) se tom
  	\end{equation}
 \end{center}
 
-Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y donde las relaciones entre los radios es de 1.
+Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y las relaciones entre los radios es de 1.
 
 
 
@@ -42,7 +87,7 @@ Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y donde las relaciones entre los radios 
 	\end{equation}
 \end{center}
 
-A continuación en la ecuación \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se utilizarán en la emulación para el modelo de la planta.   
+A continuación en la ecuación \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se utilizarán para la representación del modelo del sistema.   
  \begin{center}
 	 \begin{equation}
 		\begin{matrix}
@@ -60,45 +105,13 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 
 %El sistema de segundo orden emulará es el motor Quanser la cual cumple con las características anteriores, para así poder realizar las pruebas necesarias para evaluar el comportamiento de la planta con un controlador real. Al realizar el espacio de estado de la planta se obtiene%
 
-\begin{center}
-	\begin{equation}
-		\left\{\begin{matrix}
-			\begin{bmatrix}
-				& \dot{W_{M}}\\ 
-				& \dot{I_{M}}
-			\end{bmatrix}
-			=
-			\begin{bmatrix}
-				& \frac{-F_{M}}{J_{M}} & \frac{K_{M}}{J_{M}} & \\ 
-				&  \frac{-K_{M}}{L_{M}}& \frac{-R_{M}}{L_{M}} & \\ 
-			\end{bmatrix}
-			\begin{bmatrix}
-				& W_{M} \\ 
-				& I_{M}
-			\end{bmatrix}
-			+
-			\begin{bmatrix}
-				& 0 \\ 
-				& \frac{1}{L_{M}}
-			\end{bmatrix}
-			V_{M}\\ 
-			Y=\begin{bmatrix}
-				1 & 0
-			\end{bmatrix}
-			\begin{bmatrix}
-				W_{M}\\ 
-				I_{M}
-			\end{bmatrix}
-		\end{matrix}\right.	
-		\label{ec:espaciodeestado1q}%
-    \end{equation}
-\end{center}
+
 
 \begin{center}
 	\begin{equation}
 		\left\{\begin{matrix}
 			\begin{bmatrix}
-				& \dot{W_{M}}\\ 
+				& \dot{\omega _{M}}\\ 
 				& \dot{I_{M}}
 			\end{bmatrix}
 			=
@@ -107,7 +120,7 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 				&  -61,22& -1,293.10^{4} & \\ 
 			\end{bmatrix}
 			\begin{bmatrix}
-				& W_{M} \\ 
+				& \omega_{M} \\ 
 				& I_{M}
 			\end{bmatrix}
 			+
@@ -120,7 +133,7 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 				1 & 0
 			\end{bmatrix}
 			\begin{bmatrix}
-				W_{M}\\ 
+				\omega_{M}\\ 
 				I_{M}
 			\end{bmatrix}
 		\end{matrix}\right.
@@ -135,10 +148,12 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 	\end{equation}
 \end{center}
 
+\section{Modelado del sistema con un circuito de segundo orden}
+
 Para una planta de segundo orden genérica se tiene la ecuación \ref{ec:plantasegundo}
 \begin{center}
 	\begin{equation}
-		\frac{Y(s)}{U(s)}= \frac{b_{2}s^{2}+b_{1}S+b_{0}}{a_{2}S^{2}+a_{1}S+a_{0}} 
+		\frac{Y(s)}{U(s)}= \frac{b_{2}s^{2}+b_{1}s+b_{0}}{a_{2}s^{2}+a_{1}s+a_{0}} 
 		\label{ec:plantasegundo}%
 	\end{equation}
 \end{center}
@@ -147,7 +162,7 @@ Como se pudo observar los motores de segundo orden que se van a estudiar tienen 
 
 \begin{center}
 	\begin{equation}
-		\frac{Y(s)}{U(s)}= \frac{b_{0}}{a_{2}S^{2}+a_{1}S+a_{0}} 
+		\frac{Y(s)}{U(s)}= \frac{b_{0}}{a_{2}s^{2}+a_{1}s+a_{0}} 
 		\label{ec:plantasegundo}%
 	\end{equation}
 \end{center}
@@ -191,27 +206,73 @@ Obteniendo el siguiente espacio de estado
 
 De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada fue Python. 
 
-\subsection{Interfaz gráfica:}
-Para el diseño de la interfaz gráfica se consideró la biblioteca tkinter, que es parte de la herramientas que se pueden utilizar en Python, la cual se configuró para que se pudieran cambiar los términos que componen a la ecuación de la planta  planteada de segundo orden, aunque se preestablecio los datos para el funcionamiento del motor Quanser, los elementos se pueden cambiar para que se pueda emular cualquier planta de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}
+\subsection{Interfaz gráfica}
+Para el diseño de la interfaz gráfica se consideró la biblioteca tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se pudieran cambiar los parámetros que componen a la ecuaciones del sistema de segundo orden, además de contener las siguientes acciones:
+
+\begin{itemize}
+	\item La configuración de los parámetros del sistema de segundo orden.
+	\item Selección del puerto para la comunicación con el controlador.
+	\item Configuración de los parámetros del controlador.
+	\item Gráficar la respuesta controlada y sin controlar.
+	\item Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.
+\end{itemize}
 
 
-Se habilito otra entrada para poder insertar el puerto por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde nos saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
+
+
+Para esto se preestablecieron los datos para el funcionamiento del motor Quanser, los elementos se pueden cambiar para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
+
+
+
+
+Se habilitó otra entrada para poder insertar el puerto por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde nos saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
 
 Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
- 
+
 Por último, se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza.
 
 
-En el inicio del código se define las librerías que se utilizaran para el desarrollo de la planta de segundo orden, se definirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
+En el inicio del código se define las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se definirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
 \begin{itemize}
-	\item sError1 = 'Error: 01'  # Error. Campo de puerto esta vacio
-	\item sError2 = 'Error: 02'  # Error. No hay conexion de puerto
-	\item sError3 = 'Error: 03'  # configure la planta
-	\item sError4 = 'Error: 04'  # Error en conexión
+	\item sError1 = 'Error: 01'  -> Error si el campo de puerto esta vacio.
+	\item sError2 = 'Error: 02'  -> Error si no hay conexion de puerto.
+	\item sError3 = 'Error: 03'  -> Error si no se ha configurado  la planta.
+	\item sError4 = 'Error: 04'  -> Error con la conexión.
 \end{itemize} 
 
 Luego se definen los arreglos vacios de entrada, salida y tiempo, con los inputs se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
 
-Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los planta dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de 499 valores antes de  salir.
+Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
 
 Una vez terminada la comunicación se calcula los valores de sobrepico, tiempo de alza y tiempo de establecimiento, tomados de los valores que proporciona la gráfica.
+
+
+En los siguientes diagramas se muestra la manera de en que se ejecuta las tareas del sistema:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/pserial}
+	\caption{Conexión puerto serial }
+	\label{fig:Pserial}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/confip}
+	\caption{Configuración planta }
+	\label{fig:confip}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/confic}
+	\caption{Configuración de comunicación }
+	\label{fig:confic}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/Graficos}
+	\caption{Configuración de gráficos }
+	\label{fig:Graficos}
+\end{figure}
