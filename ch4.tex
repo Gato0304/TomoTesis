@@ -5,8 +5,10 @@ Para el modelado del sistema se tomó en cuenta un motor de segundo orden que cum
 	\begin{equation}
 		\left\{
 		\begin{matrix}
-			&\dot{\omega }_{M}=I_{M}\left ( \frac{K_{M}}{J_{M}} \right )-\omega_{M}\left (\frac{F_{M} }{J_{M}}\right )\\
-			& \dot{I_{M}} = V_{M}\left ( \frac{1}{L_{M}} \right )-I_{M}\left ( \frac{R_{M}}{L_{M}} \right )-\omega _{M}\left (  \right \frac{1}{L_{M}} )
+			&\dot{\omega }_{m}=I_{m}\left ( \frac{K_{m}}{J_{m}} \right )-\omega_{m}\left (\frac{F_{m} }{J_{m}}\right )\\
+			& \dot{I_{m}} = V_{m}\left( \frac{1}{L_{m}} \right)
+			-I_{m}\left ( \frac{R_{m}}{L_{m}} \right)
+			-\omega_{m}\left(   \frac{1}{L_{m}} \right)
 		\end{matrix}
 		\right.
 		\label{ec:motorarmadura2}%
@@ -16,36 +18,36 @@ Para el modelado del sistema se tomó en cuenta un motor de segundo orden que cum
 
 %Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomó el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
 
-Tomando como variables de estado la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{m}$), ya que la corriente de campo es constante ($I_{c}$), se toman las ecuaciones \ref{ec:espaciodeestado1q} en el siguiente espacio de estado:
+Tomando como variables de estado la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{m}$), sabiendo que la corriente de campo es constante ($I_{c}$), se toman las ecuaciones \ref{ec:espaciodeestado1q} en el siguiente espacio de estado:
  
 \begin{center}
 	\begin{equation}
 		\left\{\begin{matrix}
 			\begin{bmatrix}
-				& \dot{\omega _{M}}\\ 
-				& \dot{I_{M}}
+				& \dot{\omega _{m}}\\ 
+				& \dot{I_{m}}
 			\end{bmatrix}
 			=
 			\begin{bmatrix}
-				& \frac{-F_{M}}{J_{M}} & \frac{K_{M}}{J_{M}} & \\ 
-				&  \frac{-K_{M}}{L_{M}}& \frac{-R_{M}}{L_{M}} & \\ 
+				& \frac{-F_{m}}{J_{m}} & \frac{K_{m}}{J_{m}} & \\ 
+				&  \frac{-K_{m}}{L_{m}}& \frac{-R_{m}}{L_{m}} & \\ 
 			\end{bmatrix}
 			\begin{bmatrix}
-				& \omega _{M} \\ 
-				& I_{M}
+				& \omega _{m} \\ 
+				& I_{m}
 			\end{bmatrix}
 			+
 			\begin{bmatrix}
 				& 0 \\ 
-				& \frac{1}{L_{M}}
+				& \frac{1}{L_{m}}
 			\end{bmatrix}
-			V_{M}\\ 
+			V_{m}\\ 
 			Y=\begin{bmatrix}
 				1 & 0
 			\end{bmatrix}
 			\begin{bmatrix}
-				\omega_{M}\\ 
-				I_{M}
+				\omega_{m}\\ 
+				I_{m}
 			\end{bmatrix}
 		\end{matrix}\right.	
 		\label{ec:espaciodeestado1q}%
@@ -64,6 +66,7 @@ Tomando como variables de estado la velocidad angular del motor ($\omega_{m}$) y
  	\includegraphics[width=1\linewidth]{img/quanser}
  	\caption{Parámetros Quanser}
  	\label{fig:Quanser}
+ 	\cite{quanser}
  \end{figure}  
 
 
@@ -87,11 +90,11 @@ Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y las relaciones entre los radios es de 
 	\end{equation}
 \end{center}
 
-A continuación en la ecuación \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se utilizarán para la representación del modelo del sistema.   
+A continuación en \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se utilizarán para la representación del modelo del sistema.   
  \begin{center}
 	 \begin{equation}
 		\begin{matrix}
-			K_{M}=0.0502\frac{Nm}{A}\\ 
+			K_{m}=0.0502\frac{Nm}{A}\\ 
 			J_{equiv}= 21,4567*10^{-6} Kg.m^{2}\\ 
 			R_{m}=10.6\Omega\\ 
 			L_{m}=0.82m H	
@@ -111,8 +114,8 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 	\begin{equation}
 		\left\{\begin{matrix}
 			\begin{bmatrix}
-				& \dot{\omega _{M}}\\ 
-				& \dot{I_{M}}
+				& \dot{\omega _{m}}\\ 
+				& \dot{I_{m}}
 			\end{bmatrix}
 			=
 			\begin{bmatrix}
@@ -120,21 +123,21 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 				&  -61,22& -1,293.10^{4} & \\ 
 			\end{bmatrix}
 			\begin{bmatrix}
-				& \omega_{M} \\ 
-				& I_{M}
+				& \omega_{m} \\ 
+				& I_{m}
 			\end{bmatrix}
 			+
 			\begin{bmatrix}
 				& 0 \\ 
 				& 1220
 			\end{bmatrix}
-			V_{M}\\ 
+			e_{a}\\ 
 			Y=\begin{bmatrix}
 				1 & 0
 			\end{bmatrix}
 			\begin{bmatrix}
-				\omega_{M}\\ 
-				I_{M}
+				\omega_{m}\\ 
+				I_{m}
 			\end{bmatrix}
 		\end{matrix}\right.
 	\label{ec:espaciodeestado2q}%	
@@ -143,22 +146,179 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 
 \begin{center}
 	\begin{equation}
-		\frac{Y(s)}{U(s)}= \frac{2.855e^{6}}{s^{2}+1.293e^{4}s+1.433e^{5}} 
+		\frac{\omega_{m}(s)}{e_{a}(s)}= \frac{2.855e^{6}}{s^{2}+1.293e^{4}s+1.433e^{5}} 
 		\label{ec:plantaarmadura}%
 	\end{equation}
 \end{center}
 
-\section{Modelado del sistema con un circuito de segundo orden}
+Según la ecuación \ref{ec:motorarmadura} $e_{m}=k_{m}\omega_{m}$ la ecuación \ref{ec:plantaarmadura} queda:
 
-Para una planta de segundo orden genérica se tiene la ecuación \ref{ec:plantasegundo}
 \begin{center}
 	\begin{equation}
-		\frac{Y(s)}{U(s)}= \frac{b_{2}s^{2}+b_{1}s+b_{0}}{a_{2}s^{2}+a_{1}s+a_{0}} 
-		\label{ec:plantasegundo}%
+		\frac{e_{m}(s)}{e_{a}(s)}= \frac{1.433e^{5}}{s^{2}+1.293e^{4}s+1.433e^{5}} 
+		\label{ec:plantaarmaduracompleta}%
 	\end{equation}
 \end{center}
 
-Como se pudo observar los motores de segundo orden que se van a estudiar tienen los valores de $b_{1}=0$ y $b_{2}=0 $ entonces la ecuación quedaría 
+Esto cumple con la ecuación \ref{ec:segundoorden}.
+
+\section{Modelado del sistema con un circuito de segundo orden}
+
+Con la ecuación \ref{ec:filtroresistencia} y \ref{ec:plantaarmaduracompleta}, se obtiene el siguiente sistema de ecuaciones:
+
+\begin{center}
+	\begin{equation}
+		\left\{
+		\begin{matrix}
+			&   \omega_{n}^{2}=\frac{1}{R_{1}R_{2}C_{1}C_{2}} \\
+			&   2\zeta \omega_{n}=\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}
+		\end{matrix}
+		\right.
+	\end{equation}
+\end{center}
+
+Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$ son incógnitos, pero primero se obtendrán los valores de  $\omega_{n}$, y $\zeta$ a partir de \ref{ec:plantaarmaduracompleta} y \ref{ec:segundoorden} :
+
+
+
+
+\begin{center}
+	\begin{equation}
+		\begin{matrix}
+		 &	\omega_{n}^{2}=1.433e^{5} \\
+		 &	\omega_{n}=378.549
+		\end{matrix}	
+	\end{equation}
+\end{center}  
+
+\begin{center}
+	\begin{equation}
+		\begin{matrix}
+			&	2\zeta\omega_{n}=1.293e^{4} \\
+			&	\zeta= 17.078
+		\end{matrix}	
+	\end{equation}
+\end{center}
+
+Al tener cuatro incógnitas y dos ecuaciones, se fijan los valores de $C_{1}= 1\mu F $ y $ C_{2}= 470nF  $, obteniendo: 
+
+%$R_{1}=150k\Omega,  R_{2}=100k \Omega $
+
+\begin{center}
+	\begin{equation}
+		\begin{matrix}
+			& R_{1}R_{2}=\frac{1}{\omega_{n}^{2}C_{1}C_{2}} \\
+			&R_{2}=\frac{1}{\omega_{n}^{2}C_{1}C_{2}R_{1}} 			
+		\end{matrix}
+	\end{equation}
+\end{center}
+
+
+\begin{center}
+	\begin{equation}
+			 2\zeta \omega_{n}=\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}	
+			 \label{ec:despeje}
+	\end{equation}
+\end{center}
+
+
+Sustituyendo el valor de $R_{2}$ en \ref{ec:despeje} queda una ecuación cuadrática con incógnita $R_{1}$ 
+
+\begin{center}
+	\begin{equation}
+		R_{1}^{2}-\frac{2\zeta}{\omega_{n}C_{1}}  R_{1}+ \frac{1}{\omega_{n}^{2}C_{1}C_{2}}	= 0
+		\label{ec:despejefinal}
+	\end{equation}
+\end{center}
+
+Los valores que arroja la ecuación son $R_{1}$= $\left\lbrace   90128; 164.86\right\rbrace \Omega$  y el valor de $R_{2}= 164.86 \Omega$.
+
+ La solución según el estándar E24 sería: $R_{1}=91k\Omega$ y $  R_{2}=160 \Omega $.
+
+A continuación, se comparan las gráficas en la plataforma Matlab de la sistema sin controlar y el modelo según el filtro Sallen-Key.
+
+
+
+
+\begin{figure}[H]
+	\rotatebox[origin=c]{-90}{	\includegraphics[scale=0.50]{img/comparacion.eps}}
+	
+	\caption{Comparación entre el sistema original y Sallen-Key}
+	\label{fig:QuanservsSallen}
+\end{figure}
+	
+
+
+%
+%Para una planta de segundo orden genérica se tiene la ecuación \ref{ec:plantasegundo}
+%\begin{center}
+%	\begin{equation}
+%		\frac{Y(s)}{U(s)}= \frac{b_{2}s^{2}+b_{1}s+b_{0}}{a_{2}s^{2}+a_{1}s+a_{0}} 
+%		\label{ec:plantasegundo}%
+%	\end{equation}
+%\end{center}
+%
+%Como se pudo observar los motores de segundo orden que se van a estudiar tienen los valores de $b_{1}=0$ y $b_{2}=0 $ entonces la ecuación quedaría 
+%
+%\begin{center}
+%	\begin{equation}
+%		\frac{Y(s)}{U(s)}= \frac{b_{0}}{a_{2}s^{2}+a_{1}s+a_{0}} 
+%		\label{ec:plantasegundo}%
+%	\end{equation}
+%\end{center}
+%
+%Resolviendo las ecuaciones diferenciales se tiene que 
+%
+%\begin{center}
+%	\begin{equation}
+%		\begin{matrix}
+%		a_{2}\ddot{y}+a_{1}\dot{y}+a_{0}y=b_{0}U \\
+%	 	x_{1}=y\\
+%		\dot{x_{1}}=\dot{y}=\dot{x_{2}}\\
+%		\ddot{x_{1}}=\ddot{y}=x_{3}\\
+%		\label{ec:solecdiferencial2}%
+%		\end{matrix}
+%	\end{equation}
+%\end{center}
+%
+%Obteniendo el siguiente espacio de estado
+%
+%\begin{center}
+%	\begin{equation}
+%		\begin{bmatrix}
+%			\dot{x_{1}}\\
+%			\dot{x_{2}}
+%		\end{bmatrix}
+%		=
+%		\begin{bmatrix}
+%			0 & 1\\ 
+%			-\frac{a_{0}}{a_{2}}& -\frac{a_{1}}{a_{2}}
+%		\end{bmatrix}x+
+%		\begin{bmatrix}
+%			0\\ 
+%			\frac{b_{0}}{a_{2}}
+%		\end{bmatrix}
+%		\label{ec:espaciodestado2}%
+%	\end{equation}
+%\end{center}
+
+\section{Diseño de la interfaz de emulación de la planta de segundo orden}
+
+De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño estará basada en el lenguaje de programación Python. 
+
+\subsection{Interfaz gráfica}
+Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se pudieran cambiar los parámetros que componen a la ecuaciones del sistema de segundo orden, además de contener las siguientes acciones:
+
+\begin{itemize}
+	\item Selección del puerto para la comunicación con el controlador.
+	\item La configuración de los parámetros del sistema de segundo orden.
+	\item Configuración de los parámetros del controlador.
+	\item Graficar la respuesta controlada y sin controlar.
+	\item Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.
+\end{itemize}
+
+
+Para esto se preestablecieron los datos para el funcionamiento del motor Quanser, los elementos se pueden cambiar para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
 
 \begin{center}
 	\begin{equation}
@@ -166,64 +326,6 @@ Como se pudo observar los motores de segundo orden que se van a estudiar tienen 
 		\label{ec:plantasegundo}%
 	\end{equation}
 \end{center}
-
-Resolviendo las ecuaciones diferenciales se tiene que 
-
-\begin{center}
-	\begin{equation}
-		\begin{matrix}
-		a_{2}\ddot{y}+a_{1}\dot{y}+a_{0}y=b_{0}U \\
-	 	x_{1}=y\\
-		\dot{x_{1}}=\dot{y}=\dot{x_{2}}\\
-		\ddot{x_{1}}=\ddot{y}=x_{3}\\
-		\label{ec:solecdiferencial2}%
-		\end{matrix}
-	\end{equation}
-\end{center}
-
-Obteniendo el siguiente espacio de estado
-
-\begin{center}
-	\begin{equation}
-		\begin{bmatrix}
-			\dot{x_{1}}\\
-			\dot{x_{2}}
-		\end{bmatrix}
-		=
-		\begin{bmatrix}
-			0 & 1\\ 
-			-\frac{a_{0}}{a_{2}}& -\frac{a_{1}}{a_{2}}
-		\end{bmatrix}x+
-		\begin{bmatrix}
-			0\\ 
-			\frac{b_{0}}{a_{2}}
-		\end{bmatrix}
-		\label{ec:espaciodestado2}%
-	\end{equation}
-\end{center}
-
-\section{Diseño de la interfaz de emulación de la planta de segundo orden}
-
-De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada fue Python. 
-
-\subsection{Interfaz gráfica}
-Para el diseño de la interfaz gráfica se consideró la biblioteca tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se pudieran cambiar los parámetros que componen a la ecuaciones del sistema de segundo orden, además de contener las siguientes acciones:
-
-\begin{itemize}
-	\item La configuración de los parámetros del sistema de segundo orden.
-	\item Selección del puerto para la comunicación con el controlador.
-	\item Configuración de los parámetros del controlador.
-	\item Gráficar la respuesta controlada y sin controlar.
-	\item Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.
-\end{itemize}
-
-
-
-
-Para esto se preestablecieron los datos para el funcionamiento del motor Quanser, los elementos se pueden cambiar para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
-
-
-
 
 Se habilitó otra entrada para poder insertar el puerto por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde nos saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
 
@@ -234,13 +336,13 @@ Por último, se mostrará los datos de sobrepico porcentual, tiempo de establecimi
 
 En el inicio del código se define las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se definirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
 \begin{itemize}
-	\item sError1 = 'Error: 01'  -> Error si el campo de puerto esta vacio.
-	\item sError2 = 'Error: 02'  -> Error si no hay conexion de puerto.
-	\item sError3 = 'Error: 03'  -> Error si no se ha configurado  la planta.
-	\item sError4 = 'Error: 04'  -> Error con la conexión.
+	\item Error 01: Error si el campo de puerto esta vacío.
+	\item Error 02: Error si no hay conexión de puerto.
+	\item Error 03: Error si no se ha configurado  la planta.
+	\item Error 04: Error con la conexión.
 \end{itemize} 
 
-Luego se definen los arreglos vacios de entrada, salida y tiempo, con los inputs se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
+Luego se definen los arreglos vacíos de entrada, salida y tiempo, con los inputs se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
 
 Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
 
@@ -265,7 +367,7 @@ En los siguientes diagramas se muestra la manera de en que se ejecuta las tareas
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{img/confic}
+	\includegraphics[width=0.45\linewidth]{img/confic}
 	\caption{Configuración de comunicación }
 	\label{fig:confic}
 \end{figure}
