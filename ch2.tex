@@ -1,25 +1,26 @@
 Se puede aplicar el método HIL para una alta variedad de procesos, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
 
-\section{Hardware in the loop}\label{HILdef}
+En este capítulo se muestran algunos conceptos relacionados al método HIL y a los motores de corriente continua, que servirán de soporte para la descripción del modelo del sistema y el controlador.
 
-HIL es un método utilizado en donde los comandos de un controlador son conectados a un sistema en el cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo requiere un desarrollo en tiempo real, de esta manera se pueden realizar las pruebas e iteraciones necesarias para poder validar el componente.
+\section{Hardware in the Loop}\label{HILdef}
 
- Esta emulación se realiza en tiempo real; consta de un controlador que se conecta con estímulos virtuales realistas o también se utiliza para determinar si el modelo utilizado para el sistema es válido. Al utilizar el método HIL se obtiene también ahorro en costos y mejoras practicidad, ya que al poder evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
+HIL es un método en donde los comandos de un controlador son conectados a un sistema en el cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo requiere un desarrollo en tiempo real, de esta manera se pueden realizar las pruebas e iteraciones necesarias para validar el componente.
 
-El uso HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control. En primer lugar consiste en que las pruebas realizadas son verificadas en una simulación de los componentes dinámicos, y la segunda técnica se basa en realizar ensayos con dispositivos de hardware.
+ Esta emulación se realiza en tiempo real, consta de un controlador que se conecta con estímulos virtuales realistas o también se usa para determinar si el modelo utilizado para el sistema es válido. Al emplear el método HIL se obtiene también ahorro en costos y optimización del proceso, ya que al  evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
 
-Se puede aplicar el método HIL para una alta variedad de sistemas, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
+El uso de HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control. El primero consiste en que las pruebas realizadas son verificadas en una simulación de los componentes dinámicos, y el segundo método se basa en realizar ensayos con dispositivos de hardware.
+ 
 
-La historia de primeros usos el método HIL comienza en la segunda mitad del siglo XX para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo. No obstante, al pasar del tiempo el método HIL fue utilizado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
+Los primeros usos del método HIL comienza en la segunda mitad del siglo XX para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo. No obstante, al pasar del tiempo el método HIL fue utilizado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
 
-Una ventaja del método HIL es que se reduce la posibilidad de que después que el producto se encuentra en producción se descubran problemas graves en su funcionamiento. Es una herramienta que se utiliza para optimizar el diseño y para depurar el hardware/software.
+Una ventaja del método HIL, es que se reduce la posibilidad de que después que el producto se encuentra en producción se descubran problemas graves en su funcionamiento. Es una herramienta que se utiliza para optimizar el diseño y para depurar el hardware/software.
 
-En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realizar una prueba en condición real, la cual puede aumentar el costo y el tiempo de implementación, si tomamos un ejemplo de un sistema de navegación de un avión si se hace una prueba real puede resultar en una tragedia, además de tener la posibilidad de destrucción del avión. Si por el contrario se realiza solo la simulación, el tiempo y el costo disminuyen pero se ve comprometido la precisión del objetivo. Por esta razón el HIL está en el lugar adecuado entre tiempo, costo y precisión.
+En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realizar una prueba en condición real, con una simulación y el método HIL. La prueba real puede aumentar el costo y el tiempo de implementación, si tomamos un ejemplo de un sistema de navegación de un avión si se hace una prueba real puede resultar en una tragedia, además de tener la posibilidad de destrucción del avión. Si por el contrario se realiza solo la simulación, el tiempo y el costo disminuyen pero se ve comprometida la precisión del objetivo. Por esta razón el método HIL logra un balance adecuado entre tiempo, costo y precisión.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{img/hilexperimental}
-	\caption{Precisión, tiempo y costo de un HIL vs Hardware vs simulación}
+	\caption{Precision, time and cost trade off in computer simulation, HIL simulation and actual situation(Compensación de precisión, tiempo y costo en simulación por computadora, simulación HIL y situación real)}
 	{Fuente: \cite{pouriahil}}
 	\label{fig:hilexperimental}
 \end{figure}
@@ -28,16 +29,16 @@ Algunos factores que se toman en cuenta para aplicar el método HIL son los sigui
 
 \begin{itemize}
 	\item Para pruebas muy costosas o que pueden causar mucho daño en el sistema real.
-	\item Cuando los parámetros no son lineales y difíciles de recrear con precisión en la realidad.
+	\item Cuando los parámetros no son lineales y difíciles de obtener con precisión en la realidad.
 	\item Si el software de control tiene una complejidad elevada.
 \end{itemize}
 
-Una de las técnicas más utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración es cuando se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite la producción del producto.
+Una de las técnicas utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración es cuando se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite la producción del producto.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/diagramav}
-	\caption{Ciclo en V para el desarrollo de proyectos en la industria}
+	\caption{Ciclo en V para el desarrollo de proyectos en la industria.}
 	{Fuente: \cite{pouriahil}}
 	\label{fig:ciclov}
 \end{figure}
@@ -52,21 +53,23 @@ El método HIL se estructura de la siguiente manera:
 	\label{fig:estructurahil}
 \end{figure}
 
-Se divide en tres componentes  básicos, en la simulación se encuentra el modelo de la planta controlada la cual debe ser programada, a pesar de que en esta parte se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actué como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. El componente del DUT es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra programado el algoritmo en el cual se establecen los mandos las cuales fueron transmitidas por dispositivos al simulador para poder hacer las pruebas respectivas de la planta.
+Como se aprecia en la figura \ref{fig:estructurahil}, el método HIL se divide en tres componentes  básicos, en primer lugar se encuentra el modelo de la planta emulada, la cual debe ser programada. En esta parte del sistema se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actue como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. 
 
- En la componente de comunicación entre la planta y el controlador, hay varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser conversión de señales analógicas y digitales, bus de comunicación serial o paralelo, protocolos de red.
+El componente del Hardware (DUT)  es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra programado el algoritmo en el cual se establecen los comandos las cuales fueron transmitidas al simulador para poder hacer las pruebas respectivas de la planta.
+
+ En la componente de comunicación entre la planta y el controlador, existen varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser conversión de señales analógicas y digitales, bus de comunicación serial o paralelo, protocolos de red.
  
- \section{Motor de corriente continua}
+ \section{Motor de corriente continua (Motores CC)}
  
- Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Algunos ejemplos de donde se encuentran este tipo de motores es en elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
+ Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Existen varias aplicaciones para este tipo de motores como elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
  
- Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes  el estátor, el rotor (Armadura del motor), el colector y las escobillas fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}. Entre el estátor que es el componente fijo y uno móvil denominado el rotor se produce flujos magnéticos que interactúan con el objetivo de producir un par electromagnético co-lineal con el eje del motor.
+ Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes  el estator (parte fija del motor), el rotor (Armadura del motor), el colector y las escobillas fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}. Entre el estator que es el componente fijo, exite un componente móvil denominado el rotor se produce flujos magnéticos que interactúan con el objetivo de producir un par electromagnético colineal con el eje del motor.
  
  \begin{figure}[H]
  	\centering
  	\includegraphics[width=0.7\linewidth]{img/motorcc}
  	\caption{Diagrama de una máquina CC}
- 		{Fuente: \cite{chapman}}
+ 		{Fuente: \cite{imagencc}}
  	\label{fig:motorcc}
  \end{figure}
  
@@ -79,6 +82,18 @@ Se divide en tres componentes  básicos, en la simulación se encuentra el modelo 
  	\caption{Modelo de un motor DC}
  	\label{fig:modelomotor}
  \end{figure}
+
+
+
+\begin{itemize}
+	\item $	R_{a}$= resistencia de armadura. 
+	\item $I_{a}$= corriente de armadura.
+	\item $L_{a}$= Inductancia de armadura.
+	\item $e_{a}$= voltaje aplicado en los terminales de armadura.
+	\item $\theta$= Flujo magnetico.
+	\item $e_{b}$= voltaje generado en las terminales del conductor.
+	\item $k_{f}$= constante de proporcionalidad.
+\end{itemize}
  
  Para este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generado por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El torque desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este torque tiene la función de accionar el sistema que posee una inercia total $J_{eq}$   y el $\theta$ es la posición angular del eje del motor.
  

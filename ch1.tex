@@ -1,30 +1,30 @@
 
-En este capítulo se presentará el problema que que motivo a realizar este trabajo de grado, mencionando de esta manera la justificación, objetivos, alcance, factibilidad y antecedentes de este proyecto.
+En este capítulo se presenta el problema que motivó a realizar este trabajo de grado, mencionando de esta manera la justificación, objetivos, alcance, factibilidad y antecedentes de este proyecto.
 
 
 \section{El problema}
 \subsection{Planteamiento del problema}
 
-En los procesos siempre ha existido la necesidad de evaluar el comportamiento de dispositivos a implementar, lo cual implica que deban realizarse pruebas complejas y costosas dando como resultado procesos engorrosos, difíciles de realizar o peligrosos. Además, el sistema puede contar con limitaciones físicas que tienden a no permitir las pruebas necesarias para mejoras en los esquemas de control.
+En los procesos siempre ha existido la necesidad de evaluar el comportamiento de dispositivos a implementar, lo cual implica que deban realizarse pruebas complejas y costosas dando como resultado procesos engorrosos, difíciles de realizar o de alto riesgo. Además, el sistema puede contar con limitaciones físicas que tienden a no permitir las pruebas necesarias para mejoras en los sistemas de control.
 
 Por estos motivos se propone utilizar las ventajas del método Hardware in the loop en un sistema de segundo orden, con el objetivo de validar y desarrollar sistemas de control, haciendo uso de algunas herramientas existentes de software libre o comercial que son utilizadas para la implementación de este método, ya que permiten realizar las pruebas necesarias para validar procesos.
 
 \subsection{Justificación}
 
-El método $"$Hardware in the loop$"$ considera los problemas inherentes de realizar las pruebas físicas que pueden resultar costosas, peligrosas o difíciles de alcanzar; lo cual permite medir el desempeño de los sistemas de control implementados a través de una interacción entre componentes reales y virtuales que permita hacer que las pruebas a realizar sean seguras y con resultados verídicos.
+El método $"$Hardware in the Loop$"$ considera los problemas inherentes de realizar las pruebas físicas que pueden resultar costosas, peligrosas o difíciles de alcanzar; lo cual permite medir el desempeño de los sistemas de control implementados a través de una interacción entre componentes reales y virtuales que logran hacer que las pruebas a realizar sean seguras y con resultados comprobables.
 
-La aplicación del modelo $"$Hardware in the loop$"$ permitirá reforzar los conocimientos que se impartan en las asignaturas acreditadas a la Unidad Docente de Control. Siendo esta propuesta enfocada en un sistema de segundo orden. Además, permite la simulación de algunos de los equipos del Laboratorio de Control, Instrumentación y Digitales de la Escuela de Ingeniería Eléctrica de la Universidad Central de Venezuela. Con esta técnica da paso a la introducción de una técnica innovadora para uso del laboratorio. 
+La aplicación del método $"$Hardware in the Loop$"$ refuerza los conocimientos que se impartan en las asignaturas acreditadas a la Unidad Docente  Control. Además, permite la emulación de algunos de los equipos del Laboratorio de Control, Instrumentación y Digitales de la Escuela de Ingeniería Eléctrica de la Universidad Central de Venezuela. Con este trabajo se da paso a la introducción de un método innovador para uso del laboratorio. 
 
 \subsection{Objetivos}
 
-Diseñar un modelo de emulación para un sistema de segundo orden basado en el método $"$Hardware in the loop$"$.
+Diseñar un modelo de emulación para un sistema de segundo orden basado en el método $"$Hardware in the Loop$"$.
 
 \subsubsection{Objetivo general}
 \begin{itemize}
 	\item Describir los conceptos básicos de control relacionados al método $"$
-	Hardware in the loop$"$.
+	Hardware in the Loop$"$.
 	\item Seleccionar la plataforma tecnológica para el diseño de la interfaz de emulación.
-	\item Modelar la planta con un circuito de seguundo orden de manera teórica.
+	\item Modelar la planta con un circuito de segundo orden de manera teórica.
 	\item Seleccionar el dispositivo microcontrolador a utililzar.
 	\item Definir los parámetros a controlar.
 	\item Diseñar el controlador digital a utilizar, que corresponda al objetivo anterior.
@@ -38,7 +38,7 @@ En el presente trabajo de grado no se contempla:
 
 \begin{itemize}
 	\item Desarrollo de una aplicación Android o IOS.
-	\item No contempla una aplicación práctica a un sistema industrial real.
+	\item Una aplicación práctica a un sistema industrial real.
 	\item La validación del sistema de manera física.
 \end{itemize}
 
@@ -46,7 +46,7 @@ En el presente trabajo de grado no se contempla:
 
 Debido a que existe mucha información disponible en línea relacionada con la
 investigación; así como una gran cantidad de hardware en el mercado, técnicamente el proyecto es
-factible. A demás, se cuenta con computadora y el equipo necesario para realizar el trabajo especial de grado. En el aspecto económico, el proyecto es factible ya que los costos para llevar a cabo esta
+factible. Además, se cuenta con computadora y el equipo necesario para realizar el trabajo especial de grado. En el aspecto económico, el proyecto es factible ya que los costos para llevar a cabo esta
 investigación, serán asumidos por el autor. Por último, el tiempo establecido para la culminación de este proyecto a consideración del autor es suficiente.
 
 \subsection{Antecedentes}
@@ -60,7 +60,7 @@ una simulación de la planta controlada a fin de someter a prueba una unidad elec
 En el marco de la presente investigación, se empleó la metodología HIL para evaluar un
 procedimiento de control de velocidad angular de un motor de CC de imán permanente basado en
 un puente de Wheatstone, como alternativa a instrumentos tradicionales de medición. Para examinar
-el método de control, por medio del software de simulación NI?Multisim se programó las
+el método de control, por medio del software de simulación NI Multisim se programó las
 características de dos motores comerciales y se bosquejaron dos topologías de circuitos
 convertidores. En conjunto con los modelos de simulación, se incorporó a su vez el puente de
 Wheatstone con un circuito de acondicionamiento adecuado. Estos componentes fueron ejecutados
@@ -79,16 +79,15 @@ los procesos presión, caudal y nivel, mediante el sistema embebido My Rio a real
 Laboratorio de Redes Industriales y Control de Procesos.$"$. Universidad de las Fuerzas Armadas
 ESPE. Extensión Latacunga. Carrera de Ingeniería en Electrónica e Instrumentación, 2018.
 Director: ING. Pruna P, Edwin P.
-El presente trabajo comprendió la implementación de un entorno de trabajo bajo la
-configuración Hardware in-the-Loop (HIL), que consiste en la interacción de componentes reales y
+Este trabajo comprendió la implementación de un entorno de pruebas bajo la
+configuración Hardware in the Loop (HIL), que consiste en la interacción de componentes reales y
 virtuales. Los componentes virtuales se encuentran relacionados con la simulación de las estaciones
 de control a través del software LabVIEW que emula el comportamiento real permitiendo obtener
 los mismos beneficios que un instrumento físico, siendo programados en la memoria de la tarjeta NI
 myRIO que es un sistema embebido con tecnología FPGA. La interacción que existe entre el
-sistema embebido NI myRIO con el PLC Siemens S7-1200 es el que permite trabajar como un
-entorno Hardware in-the-Loop (HIL). La tarjeta entrega una salida que emula una estación de
-control del laboratorio, enviando señales eléctricas en un rango de (0 -5) voltios que son enviadas al
-PLC que contiene un controlador PID provocando una respuesta conocida como Control Value que
-son devueltas a la tarjeta NI myRIO que se encarga de receptar esta señal y convertirlas en acciones,
-cumpliendo el ciclo normal como si se tratara de un proceso real. Con la implementación de
-Hardware-in-the-Loop (HIL) se contribuye en el aprendizaje del control automático. { \cite{alulemahil}}
+sistema embebido NI myRIO con el PLC Siemens S7-1200 es quien permite trabajar como un
+entorno Hardware in the Loop (HIL). La tarjeta entrega una salida que emula una estación de
+control del laboratorio, emitiendo señales eléctricas que son enviadas al
+PLC que contiene un controlador PID que provoca una respuesta que
+es devuelta a la tarjeta NI myRIO. Esta se encarga de procesar la señal y convertirla en una acción,
+cumpliendo el ciclo normal como si se tratara de un proceso real.  { \cite{alulemahil}}
