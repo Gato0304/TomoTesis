@@ -20,7 +20,7 @@ En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realiza
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{img/hilexperimental}
-	\caption{Precision, time and cost trade off in computer simulation, HIL simulation and actual situation(Compensación de precisión, tiempo y costo en simulación por computadora, simulación HIL y situación real)}
+	\caption{Compensación de precisión, tiempo y costo en simulación por computadora, simulación HIL y situación real}
 	{Fuente: \cite{pouriahil}}
 	\label{fig:hilexperimental}
 \end{figure}
@@ -55,7 +55,7 @@ El método HIL se estructura de la siguiente manera:
 
 Como se aprecia en la figura \ref{fig:estructurahil}, el método HIL se divide en tres componentes  básicos, en primer lugar se encuentra el modelo de la planta emulada, la cual debe ser programada. En esta parte del sistema se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actue como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. 
 
-El componente del Hardware (DUT)  es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra programado el algoritmo en el cual se establecen los comandos las cuales fueron transmitidas al simulador para poder hacer las pruebas respectivas de la planta.
+El componente del Hardware (DUT)  es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra programado el algoritmo en el cual se establecen los comandos las cuales fueron transmitidas al emulador para poder hacer las pruebas respectivas de la planta.
 
  En la componente de comunicación entre la planta y el controlador, existen varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser conversión de señales analógicas y digitales, bus de comunicación serial o paralelo, protocolos de red.
  
@@ -63,7 +63,9 @@ El componente del Hardware (DUT)  es el elemento de control del sistema a lazo c
  
  Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Existen varias aplicaciones para este tipo de motores como elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
  
- Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes  el estator (parte fija del motor), el rotor (Armadura del motor), el colector y las escobillas fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}. Entre el estator que es el componente fijo, exite un componente móvil denominado el rotor se produce flujos magnéticos que interactúan con el objetivo de producir un par electromagnético colineal con el eje del motor.
+ Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes:  el estator (parte fija del motor), el rotor (Armadura del motor), el colector y las escobillas. Poseen una estructura fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}.
+ 
+  Entre el estator y el rotor, siendo el estator el componente fijo y el rotor el componente móvil  se produce flujos magnéticos que interactúan entre si con el objetivo de producir un par electromagnético colineal con el eje del motor.
  
  \begin{figure}[H]
  	\centering
@@ -83,30 +85,42 @@ El componente del Hardware (DUT)  es el elemento de control del sistema a lazo c
  	\label{fig:modelomotor}
  \end{figure}
 
-
+A continuación, se definen los parámetros y  variables que se estarán utilizando:
 
 \begin{itemize}
 	\item $	R_{a}$= resistencia de armadura. 
 	\item $I_{a}$= corriente de armadura.
-	\item $L_{a}$= Inductancia de armadura.
-	\item $e_{a}$= voltaje aplicado en los terminales de armadura.
-	\item $\theta$= Flujo magnetico.
-	\item $e_{b}$= voltaje generado en las terminales del conductor.
+	\item $I_{f}$= corriente de campo.
+	\item $L_{a}$= inductancia de armadura.
+	\item $e_{a}$= voltaje aplicado.
+	\item $e_{b}$= fuerza contraelectromotriz.
+	\item $\theta$= desplazamiento del rotor.
 	\item $k_{f}$= constante de proporcionalidad.
+	\item $k_{b}$= constante de la fuerza contraelectromootriz.
+	\item $k_{i}$= constante del par.
+	\item Ø= flujo magnético en el entre hierro.
+	\item $J_{m}$=inercia del rotor.
+	\item $B_{m}$=coeficiente de fricción viscosa.
+	\item $\tau_{m}$= par del motor 
 \end{itemize}
  
  Para este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generado por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El torque desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este torque tiene la función de accionar el sistema que posee una inercia total $J_{eq}$   y el $\theta$ es la posición angular del eje del motor.
  
- El rotor genera un campo, en el cual se crea un voltaje inducido $e_{b}$  que va en dirección opuesta al suministro de armadura. A este voltaje se le llama fuerza contra- electromotriz y esta es proporcional a la velocidad de rotación $W_{n}$  y  el flujo que es creado por el campo, siendo constante. 
+ El rotor cuando gira genera un campo, en el cual se crea un voltaje inducido $e_{b}$  el cuál se le llama fuerza contra electromotriz y esta es proporcional a la velocidad de rotación $W_{n}$  y al flujo que es creado por el campo, siendo constante. 
  
- La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ conectada a una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor esta en movimiento. El diagrama de bloques que representa a este tipo de motores es:
+ La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ conectada a una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor está en movimiento. El diagrama de bloques que representa a este tipo de motores es:
  
  \begin{figure}[H]
  	\centering
  	\includegraphics[width=0.7\linewidth]{img/diagramadebloquesarmadura}
- 	\caption{Diagramas de bloques de un motor DC controlado por armadura}
+ 	\caption{Diagrama de bloques de un motor DC controlado por armadura}
  	\label{fig:diagramadebloquesarmadura}
  \end{figure}
+
+Se tomaron en cuenta las siguientes aproximaciones para obtener las ecuaciones y el diagrama de bloques de un motor DC controlado por armadura:
+
+$\tau_{m}=k_{m}$Ø$i_{a}$, ya que Ø es constante entonces la ecuación queda $\tau_{m}=k_{i}i_{a}$
+  
  
  Para controlar la velocidad se debe  ajustar el voltaje que es aplicado a la armadura y dependiendo de su polaridad se determina la dirección de rotación del motor.  Las ecuaciones  que representan un control por armadura de un motor DC son las siguientes:
 
@@ -129,7 +143,7 @@ El componente del Hardware (DUT)  es el elemento de control del sistema a lazo c
 
          
 \section{Control por campo} 
-En la figura \ref{fig:motorcampo} se observa el modelo de un motor DC controlado por armadura:
+En la figura \ref{fig:motorcampo} se observa el modelo de un motor DC controlado por campo:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{img/motorcampo1}
@@ -138,7 +152,7 @@ En la figura \ref{fig:motorcampo} se observa el modelo de un motor DC controlado
 \end{figure}
       
 
-La corriente de armadura se mantiene constante y el campo es suministrado por un voltaje ajustable $e_{f}$.  El torque que se crea por el motor es proporcional al flujo que se genera por la corriente de armadura, la corriente de campo y la longitud de los conductores, el torque es utilizado para mover la carga de inercia total y vencer la fricción viscosa. El sistema se representa de la siguiente manera:
+La corriente de armadura se mantiene constante y el campo tiene un voltaje ajustable $e_{f}$.  El par que se crea por el motor es proporcional al flujo que se genera por la corriente de armadura, la corriente de campo y la longitud de los conductores, el par es utilizado para mover la carga de inercia total y vencer la fricción viscosa. El modelado del diagrama de bloques se representa de la siguiente manera:
           
   \begin{figure}[H]
  	\centering
@@ -152,7 +166,7 @@ La corriente de armadura se mantiene constante y el campo es suministrado por un
 	\begin{equation}
 		\left\{	
 		\begin{matrix}
-			\tau = K_{T} i_{f}\\
+			\tau =k_{T} i_{f}\\
 		    \tau =J\frac{d^{2}\theta}{dt}+B\frac{d\theta}{dt} \\
 			e_{f}=R_{f} i_{f}+ L_{f}\frac{d i_{f} }{d t} 
 		\end{matrix}
@@ -170,13 +184,13 @@ La corriente de armadura se mantiene constante y el campo es suministrado por un
 
 
 %Emulación vs Simulación
-\section{Simular }
+%\section{Simular }
 %Simulación
-Una simulación computacional es un proceso que consiste en utilizar funciones o técnicas matemáticas para aproximar el modelo de un sistema dinámico, entonces el algoritmo que se utilice debe evaluar el modelo en un intervalo de tiempo, para asi poder obtener las variables caracteristicas del sistema simulado{\cite{simulacion}}
+%Una simulación computacional es un proceso que consiste en utilizar funciones o técnicas matemáticas para aproximar el modelo de un sistema dinámico, entonces el algoritmo que se utilice debe evaluar el modelo en un intervalo de tiempo, para asi poder obtener las variables caracteristicas del sistema simulado{\cite{simulacion}}
 
 %Emulación
-\section{Emular}
-Según la RAE, un proceso de emulación se define como $"$imitar las acciones de otro procurando igualarlas e incluso excederlas$"$ {\cite{raeemular}}. En este sentido, un emulador se puede definir como un dispositivo que cuenta con un software el cual es capaz de replicar a otro dispositivo o componente para igualarlo  o mejorarlo. {\cite{larusse}}
+%\section{Emular}
+%Según la RAE, un proceso de emulación se define como $"$imitar las acciones de otro procurando igualarlas e incluso excederlas$"$ {\cite{raeemular}}. En este sentido, un emulador se puede definir como un dispositivo que cuenta con un software el cual es capaz de replicar a otro dispositivo o componente para igualarlo  o mejorarlo. {\cite{larusse}}
 
 \section{Diferencias entre simular y emular}
 
