@@ -8,7 +8,7 @@ HIL es un método en donde los comandos de un controlador son conectados a un sis
 
  Esta emulación se realiza en tiempo real, consta de un controlador que se conecta con estímulos virtuales realistas o también se usa para determinar si el modelo utilizado para el sistema es válido. Al emplear el método HIL se obtiene también ahorro en costos y optimización del proceso, ya que al  evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
 
-El uso de HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control. El primero consiste en que las pruebas realizadas son verificadas en una simulación de los componentes dinámicos, y el segundo método se basa en realizar ensayos con dispositivos de hardware.
+El uso de HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control. El primero consiste en que las pruebas realizadas son verificadas en una emulación de los componentes dinámicos, y el segundo método se basa en realizar ensayos con dispositivos de hardware.
  
 
 Los primeros usos del método HIL comienza en la segunda mitad del siglo XX para el desarrollo y prueba de sistemas muy complejos y costosos, como los utilizados en las tácticas militares o sistemas satelitales y de centro de control nuclear o de vuelo. No obstante, al pasar del tiempo el método HIL fue utilizado en varias disciplinas siendo habitualmente empleado en la aplicación de circuitos de control a lazo cerrado. 
@@ -55,17 +55,17 @@ El método HIL se estructura de la siguiente manera:
 
 Como se aprecia en la figura \ref{fig:estructurahil}, el método HIL se divide en tres componentes  básicos, en primer lugar se encuentra el modelo de la planta emulada, la cual debe ser programada. En esta parte del sistema se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actue como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. 
 
-El componente del Hardware (DUT)  es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra programado el algoritmo en el cual se establecen los comandos las cuales fueron transmitidas al emulador para poder hacer las pruebas respectivas de la planta.
+El componente del Hardware (DUT)  es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra el algoritmo en el cual se establecen las acciones de control que son transmitidas al emulador para poder hacer las pruebas respectivas sobre el sistema.
 
  En la componente de comunicación entre la planta y el controlador, existen varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser conversión de señales analógicas y digitales, bus de comunicación serial o paralelo, protocolos de red.
  
- \section{Motor de corriente continua (Motores CC)}
+ \section{Motor de corriente continua (CC)}
  
  Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Existen varias aplicaciones para este tipo de motores como elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
  
  Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes:  el estator (parte fija del motor), el rotor (Armadura del motor), el colector y las escobillas. Poseen una estructura fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}.
  
-  Entre el estator y el rotor, siendo el estator el componente fijo y el rotor el componente móvil  se produce flujos magnéticos que interactúan entre si con el objetivo de producir un par electromagnético colineal con el eje del motor.
+  Entre el estator y el rotor, siendo el estator el componente fijo y el rotor el componente móvil  se producen flujos magnéticos que interactúan entre si con el objetivo de producir un par electromagnético colineal con el eje del motor.
  
  \begin{figure}[H]
  	\centering
@@ -75,13 +75,13 @@ El componente del Hardware (DUT)  es el elemento de control del sistema a lazo c
  	\label{fig:motorcc}
  \end{figure}
  
- \section{Control por armadura de un motor DC}
- En la figura \ref{fig:modelomotor} se observa el modelo  de un motor DC controlado por armadura
+ \section{Control por armadura de un motor CC}
+ En la figura \ref{fig:modelomotor} se observa el modelo  de un motor CC controlado por armadura
  
   \begin{figure}[H]
  	\centering
  	\includegraphics[width=0.7\linewidth]{img/motordcarmadura}
- 	\caption{Modelo de un motor DC}
+ 	\caption{Modelo de un motor CC}
  	\label{fig:modelomotor}
  \end{figure}
 
@@ -97,16 +97,16 @@ A continuación, se definen los parámetros y  variables que se estarán utilizando
 	\item $\theta$= desplazamiento del rotor.
 	\item $k_{f}$= constante de proporcionalidad.
 	\item $k_{b}$= constante de la fuerza contraelectromootriz.
-	\item $k_{i}$= constante del par.
+	\item $k_{i}= k$= constante del par.
 	\item Ø= flujo magnético en el entre hierro.
 	\item $J_{m}$=inercia del rotor.
 	\item $B_{m}$=coeficiente de fricción viscosa.
 	\item $\tau_{m}$= par del motor 
 \end{itemize}
  
- Para este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generado por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El torque desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este torque tiene la función de accionar el sistema que posee una inercia total $J_{eq}$   y el $\theta$ es la posición angular del eje del motor.
+ Para este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generado por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El par desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este par tiene la función de accionar el sistema que posee una inercia total $J_{eq}$   y el $\theta$ es la posición angular del eje del motor.
  
- El rotor cuando gira genera un campo, en el cual se crea un voltaje inducido $e_{b}$  el cuál se le llama fuerza contra electromotriz y esta es proporcional a la velocidad de rotación $W_{n}$  y al flujo que es creado por el campo, siendo constante. 
+ El rotor cuando gira genera un campo, en el cual se crea un voltaje inducido $e_{b}$  llamado fuerza contra electromotriz y es proporcional a la velocidad de rotación $W_{n}$. 
  
  La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ conectada a una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor está en movimiento. El diagrama de bloques que representa a este tipo de motores es:
  
@@ -117,9 +117,11 @@ A continuación, se definen los parámetros y  variables que se estarán utilizando
  	\label{fig:diagramadebloquesarmadura}
  \end{figure}
 
-Se tomaron en cuenta las siguientes aproximaciones para obtener las ecuaciones y el diagrama de bloques de un motor DC controlado por armadura:
+Se tomo en cuenta la siguiente aproximación para obtener un análisis lineal en las ecuaciones y el diagrama de bloques de un motor DC controlado por armadura:
 
-$\tau_{m}=k_{m}$Ø$i_{a}$, ya que Ø es constante entonces la ecuación queda $\tau_{m}=k_{i}i_{a}$
+$\tau_{m}=k_{m}$Ø$i_{a}$, ya que Ø es constante entonces la ecuación queda $\tau_{m}=k_{i}i_{a}$.
+
+El motor CC controlado por armadura es un sistema a lazo abierto, aunque el diagrama de bloques muestre un lazo realimentado provocado por la fuerza contraelectromotriz, la cual representa la realimentación que es proporcional al negativo de la velocidad del motor. Entonces $k_{b}$ es la constante que se añade a la resistencia $R_{a}$ y al coeficiente de fricción viscosa $B_{m}$, por este motivo la fuerza contraelectromotriz ayuda a mejorar la estabilidad del sistema. 
   
  
  Para controlar la velocidad se debe  ajustar el voltaje que es aplicado a la armadura y dependiendo de su polaridad se determina la dirección de rotación del motor.  Las ecuaciones  que representan un control por armadura de un motor DC son las siguientes:
@@ -129,7 +131,7 @@ $\tau_{m}=k_{m}$Ø$i_{a}$, ya que Ø es constante entonces la ecuación queda $\tau
  	 \begin{equation}
  	 	\left\lbrace	
  		\begin{matrix}
- 			   \tau_{m}= J_{m} \frac{d^{2}\theta}{dt^{2}}+b_{m}\frac{d\theta}{dt}\\
+ 			   \tau_{m}= J_{m} \frac{d^{2}\theta}{dt^{2}}+B_{m}\frac{d\theta}{dt}\\
  				e_{a}=R_{a}I_{a}+L_{a}\frac{di_{a}}{dt}+ e_{m} \\
  				e_{m}=k_{m}\frac{d \theta }{d t} \\
  				\tau_{m}=k_{i}I_{a}

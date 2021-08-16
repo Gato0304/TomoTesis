@@ -14,12 +14,15 @@
 
 
 %
+En este capítulo se muestran los requisitos y las características que se necesitan para la selección de la plataforma tecnológica utilizada en el proyecto.
 
-Para emular la planta de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos realistas y precisos. Para esto se tomó en cuenta lo siguiente:
+\section{Requerimientos para el desarrollo del proyecto }
+
+Para emular el sistema de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos realistas y precisos. Para esto se tomó en cuenta lo siguiente:
 
 \begin{itemize}
 	
-	\item Se debe generar un gráfico de la respuesta obtenida.
+	\item El recurso escogido debe generar un gráfico de la respuesta obtenida.
 	\item El lenguaje de programación debe permitir realizar los cálculos matemáticos necesarios para emular el sistema. 
 	\item Se necesita un dispositivo que cuente con un puerto de comunicación serial. 
 	\item Se necesita un dispositivo con una velocidad de procesamiento compatible con el hardware que se va a utilizar. 
@@ -34,11 +37,9 @@ Para emular la planta de segundo orden, es necesario cumplir con ciertos requeri
 \section{Emulación mediante un circuito electrónico}
 
 
-Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de una planta.  
+Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de un sistema.  
 
-En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. 
-
-Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
+En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
 
 
 %Este tipo de filtros se utiliza como un circuito que permite implementar filtros activos de orden superior.
@@ -71,26 +72,46 @@ La ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
 	
 	\end{center}
 
-Al tratarse de un buffer la ganancia k=1:
+Según la figura \ref{fig:sallenkey} se plantea un buffer en la etapa amplificadora por lo que k=1.
  \begin{center}
- 	\begin{equation}
+ 	\begin{equation}\label{ec:sallen2}
  		\frac{V_{0}}{V_{i}}=\frac{1}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1})+1}
  		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
  	\end{equation}
  	
  \end{center}
 
-Al despejar la ecuación para que se asemeje a la ecuación de control de segundo orden:
+Usando la ecuación \ref{ec:sallen2} se expresa un sistema de la forma detallada en la ecuación \ref{ec:segundoorden} de donde se obtiene:
 
  \begin{center}
 	\begin{equation} \label{ec:filtroresistencia}
 		\frac{V_{0}}{V_{i}}=\frac{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}{s^{2}+s\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}+\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
 		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
 	\end{equation}
-	
 \end{center}
 
-Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito. En la interfaz principal de matlab se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key.
+
+Obteniendo el valor de $\omega_{n}$ y $\zeta$ con la siguientes ecuaciones:
+
+
+\begin{center}
+	\begin{equation} \label{ec:omegan}
+		\omega_{n}=\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+
+\begin{center}
+	\begin{equation} \label{ec:zeta}
+		\zeta=\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}\frac{1}{2\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito. Usando las ecuaciones obtenidas de \ref{ec:omegan} y \ref{ec:zeta} se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key, las cuales serán analizadas en el capítulo \ref{CAP:accio}.
 
 
 \section{Matlab}
@@ -111,7 +132,7 @@ Se implementó la planta de segundo orden en Simulink para que se comunicara por 
 
 Es un entorno de programación gráfica, el cual  se basa en tareas de medición y experimentación, es aplicado en ámbitos de distribución eléctrica y control de procesos, entre otros.
 
-Existe un añadido de LabVIEW, que es LabVIEW-Multisim el cuál contiene el módulo de simulación y control de sistemas de lazo abierto y cerrado. Sin embargo, existen un inconvenientes con esta herramienta.
+Existe un añadido de LabVIEW, que es LabVIEW-Multisim el cuál contiene el módulo de simulación y control de sistemas de lazo abierto y cerrado. Sin embargo, existen un inconveniente con esta herramienta.
 
 \begin{itemize}
 	
@@ -133,7 +154,7 @@ Según la revista científica IEEE Spectrum en el 2020 Python se encontraba como u
     \cite{lang}
 \end{figure}   
 
- Programar en Python no se traduce en un uso excesivo de memoria del sistema ya que este se adapta a las condiciones del programa, siendo una ventaja ya que dependerá de las habilidades del programador el uso de los recursos, pudiendo optimizar el programa para ser utilizado en una computadora de bajos recursos.  
+ Programar en Python no se traduce en un uso excesivo de memoria del sistema ya que este se adapta a las condiciones del programa según las habilidades del programador, pudiendo optimizarse el código para ser utilizado en una computadora de bajos recursos.  
 
 Python permite instalar varias librerías, bibliotecas y herramientas para realizar entornos gráficos y cálculos científicos, modelado de sistemas complejos y estadísticos, algunas librerias de utilidad para el modelado de sistemas de control e interfaces de usuario son:
  
@@ -175,7 +196,7 @@ Python permite instalar varias librerías, bibliotecas y herramientas para realiz
 
 \section{Comparación entre los sistemas considerados para la emulación }
 
-En esta sección se consideran las herramientas descritas anteriormente que son de utilidad para emular el sistema de segundo orden. En la tabla \ref{tab:requisitos} se presentan el resultado de la comparación entre estas herramientas, tomando en cuenta los criterios expuestos a inicios de este capitulo.
+En esta sección se consideran los recursos descritos anteriormente que son de utilidad para emular el sistema de segundo orden. En la tabla \ref{tab:requisitos} se presentan el resultado de la comparación entre estas herramientas, tomando en cuenta los criterios expuestos a inicios de este capitulo.
 
 
 
@@ -213,7 +234,7 @@ En esta sección se consideran las herramientas descritas anteriormente que son d
 
 \end{table}%
 
-En esta tabla se muestra que la herramienta que cumple con todos los criterios es Python. Por lo tanto se considerara como la herramienta de desarrollo para el modelado del sistema.
+En esta tabla se muestra que la herramienta que cumple con todos los criterios es Python. Por lo tanto se considerará como el recurso del desarrollo para el modelado del sistema.
 
 
 %El dispositivo real que se utilizó fue la computadora y se escogió entre los siguientes lenguajes de programación para tener una plataforma tecnológica que permita emular la planta:

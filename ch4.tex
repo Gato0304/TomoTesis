@@ -1,14 +1,16 @@
+En este capítulo se explican los fundamentos necesarios para el modelado de la planta de segundo orden y el motor escogido para modelar un sistema de segundo orden. A demás, se realiza una comparación entre el circuito de segundo orden y sistema emulado.  
+
 \section{Fundamentos}
-Para el modelado del sistema se tomó en cuenta un motor de segundo orden que cumple con las ecuaciones en \ref{ec:motorarmadura}. De donde se obtiene el sistema de ecuaciones mostrado en \ref{ec:motorarmadura2}.
+Para el modelado de la planta se tomó en cuenta las ecuaciones de un motor CC contolado por armadura de segundo orden que cumple con las expresiones dadas en \ref{ec:motorarmadura}  . De donde se obtiene el sistema de ecuaciones mostrado en \ref{ec:motorarmadura2}.
 
 \begin{center}
 	\begin{equation}
 		\left\{
 		\begin{matrix}
-			&\dot{\omega }_{m}=I_{m}\left ( \frac{K_{m}}{J_{m}} \right )-\omega_{m}\left (\frac{F_{m} }{J_{m}}\right )\\
-			& \dot{I_{m}} = V_{m}\left( \frac{1}{L_{m}} \right)
-			-I_{m}\left ( \frac{R_{m}}{L_{m}} \right)
-			-\omega_{m}\left(   \frac{1}{L_{m}} \right)
+			&\dot{\omega }_{m}=I_{a}\left ( \frac{K_{i}}{J_{m}} \right )-\omega_{m}\left (\frac{B_{m} }{J_{m}}\right )\\
+			& \dot{I_{a}} = e_{a}\left( \frac{1}{L_{a}} \right)
+			-I_{a}\left ( \frac{R_{a}}{L_{a}} \right)
+			-\omega_{m}\left(   \frac{k_{m}}{L_{a}} \right)
 		\end{matrix}
 		\right.
 		\label{ec:motorarmadura2}%
@@ -18,46 +20,80 @@ Para el modelado del sistema se tomó en cuenta un motor de segundo orden que cum
 
 %Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomó el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
 
-Tomando como variables de estado la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{m}$), sabiendo que la corriente de campo es constante ($I_{c}$), se toman las ecuaciones \ref{ec:espaciodeestado1q} en el siguiente espacio de estado:
+Tomando como variables de estado la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{a}$), sabiendo que la corriente de campo es constante ($I_{f}$), se toman las ecuaciones \ref{ec:espaciodeestado1q} en el siguiente espacio de estado:
  
 \begin{center}
 	\begin{equation}
 		\left\{\begin{matrix}
 			\begin{bmatrix}
 				& \dot{\omega _{m}}\\ 
-				& \dot{I_{m}}
+				& \dot{I_{a}}
 			\end{bmatrix}
 			=
 			\begin{bmatrix}
-				& \frac{-F_{m}}{J_{m}} & \frac{K_{m}}{J_{m}} & \\ 
-				&  \frac{-K_{m}}{L_{m}}& \frac{-R_{m}}{L_{m}} & \\ 
+				& \frac{-B_{m}}{J_{m}} & \frac{K_{i}}{J_{m}} & \\ 
+				&  \frac{-K_{m}}{L_{a}}& \frac{-R_{a}}{L_{a}} & \\ 
 			\end{bmatrix}
 			\begin{bmatrix}
 				& \omega _{m} \\ 
-				& I_{m}
+				& I_{a}
 			\end{bmatrix}
 			+
 			\begin{bmatrix}
 				& 0 \\ 
-				& \frac{1}{L_{m}}
+				& \frac{1}{L_{a}}
 			\end{bmatrix}
-			V_{m}\\ 
+			e_{a}\\ 
 			Y=\begin{bmatrix}
 				1 & 0
 			\end{bmatrix}
 			\begin{bmatrix}
 				\omega_{m}\\ 
-				I_{m}
+				I_{a}
 			\end{bmatrix}
 		\end{matrix}\right.	
 		\label{ec:espaciodeestado1q}%
 	\end{equation}
 \end{center}
 
+%Para el trabajo de grado se tomo en cuenta
+
+Según \cite{kuo}  las constantes del par $k_{i}$ y la constante de fuerza contraelectromotriz $k_{b}$ son dos parámetros que estan relacionados a traves de la potencia mécanica, la cúal se escribe de la siguiente manera:
+
+\begin{center}
+	\begin{equation}
+		P=e_{b}(t)i_{a}(t)
+		\label{ec:potencia}%
+		%\textup{Ecuaciones de un motor DC controlado por armadura}	
+	\end{equation}
+\end{center}
+
+También se puede expresar como:
+
+\begin{center}
+	\begin{equation}
+		P= \tau_{m}(t)\omega_{m}(t)
+		\label{ec:potencia2}%
+		%\textup{Ecuaciones de un motor DC controlado por armadura}	
+	\end{equation}
+\end{center}
+
+Se obtiene que:
+
+\begin{center}
+
+		
+	$	k_{b} (V/rad/sec)= k_{i} (Nm/A)$
+		\label{ec:potencia3}%
+		%\textup{Ecuaciones de un motor DC controlado por armadura}	
+
+\end{center}
+
+Entonces en el sistema SI, los valores de $k_{b}$ y $k_{i}$ son iguales.
  \section{DCMCT}
  
  
- Se estudió el sistema "Quanser DC Motor Control Trainer" (DCMCT), el cual será referenciado a continuación en este documento como motor Quanser. En las especificaciones técnicas de este dispositivo se exponen los parámetros indicados en la figura \ref{fig:Quanser}.
+ Se estudió el sistema "Quanser DC Motor Control Trainer" (DCMCT), el cual será referenciado en este documento como motor Quanser. En las especificaciones técnicas de este dispositivo se exponen los parámetros indicados en la figura \ref{fig:Quanser}.
  
  
  
@@ -70,7 +106,7 @@ Tomando como variables de estado la velocidad angular del motor ($\omega_{m}$) y
  \end{figure}  
 
 
-Para la representación de los parámetros del motor Quanser en espacio de estados se toman los valores de \ref{fig:Quanser}. 
+Para la representación de los parámetros del motor Quanser en espacio de estados se toman los valores que tienen los parametros  expuestos en la tabla \ref{fig:Quanser}. 
 
 Para el cálculo del momento de inercia equivalente del motor ($J_{equi}$) se tomó el parámetro $ J_{m}$ y los valores de la masa del disco $M_{l}=0.068kg$ y el radio del disco $r_{l}=0.0248m$.
  
@@ -96,8 +132,8 @@ A continuación en \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se
 		\begin{matrix}
 			K_{m}=0.0502\frac{Nm}{A}\\ 
 			J_{equiv}= 21,4567*10^{-6} Kg.m^{2}\\ 
-			R_{m}=10.6\Omega\\ 
-			L_{m}=0.82m H	
+			R_{a}=10.6\Omega\\ 
+			L_{a}=0.82m H	
 		\end{matrix}
 		 \label{ec:valoresmotorarmadura}%
 	\end{equation}
@@ -115,7 +151,7 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 		\left\{\begin{matrix}
 			\begin{bmatrix}
 				& \dot{\omega _{m}}\\ 
-				& \dot{I_{m}}
+				& \dot{I_{a}}
 			\end{bmatrix}
 			=
 			\begin{bmatrix}
@@ -124,7 +160,7 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 			\end{bmatrix}
 			\begin{bmatrix}
 				& \omega_{m} \\ 
-				& I_{m}
+				& I_{a}
 			\end{bmatrix}
 			+
 			\begin{bmatrix}
@@ -137,7 +173,7 @@ De acuerdo con la información presentada anteriormente se obtiene el modelo de e
 			\end{bmatrix}
 			\begin{bmatrix}
 				\omega_{m}\\ 
-				I_{m}
+				I_{a}
 			\end{bmatrix}
 		\end{matrix}\right.
 	\label{ec:espaciodeestado2q}%	
@@ -177,7 +213,7 @@ Con la ecuación \ref{ec:filtroresistencia} y \ref{ec:plantaarmaduracompleta}, se
 	\end{equation}
 \end{center}
 
-Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$ son incógnitos, pero primero se obtendrán los valores de  $\omega_{n}$, y $\zeta$ a partir de \ref{ec:plantaarmaduracompleta} y \ref{ec:segundoorden} :
+Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$, $\omega_{n}$, y $\zeta$ son incógnitos, primero se obtendrán los valores de  $\omega_{n}$, y $\zeta$ a partir de \ref{ec:plantaarmaduracompleta} y \ref{ec:segundoorden} :
 
 
 
