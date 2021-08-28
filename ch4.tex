@@ -1,4 +1,4 @@
-En este capítulo se explican los fundamentos necesarios para el modelado de la planta de segundo orden y el motor escogido para modelar un sistema de segundo orden. A demás, se realiza una comparación entre el circuito de segundo orden y sistema emulado.  
+En este capítulo se explican los fundamentos necesarios para el modelado de la planta de segundo orden y el motor escogido para tener un referente en el sistema. A demás, se realiza una comparación entre el circuito Sallen-Key y sistema emulado.  
 
 \section{Fundamentos}
 Para el modelado de la planta se tomó en cuenta las ecuaciones de un motor CC contolado por armadura de segundo orden que cumple con las expresiones dadas en \ref{ec:motorarmadura}  . De donde se obtiene el sistema de ecuaciones mostrado en \ref{ec:motorarmadura2}.
@@ -200,7 +200,7 @@ Esto cumple con la ecuación \ref{ec:segundoorden}.
 
 \section{Modelado del sistema con un circuito de segundo orden}
 
-Con la ecuación \ref{ec:filtroresistencia} y \ref{ec:plantaarmaduracompleta}, se obtiene el siguiente sistema de ecuaciones:
+Con la funcion de transferencia planteda en  \ref{ec:filtroresistencia} y los valores obtenidos en \ref{ec:plantaarmaduracompleta}, se obtiene el siguiente sistema de ecuaciones:
 
 \begin{center}
 	\begin{equation}
@@ -213,7 +213,7 @@ Con la ecuación \ref{ec:filtroresistencia} y \ref{ec:plantaarmaduracompleta}, se
 	\end{equation}
 \end{center}
 
-Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$, $\omega_{n}$, y $\zeta$ son incógnitos, primero se obtendrán los valores de  $\omega_{n}$, y $\zeta$ a partir de \ref{ec:plantaarmaduracompleta} y \ref{ec:segundoorden} :
+Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$, $\omega_{n}$ y $\zeta$ son incógnitos, primero se obtendrán los valores de  $\omega_{n}$, y $\zeta$ a partir de la función de transferencia \ref{ec:plantaarmaduracompleta} y del modelo de un sistema de control segundo orden planteado en \ref{ec:segundoorden} :
 
 
 
@@ -271,7 +271,7 @@ Los valores que arroja la ecuación son $R_{1}$= $\left\lbrace   90128; 164.86\ri
 
  La solución según el estándar E24 sería: $R_{1}=91k\Omega$ y $  R_{2}=160 \Omega $.
 
-A continuación, se comparan las gráficas en la plataforma Matlab de la sistema sin controlar y el modelo según el filtro Sallen-Key.
+A continuación, se comparan las gráficas en la plataforma Matlab del sistema sin controlar y el modelo con el filtro Sallen-Key tambien emulado en Matlab pero con los valores de las resistencias y los condensadores.
 
 
 
@@ -283,8 +283,51 @@ A continuación, se comparan las gráficas en la plataforma Matlab de la sistema s
 	\label{fig:QuanservsSallen}
 \end{figure}
 	
+Se observa en el gráfico los siguientes resultados:
+
+\begin{table}[htbp]
+	\centering
+	\caption{Parámetros de la comparación del sistema original y el circuito Sallen-Key en Matlab.}
+	\resizebox{15cm}{!} {
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Sistemas considerados} & \textbf{tiempo de alza$(T_{r})$ (seg)} & \textbf{tiempo de establecimiento $(T_{s})$ (seg)} \\
+		\hline
+		Sallen-Key & 0.198 s & 0.353 s \\
+		\hline
+		Sistema original & 0.2 s & 0.356 s \\
+		\hline
+	\end{tabular}%
+	\label{tab:addlabel}%
+}
+\end{table}%
+
+Con la tabla \ref{tab:addlabel} se estudia el error porcentual asociado a estos modelos con la siguiente ecuación: 
+\begin{center}
+	\begin{equation}
+		Error= \left |\frac{Valor_{sistemaoriginal} - Valor_{Sallen-Key}}{Valor_{sistemaoriginal}}*100 \%\right |	
+		\label{ec:errorporcentual}
+	\end{equation}
+\end{center}
+
+Se observa que el error porcentual calculado con \ref{ec:errorporcentual} dan los siguientes valores para el tiempo de alza y el tiempo de establecimiento:
+
+\begin{center}
+	\begin{equation}
+		Error T_{r}= \left |\frac{0.198 - 0.2}{0.198}*100\%\right | =1.01\%	
+		\label{ec:errorporcentualtalza}
+	\end{equation}
+\end{center}
 
 
+
+\begin{center}
+	\begin{equation}
+		Error T_{s}= \left |\frac{0.353 - 0.356}{0.353}*100\%\right | =0.849\%	
+		\label{ec:errorporcentualtesta}
+	\end{equation}
+\end{center}
+Los errores al ser menores al dos $\%$ son valores validos para la aproximación de nuestro modelo.
 %
 %Para una planta de segundo orden genérica se tiene la ecuación \ref{ec:plantasegundo}
 %\begin{center}
@@ -340,13 +383,13 @@ A continuación, se comparan las gráficas en la plataforma Matlab de la sistema s
 
 \section{Diseño de la interfaz de emulación de la planta de segundo orden}
 
-De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño estará basada en el lenguaje de programación Python. 
+De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño esta basada en el lenguaje de programación Python. 
 
 \subsection{Interfaz gráfica}
-Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se pudieran cambiar los parámetros que componen a la ecuaciones del sistema de segundo orden, además de contener las siguientes acciones:
+Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se permita cambiar los parámetros que componen a la ecuaciones del sistema de segundo orden, además de contener las siguientes acciones:
 
 \begin{itemize}
-	\item Selección del puerto para la comunicación con el controlador.
+	\item Selección del puerto para la comunicación serial con el controlador.
 	\item La configuración de los parámetros del sistema de segundo orden.
 	\item Configuración de los parámetros del controlador.
 	\item Graficar la respuesta controlada y sin controlar.
@@ -354,7 +397,7 @@ Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es pa
 \end{itemize}
 
 
-Para esto se preestablecieron los datos para el funcionamiento del motor Quanser, los elementos se pueden cambiar para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
+Para esto se preestablecieron los datos para el funcionamiento del motor Quanser, los parametros se permiten cambiar para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
 
 \begin{center}
 	\begin{equation}
@@ -363,14 +406,14 @@ Para esto se preestablecieron los datos para el funcionamiento del motor Quanser
 	\end{equation}
 \end{center}
 
-Se habilitó otra entrada para poder insertar el puerto por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde nos saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
+Se habilitó otra entrada para poder insertar el puerto  por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
 
 Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
 
 Por último, se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza.
 
 
-En el inicio del código se define las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se definirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
+En el inicio del código se define las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se decidirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
 \begin{itemize}
 	\item Error 01: Error si el campo de puerto esta vacío.
 	\item Error 02: Error si no hay conexión de puerto.
@@ -378,7 +421,7 @@ En el inicio del código se define las librerías que se utilizaran para el desarr
 	\item Error 04: Error con la conexión.
 \end{itemize} 
 
-Luego se definen los arreglos vacíos de entrada, salida y tiempo, con los inputs se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
+Luego se definen los arreglos vacíos de entrada, salida y tiempo, con los inputs respectivos y se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
 
 Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
 

@@ -1,0 +1,58 @@
+En este capítulo se definen los parámetros a controlar tomando el sistema de segundo orden expuesto en el capítulo \ref{CAP:accio} y así estimar la respuesta con el polo deseado.
+%se debe buscar los parámetros a controlar para obtener la respuesta del polo deseado.
+
+\section{Respuesta del sistema ante un escalón unitario}
+
+Al estudiar el sistema de segundo orden en el capítulo \ref{CAP:accio}, se observa que la respuesta al escalón unitario da como resultado la figura \ref{fig:escalon}:
+
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/escalon}
+	\caption{Respuesta escalón}
+	\label{fig:escalon}
+\end{figure}
+ 
+Se utiliza una función escalón ya que está representa un cambio instantaneo la entrada de referencia, este hace que revele qué tan rapido responde un sistema a entradas con cambios abruptos.
+
+Se debe tomar en cuenta algunos criterios de diseños utilizados para la caracterización de los sistemas de control lineales en el dominio del tiempo:
+
+
+\begin{itemize}
+	\item \textbf{Sobrepico máximo:} Si se define y(t) la respuesta del escalón unitario, $y_{ss}$ el valor en estado estable de y(t) y $y_{max}$ el valor máximo de la misma, entonces el sobrepico máximo se define como:
+	
+		\begin{center}
+				$Sobrepico= y_{max}-y_{ss}$
+		\end{center}
+	
+	El sobrepico se representa como un porcentaje del valor final, expuesto en la ecuación \ref{ec:sobrepico}:
+	
+		\begin{center}
+		\begin{equation}\label{ec:sobrepico}
+			\%Sobrepico=\dfrac{Sobrepico}{y_{ss}}*100
+		\end{equation}
+	\end{center}
+	
+	El sobrepico se utiliza para medir la estabilidad relativa del sistema de control por este motivo un  sobrepico alto es indeseable.
+	
+	\item \textbf{Tiempo de retardo $t_{d}$:} Es el tiempo que se necesita para que la respuesta escalón alcance el 50$\%$  del valor final de la gráfica.
+	
+   \item \textbf{Tiempo de alza $t_{r}$:} Es el tiempoo que toma la respuesta escalón se eleve del 10 al 90$\%$ del valor final.
+   
+   \item \textbf{Tiempo de establecimiento $t_{s}$:} Es el tiempo que se requiere para que la respuesta escalón  disminuya y permanezca dentro de un rango del valor final. Un valor frecuente que se utiliza es 5$\%$  
+   
+\end{itemize}
+
+
+Para ejemplificar mejor todos los criterios antes mencionados se muestra la imagen \ref{fig:escalon1}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/imagenescalonej}
+	\caption{Respuesta típica al escalón unitario de un sistema de control}
+	\cite{kuo}
+	\label{fig:escalon1}
+\end{figure}
+
+
