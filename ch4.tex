@@ -302,7 +302,7 @@ Se observa en el gráfico los siguientes resultados:
 }
 \end{table}%
 
-Con la tabla \ref{tab:addlabel} se estudia el error porcentual asociado a estos modelos con la siguiente ecuación: 
+Con la tabla \ref{tab:addlabel} se estudia el error porcentual asociado a estos modelos con la ecuación  \ref{ec:errorporcentual}: 
 \begin{center}
 	\begin{equation}
 		Error= \left |\frac{Valor_{sistemaoriginal} - Valor_{Sallen-Key}}{Valor_{sistemaoriginal}}*100 \%\right |	
@@ -310,7 +310,8 @@ Con la tabla \ref{tab:addlabel} se estudia el error porcentual asociado a estos 
 	\end{equation}
 \end{center}
 
-Se observa que el error porcentual calculado con \ref{ec:errorporcentual} dan los siguientes valores para el tiempo de alza y el tiempo de establecimiento:
+De alli se obtiene que para el tiempo de alza y para el tiempo de establecimiento los errores serian:
+%Se observa que el error porcentual calculado con \ref{ec:errorporcentual} dan los siguientes valores para el tiempo de alza y el tiempo de establecimiento:
 
 \begin{center}
 	\begin{equation}
@@ -327,7 +328,9 @@ Se observa que el error porcentual calculado con \ref{ec:errorporcentual} dan lo
 		\label{ec:errorporcentualtesta}
 	\end{equation}
 \end{center}
-Los errores al ser menores al dos $\%$ son valores validos para la aproximación de nuestro modelo.
+%Los errores al ser menores al 2$\%$ son valores validos para la aproximación de nuestro modelo.
+
+Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del valor teórico, se considera que es una aproximación válida para modelar el sistema
 %
 %Para una planta de segundo orden genérica se tiene la ecuación \ref{ec:plantasegundo}
 %\begin{center}
@@ -383,20 +386,37 @@ Los errores al ser menores al dos $\%$ son valores validos para la aproximación 
 
 \section{Diseño de la interfaz de emulación de la planta de segundo orden}
 
-De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño esta basada en el lenguaje de programación Python. 
+De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño esta basada en el lenguaje de programación Python. Para esto se contempla realizar una interfaz gráfica que contenga comunicación serial, cálculos matemáticos, modificación de texto y posibilidad de realizar gráficos, para lo cual se utiliza varios paquetes integrados como TKinter.
 
 \subsection{Interfaz gráfica}
 Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se permita cambiar los parámetros que componen a la ecuaciones del sistema de segundo orden, además de contener las siguientes acciones:
 
-\begin{itemize}
-	\item Selección del puerto para la comunicación serial con el controlador.
-	\item La configuración de los parámetros del sistema de segundo orden.
-	\item Configuración de los parámetros del controlador.
-	\item Graficar la respuesta controlada y sin controlar.
-	\item Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.
-\end{itemize}
 
+\begin{description}
+	\item[a.] Selección del puerto para la comunicación serial con el controlador.
+	
+	Se utilizo la librería pySerial \cite{serial} la cual es una extensión compatible con  Windows 32 bits, OSX, Linux, BSD, Jython y IronPython, dejando configurar el puerto a través de las propiedades de Python. 
+	
+	Se conecto el puerto serial a 921600 baudios y con un timeout de 10 seg. Se habilitó una entrada para poder insertar el puerto  por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
+	
+	Se utiliza los siguientes pasos para abrir la comunicación con el controlador:
+	\begin{itemize}
+		\item Se presiona un botón que envía por el puerto serial un $"$o$"$ el cual significa que se abrió la comunicación, enviando un cero.
+		\item El controlador comienza a calcular los valores y se los envía al sistema.
+		\item La comunicación termina cuando acaba el ciclo el cual tiene una cantidad definida de valores.
+	\end{itemize}
 
+En el siguiente diagrama se muestra como se ejecuta la comunicación del puerto serial:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/pserial}
+	\caption{Conexión puerto serial }
+	\label{fig:Pserial}
+\end{figure}
+	
+	\item[b.] La configuración de los parámetros del sistema de segundo orden.
+	
 Para esto se preestablecieron los datos para el funcionamiento del motor Quanser, los parametros se permiten cambiar para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
 
 \begin{center}
@@ -404,9 +424,22 @@ Para esto se preestablecieron los datos para el funcionamiento del motor Quanser
 		\frac{Y(s)}{U(s)}= \frac{b_{0}}{a_{2}s^{2}+a_{1}s+a_{0}} 
 		\label{ec:plantasegundo}%
 	\end{equation}
-\end{center}
+\end{center}	
 
-Se habilitó otra entrada para poder insertar el puerto  por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde saldrá un mensaje de si la comunicación fue correcta o ocurrió un error en el proceso.
+Luego se definen los arreglos vacíos de entrada, salida y tiempo, con los inputs respectivos y se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
+	
+	
+	\item[c.] Configuración de los parámetros del controlador.
+	\item[d.] Graficar la respuesta controlada y sin controlar.
+	
+	Una vez terminado 
+	\item[e.] Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.
+\end{description}
+
+
+
+
+
 
 Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
 
@@ -421,21 +454,15 @@ En el inicio del código se define las librerías que se utilizaran para el desarr
 	\item Error 04: Error con la conexión.
 \end{itemize} 
 
-Luego se definen los arreglos vacíos de entrada, salida y tiempo, con los inputs respectivos y se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
 
-Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
+
+%Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
 
 Una vez terminada la comunicación se calcula los valores de sobrepico, tiempo de alza y tiempo de establecimiento, tomados de los valores que proporciona la gráfica.
 
 
 En los siguientes diagramas se muestra la manera de en que se ejecuta las tareas del sistema:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\linewidth]{img/pserial}
-	\caption{Conexión puerto serial }
-	\label{fig:Pserial}
-\end{figure}
 
 \begin{figure}[H]
 	\centering

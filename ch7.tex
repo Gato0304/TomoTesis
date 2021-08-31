@@ -40,7 +40,13 @@ Se debe tomar en cuenta algunos criterios de diseños utilizados para la caracter
 	
    \item \textbf{Tiempo de alza $t_{r}$:} Es el tiempoo que toma la respuesta escalón se eleve del 10 al 90$\%$ del valor final.
    
-   \item \textbf{Tiempo de establecimiento $t_{s}$:} Es el tiempo que se requiere para que la respuesta escalón  disminuya y permanezca dentro de un rango del valor final. Un valor frecuente que se utiliza es 5$\%$  
+   \item \textbf{Tiempo de establecimiento $t_{s}$:} Es el tiempo que se requiere para que la respuesta escalón  disminuya y permanezca dentro de un rango del valor final. Un valor frecuente que se utiliza es 5$\%$ y se calcula \ref{ec:ts}.
+   
+   \begin{center}
+   	\begin{equation}\label{ec:ts}
+   		 T_{s}=3\tau=\frac{3}{\zeta\omega_{n}}
+   	\end{equation}
+   \end{center}
    
 \end{itemize}
 
@@ -54,5 +60,20 @@ Para ejemplificar mejor todos los criterios antes mencionados se muestra la imag
 	\cite{kuo}
 	\label{fig:escalon1}
 \end{figure}
+
+Como ya se ha mencionado en los capítulo \ref{CAP:tecni} los sistemas de control de segundo orden con realimentación unitaria a lazo cerrado se representa en la ecuación \ref{ec:segundoorden}
+
+
+\begin{center}
+	$	F(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}$
+\end{center}
+
+El factor de amortiguamiento $\zeta$ y la frecuencia natural $\omega_{n}$ constituyen las raíces de la ecuación característica. Cuando $\zeta \geq 1$ la respuesta escalón no muestra sobrepicos,  si $0< \zeta < 1$ entonces el sistema es subamortiguado y si $\zeta=o $ el amortiguamiento es cero, el sistema se vuelve críticamente estable. Las dos raíces se pueden expresar:
+
+\begin{center}
+	\begin{equation}\label{raices}
+		S_{1},S_{2}=-\zeta\omega_{n}\pm j\omega_{n}\sqrt{1-\zeta^{2}}
+	\end{equation}
+\end{center}
 
 
