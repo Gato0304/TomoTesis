@@ -393,7 +393,7 @@ Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es pa
 
 
 \begin{description}
-	\item[a.] Selección del puerto para la comunicación serial con el controlador.
+	\item[a.] \textbf{Selección del puerto para la comunicación serial con el controlador.}
 	
 	Se utilizo la librería pySerial \cite{serial} la cual es una extensión compatible con  Windows 32 bits, OSX, Linux, BSD, Jython y IronPython, dejando configurar el puerto a través de las propiedades de Python. 
 	
@@ -415,7 +415,7 @@ En el siguiente diagrama se muestra como se ejecuta la comunicación del puerto s
 	\label{fig:Pserial}
 \end{figure}
 	
-	\item[b.] La configuración de los parámetros del sistema de segundo orden.
+	\item[b.] \textbf{La configuración de los parámetros del sistema de segundo orden.}
 	
 Para esto se preestablecieron los datos para el funcionamiento del motor Quanser, los parametros se permiten cambiar para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
 
@@ -426,42 +426,8 @@ Para esto se preestablecieron los datos para el funcionamiento del motor Quanser
 	\end{equation}
 \end{center}	
 
-Luego se definen los arreglos vacíos de entrada, salida y tiempo, con los inputs respectivos y se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero.
-	
-	
-	\item[c.] Configuración de los parámetros del controlador.
-	\item[d.] Graficar la respuesta controlada y sin controlar.
-	
-	Una vez terminado 
-	\item[e.] Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.
-\end{description}
+Luego se definen los arreglos vacíos de entrada, salida y tiempo, con los inputs respectivos y se obtienen los valores del sistema de segundo orden  y las variables de los pasos siguientes se definen con valor de cero. En el diagrama \ref{fig:confip} se muestra la configuración de la planta
 
-
-
-
-
-
-Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
-
-Por último, se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza.
-
-
-En el inicio del código se define las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se decidirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
-\begin{itemize}
-	\item Error 01: Error si el campo de puerto esta vacío.
-	\item Error 02: Error si no hay conexión de puerto.
-	\item Error 03: Error si no se ha configurado  la planta.
-	\item Error 04: Error con la conexión.
-\end{itemize} 
-
-
-
-%Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
-
-Una vez terminada la comunicación se calcula los valores de sobrepico, tiempo de alza y tiempo de establecimiento, tomados de los valores que proporciona la gráfica.
-
-
-En los siguientes diagramas se muestra la manera de en que se ejecuta las tareas del sistema:
 
 
 \begin{figure}[H]
@@ -469,18 +435,55 @@ En los siguientes diagramas se muestra la manera de en que se ejecuta las tareas
 	\includegraphics[width=0.7\linewidth]{img/confip}
 	\caption{Configuración planta }
 	\label{fig:confip}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.45\linewidth]{img/confic}
-	\caption{Configuración de comunicación }
-	\label{fig:confic}
-\end{figure}
-
+\end{figure}	
+	
+	\item[c.]\textbf{ Configuración de los parámetros del controlador.}
+	
+	La interfaz cuenta con unas entradas que permiten configurar los parámetros  del controlador PID que se desea utilizar. 
+	
+	\item[d.] \textbf{Graficar la respuesta controlada y sin controlar.}
+	
+	Una vez se termina la comunicación, se puede presionar el botón para obtener la respuesta controlada y la respuesta original del sistema. En el diagrama \ref{fig:Graficos} se muestra la configuración de los gráficos:
+	
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{img/Graficos}
 	\caption{Configuración de gráficos }
 	\label{fig:Graficos}
 \end{figure}
+	 
+	 
+	\item[e.] \textbf{Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.}
+	
+	Por último,después de graficar se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza tomados de los valores que proporciona la gráfica.
+	
+	\item [d.]\textbf{ Posibles errores del sistema.}
+	En el inicio del código se define las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se decidirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
+	\begin{itemize}
+		\item Error 01: Error si el campo de puerto esta vacío.
+		\item Error 02: Error si no hay conexión de puerto.
+		\item Error 03: Error si no se ha configurado  la planta.
+		\item Error 04: Error con la conexión.
+	\end{itemize} 
+\end{description}
+
+%Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
+
+%Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
+
+%Una vez terminada la comunicación se calcula los valores de sobrepico, tiempo de alza y tiempo de establecimiento, tomados de los valores que proporciona la gráfica.
+
+
+En los siguientes diagramas se muestra la manera de en que se ejecuta la comunicación:
+
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.45\linewidth]{img/confic}
+	\caption{Configuración de comunicación }
+	\label{fig:confic}
+\end{figure}
+
+
+
+
+
