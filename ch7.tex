@@ -68,12 +68,46 @@ Como ya se ha mencionado en los capítulo \ref{CAP:tecni} los sistemas de control
 	$	F(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}$
 \end{center}
 
-El factor de amortiguamiento $\zeta$ y la frecuencia natural $\omega_{n}$ constituyen las raíces de la ecuación característica. Cuando $\zeta \geq 1$ la respuesta escalón no muestra sobrepicos,  si $0< \zeta < 1$ entonces el sistema es subamortiguado y si $\zeta=o $ el amortiguamiento es cero, el sistema se vuelve críticamente estable. Las dos raíces se pueden expresar:
+El factor de amortiguamiento $\zeta$ y la frecuencia natural $\omega_{n}$ constituyen las raíces de la ecuación característica. El comportamiento dinámico de un sistema de segundo orden se puede detallar en términos del factor de amortiguamiento $\zeta$: 
+
+\begin{itemize}
+	\item Cuando $\zeta > 1$ la respuesta escalón no muestra sobrepico, los polos son reales y se le conoce como un sistema sobreamortiguado.
+	\item Si $\zeta = 1$  los polos son reales e de igual valor numérico, y el sistema se denomina críticamente amortiguado.
+	\item Si $0< \zeta < 1$ entonces el sistema es subamortiguado y los polos son complejos.
+	\item si $\zeta=o $ el amortiguamiento es cero, el sistema se vuelve críticamente estable y los polos son imaginarios conjugados.
+	\item $\zeta<0$ el sistema es inestable y los polos estan en el semiplano derecho.
+\end{itemize}
+
+ 
+    \begin{figure}[H]
+    	\centering
+    	\includegraphics[scale=0.7]{img/respuestastrans}
+    	\caption{Comparación de la respuesta al escalón para varios sitios del lugar geométrico de las raíces en el plano S.}
+    	\cite{kuo}
+    	\label{fig:escalontrans}
+    \end{figure}
+
+
+Los sistemas subamortiguados se acercan al valor final con mayor rapidez que los críticamente amortiguado o los sobreamortiguado los cuales son lentos para responder a las entradas que se le da al sistema.
+
+
+ Las dos raíces del sistema de segundo orden \ref{ec:segundoorden} se pueden expresar como:
 
 \begin{center}
 	\begin{equation}\label{raices}
 		S_{1},S_{2}=-\zeta\omega_{n}\pm j\omega_{n}\sqrt{1-\zeta^{2}}
 	\end{equation}
 \end{center}
+
+Se debe tomar en cuenta que el que el factor de amortiguamiento relativo $\zeta$ y la frecuencia natura no amortiguada $\omega_{n}$ se aplican solamente a los sistemas de segundo orden, sin embargo, el sobrepico, $t_{d}$, $t_{s}$, $t_{r}$  son validas para medir el desempeño de orden superior.
+
+
+Se debe tomar en cuenta que se tomo como condición inicial que el sistema esta en reposo al inicio, lo que conlleva que la salida y todas las derivadas con respecto al tiempo sean cero.
+
+
+El diseño de un sistema de control no puede depender unicamente de los valores que se le asignan al sistema, por este motivo es normal agregar polos y ceros o cancelarlos si no son deseados, esto se hace para alcanzar un desempeño satisfactorio en el dominio del tiempo de los sistemas de control.
+
+  
+
 
 
