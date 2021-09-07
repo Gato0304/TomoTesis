@@ -16,7 +16,7 @@ Al estudiar el sistema de segundo orden en el capítulo \ref{CAP:accio}, se obser
  
 Se utiliza una función escalón ya que está representa un cambio instantaneo la entrada de referencia, este hace que revele qué tan rapido responde un sistema a entradas con cambios abruptos.
 
-Se debe tomar en cuenta algunos criterios de diseños utilizados para la caracterización de los sistemas de control lineales en el dominio del tiempo:
+Se debe tomar en cuenta algunos criterios de diseño utilizados para la caracterización de los sistemas de control lineales en el dominio del tiempo:
 
 
 \begin{itemize}
@@ -38,13 +38,13 @@ Se debe tomar en cuenta algunos criterios de diseños utilizados para la caracter
 	
 	\item \textbf{Tiempo de retardo $t_{d}$:} Es el tiempo que se necesita para que la respuesta escalón alcance el 50$\%$  del valor final de la gráfica.
 	
-   \item \textbf{Tiempo de alza $t_{r}$:} Es el tiempoo que toma la respuesta escalón se eleve del 10 al 90$\%$ del valor final.
+   \item \textbf{Tiempo de alza $t_{r}$:} Es el tiempo que toma la respuesta escalón se eleve del 10 al 90$\%$ del valor final.
    
-   \item \textbf{Tiempo de establecimiento $t_{s}$:} Es el tiempo que se requiere para que la respuesta escalón  disminuya y permanezca dentro de un rango del valor final. Un valor frecuente que se utiliza es 5$\%$ y se calcula \ref{ec:ts}.
+   \item \textbf{Tiempo de establecimiento $t_{s}$:} Es el tiempo que se requiere para que la respuesta escalón  disminuya y permanezca dentro de un rango del valor final. Un valor frecuente que se utiliza es 2$\%$ y se calcula \ref{ec:ts}.
    
    \begin{center}
    	\begin{equation}\label{ec:ts}
-   		 T_{s}=3\tau=\frac{3}{\zeta\omega_{n}}
+   		 T_{s}=4\tau=\frac{4}{\zeta\omega_{n}}
    	\end{equation}
    \end{center}
    
@@ -61,7 +61,7 @@ Para ejemplificar mejor todos los criterios antes mencionados se muestra la imag
 	\label{fig:escalon1}
 \end{figure}
 
-Como ya se ha mencionado en los capítulo \ref{CAP:tecni} los sistemas de control de segundo orden con realimentación unitaria a lazo cerrado se representa en la ecuación \ref{ec:segundoorden}
+Como ya se ha mencionado en los capítulo \ref{CAP:tecni} los sistemas de control de segundo orden con realimentación unitaria a lazo cerrado se representan en la ecuación \ref{ec:segundoorden}
 
 
 \begin{center}
@@ -99,7 +99,7 @@ Los sistemas subamortiguados se acercan al valor final con mayor rapidez que los
 	\end{equation}
 \end{center}
 
-Se debe tomar en cuenta que el que el factor de amortiguamiento relativo $\zeta$ y la frecuencia natura no amortiguada $\omega_{n}$ se aplican solamente a los sistemas de segundo orden, sin embargo, el sobrepico, $t_{d}$, $t_{s}$, $t_{r}$  son validas para medir el desempeño de orden superior.
+Se debe tomar en cuenta que el que el factor de amortiguamiento relativo $\zeta$ y la frecuencia natural no amortiguada $\omega_{n}$ se aplican solamente a los sistemas de segundo orden, sin embargo, el sobrepico, $t_{d}$, $t_{s}$, $t_{r}$  son validas para medir el desempeño de orden superior.
 
 
 Se debe tomar en cuenta que se tomo como condición inicial que el sistema esta en reposo al inicio, lo que conlleva que la salida y todas las derivadas con respecto al tiempo sean cero.
