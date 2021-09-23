@@ -1,7 +1,13 @@
-En este capítulo se definen los parámetros a controlar tomando el sistema de segundo orden expuesto en el capítulo \ref{CAP:accio} y así estimar la respuesta con el polo deseado.
+En este capítulo se realiza el diseño y definición de los parámetros a controlar, que serán parte de un dispositivo microcontrolador exterior a la planta emulada.
+
+
+
+\section{Definición de los parámetros a controlar}
+
+En esta sección se definen los parámetros a controlar tomando el sistema de segundo orden expuesto en el capítulo \ref{CAP:accio} y así estimar la respuesta con el polo deseado.
 %se debe buscar los parámetros a controlar para obtener la respuesta del polo deseado.
 
-\section{Respuesta del sistema ante un escalón unitario}
+\subsection{Respuesta del sistema ante un escalón unitario}
 
 Al estudiar el sistema de segundo orden en el capítulo \ref{CAP:accio}, se observa que la respuesta al escalón unitario da como resultado la figura \ref{fig:escalon}:
 
@@ -44,14 +50,14 @@ Se debe tomar en cuenta algunos criterios de diseño utilizados para la caracteri
    
    \begin{center}
    	\begin{equation}\label{ec:ts}
-   		 T_{s}=4\tau=\frac{4}{\zeta\omega_{n}}
+   		 t_{s}=4\tau=\frac{4}{\zeta\omega_{n}}
    	\end{equation}
    \end{center}
    
 \end{itemize}
 
 
-Para ejemplificar mejor todos los criterios antes mencionados se muestra la imagen \ref{fig:escalon1}
+Para ejemplificar mejor todos los criterios antes mencionados se muestra la figura \ref{fig:escalon1}.
 
 \begin{figure}[H]
 	\centering
@@ -61,7 +67,7 @@ Para ejemplificar mejor todos los criterios antes mencionados se muestra la imag
 	\label{fig:escalon1}
 \end{figure}
 
-Como ya se ha mencionado en los capítulo \ref{CAP:tecni} los sistemas de control de segundo orden con realimentación unitaria a lazo cerrado se representan en la ecuación \ref{ec:segundoorden}
+Como ya se ha mencionado en el capítulo \ref{CAP:tecni} los sistemas de control de segundo orden con realimentación unitaria a lazo cerrado se representan en la ecuación \ref{ec:segundoorden}.
 
 
 \begin{center}
@@ -106,6 +112,13 @@ Se debe tomar en cuenta que se tomo como condición inicial que el sistema esta e
 
 
 El diseño de un sistema de control no puede depender unicamente de los valores que se le asignan al sistema, por este motivo es normal agregar polos y ceros o cancelarlos si no son deseados, esto se hace para alcanzar un desempeño satisfactorio en el dominio del tiempo de los sistemas de control.
+
+
+\section{Diseño de un controlador digital  a utilizar }
+
+
+El controlador PD permite añadir amortiguamiento al sistema, pero no afecta la respuesta en estado estable. El controlador PI puede mejorar la estabilidad relativa y el error en estado estable, pero el tiempo de alza incrementa. 
+
 
   
 
