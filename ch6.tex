@@ -1,0 +1,94 @@
+Para una correcta implementación del método HIL, se debe tener un emulador para la planta escogido en el capítulo \ref{CAP:tecni} con el objetivo de hacer pruebas a un controlador real para el cual en esta sección se escogió el dispositivo a utilizar. 
+
+
+\section{Posibles dispositivos para diseñar el controlador}
+
+\subsection{Arduino Ethernet}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/arduinoethernet}
+	\caption{Arduino Ethernet}{Fuente: https://tienda.bricogeek.com/descatalogado/392-arduino-ethernet.html}
+	\label{fig:arduino}
+
+\end{figure}
+
+Es una placa de desarrollo Arduino con la interfaz Ethernet Wiznet que tiene las siguientes características:
+
+\begin{itemize}
+	\item Microcontrolador ATMega328, con frecuencia máxima de 20 MHz.
+	\item El voltaje de funcionamiento es de 5V.
+	\item  El voltaje de entrada es de 7-12 V.
+	\item Los puertos I/O digitales son 14 (4 cuentan con el controlador Ethernet) y 6 entradas analógicas.
+	\item  Tiene un controlador de Ethernet integrado W5100 TCP / IP.
+	\item Cuenta con una conexión RJ45, un conector de alimentación, una cabecera ICSP y un botón de reinicio.
+\end{itemize}
+ 
+Este dispositivo oscila en un costo entre 45\$  y 55\$  pero el producto esta descontinuado (consultado en octubre 2021. Fuente: https://tienda.bricogeek.com/descatalogado/392-arduino-ethernet.html) y Su lenguaje de programación basado en c++.
+
+\subsection{ESP 8266}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/esp8266}
+	\caption{ESP 8266}{Fuente: https://sumador.com/products/modulo-wifi-esp8266-esp-12e}
+	\label{fig:esp8266}
+	
+\end{figure}
+
+Es un microcontrolador fabricado por Espressif Systems que tiene las siguientes características:
+
+\begin{itemize}
+	\item Tiene núcleo Xtensa Tensilica L106 de 32 bit con velocidad de 80MHz.
+	\item Tiene 16 GPIO (Se puede configurar entradas, salidas, UART).
+	\item  Posee un pin de entrada analógica
+	\item Tiene una memoria flash de 4 MB y 32kB de memoria RAM .
+	\item  El convertidor analógico/digital es de 10bit.
+	\item Tiene conectividad con WI-FI, pudiendo establecer servidores TCP/IP, UDP.
+	\item Posee compatibilidad con SPI, I2C, I2S.
+	
+\end{itemize}
+
+
+El dispositivo tiene un precio que varia entre los 4\$ y los 7\$ (Consultado en octubre 2021) y puede programarse en lenguaje Simba, Lua o C. 
+
+\subsection{Rasberry Pi 3 (modelo B+)}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/ras}
+	\caption{Rasberry Pi 3 (modelo B+)}{Fuente: https://www.raspberrypi.com/products/raspberry-pi-4-model-b/}
+	\label{fig:ra}
+	
+\end{figure}
+
+
+Es un dispositivo realizado por Raspberry Pi y cuenta con las siguientes características:
+
+\begin{itemize}
+	\item Microprocesador Broadcom BCM2837B0,
+	propiamente un Cortex-A53 (ARMv8) de 64-bit
+	\item Posee cuarenta pines de GPIO, dos UART, además de cuatro puertos USB,
+	un puerto HDMI, un conector auxiliar y puerto para conexión Ethernet.
+	\item La velocidad de procesamiento es de 1.4GB.
+	\item Se puede conectar memoria SD y display táctil.
+	\item Tiene comunicación Bluetooth y compatibilidad con módulos de conexión Wi-Fi.
+	\item Cuenta con memoria flash de aproximadamente 1GB.
+	
+\end{itemize}
+
+Este dispositivo tiene un costo entre 40\$ a 60\$ (Consultado en octubre 2021). Permite la ejecución de sistemas operativos basados en Linux, es decir que puede programarse en lenguajes como Python, C$\#$ o C.
+
+
+
+\subsection{Selección}
+
+
+La selección del microcontrolador se baso en las características las cuales los puntos mas importantes a considerar son: costo del dispositivo, velocidad de procesamiento y que posea comunicación por puerto serial.
+
+Se estima que el costo del dispositivo sea accesible para los estudiantes que necesiten utilizar el programa puedan implementar el dispositivo real. Se necesita que la comunicación entre los dispositivos se lo mas rápido posible y esto se mide con la velocidad de procesamiento del dispositivo.
+
+Como se detallo en la sección  \ref{sec:diint} la comunicación entre la interfaz de emulación de la planta de segundo orden y el controlador, la comunicación se realiza por puerto serial. Para seleccionar y discriminar el dispositivo que mejor se ajusta a los requerimientos mencionados se utilizo el gráfico 
+
+
+ 

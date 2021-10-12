@@ -1,0 +1,115 @@
+En este capítulo se realizo el diseño del controlador PID a utilizar por el método de asignación de polos, con el calculo de los parámetros para  planta estudiada en el capítulo \ref{CAP:accio} y la interfaz para ajustar los valores de $k_{p}$, $k_{i}$ y $k_{d}$ del controlador para plantas de segundo orden.  
+
+\section{Pasos para el diseño del controlador.}
+
+Se diseñó un controlador PID con el método de asignación de polos, en el cuál se tienen las siguientes consideraciones para realizarlo:
+
+\begin{itemize}
+	\item Un sistema de segundo orden descrito por la ecuación \ref{ec:segundoorden}
+	\begin{center}
+		$
+			F(s)=\dfrac{K\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}
+		$
+	\end{center} 
+
+\item La ecuación del controlador PID en paralelo como se muestra en el diagrama de bloques de la figura \ref{fig:controlpa} y la ecuación viene dada por \ref{ec:contro}
+
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.7]{img/controlpa}
+	\caption{Sistema de control en lazo cerrado con control PID.}
+	\label{fig:controlpa}
+\end{figure}
+
+
+\begin{center}
+	\begin{equation}\label{ec:contro}
+		C(s)=k_{p}+k_{d}s+\dfrac{k_{i}}{s}=\frac{k_{d}s^{2}+k_{p}s+k_{i}}{s}
+	\end{equation}
+\end{center}
+
+Donde:
+\begin{itemize}
+	\item  $K_{p}$= Es la ganancia proporcional.
+	\item $k_{i}$= Es la ganancia integral del controlador.
+	\item $k_{d}$= Es la ganancia derivativa del controlador.
+\end{itemize}
+
+\item Se le asignan tanto al controlador como al sistema a controlar,coeficientes que representarán polinomios. 
+
+
+
+\begin{center}
+	$f(s)=\dfrac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}=\frac{K}{s^{2}+as+b}=\dfrac{A}{B}$
+\end{center}
+ \begin{center}
+ 	
+ 	$C(s)=\frac{k_{d}s^{2}+k_{p}s+k_{i}}{s}$=$\dfrac{D}{E}$
+ 	
+ \end{center}
+
+\item La función a lazo cerrado es 
+\begin{center}
+	$H(s)=\frac{DA}{EB+DA}$
+\end{center}
+
+\item Si se reemplaza la ecuación 
+
+\begin{center}
+	$H(s)=\frac{K(d_{2}s^{2}+d_{1}s+d_{0})}{s(s^2+as+b)+(d_{2}s^2+d_{1}s+d0)K}}$
+\end{center}
+
+\begin{center}
+	\begin{equation}\label{ec:controlfinal}
+		H(s)=\frac{Kd_{2}s^{2}+Kd_{1}s+Kd_{0}}{s^{3}+(a+Kd_{2})s^{2}+(b+Kd_{1})s+Kd_{0}}
+	\end{equation}
+\end{center}
+
+\item Se obtiene una función de transferencia de tercer orden, con dos polos dominantes que son los rigen la dinámica del sistema. Por este motivo, se debe completar la ecuación característica que representa al polinomio deseado, con otro polo alejado del eje imaginario y de los polos dominantes, con el objetivo de tener un polo que no afecte el comportamiento de los polos dominantes.
+
+Al polo deseado  calculado en \ref{ec:polo}, se le agrega un tercer polo siendo la ecuación general:
+
+\begin{center}
+	$P_{d}(s)=(s^{2}+h_{1}s+h_{2})(s+p_{1})$=$s^{3}+\alpha_{1}s^{2}+\alpha_{2}s+\alpha_{3}$
+\end{center}
+
+\begin{center}
+	$P_{s}(d)=(s^{2}+2.25x10^{2}s+2.58x10^{4})(s+1200)=s^{3}+1.42x10^{3}s^{2}+2.95x10^{5}s+30.91x10^{6}$
+\end{center}
+
+\item A continuación se igualan las dos ecuaciones características de H(s) y de $P_{s}$, para poder determinar los valores de $ k_{p}$,$ k_{d}$ y $k_{i}$.
+
+\begin{center}
+	$s^{3}+(a+Kd_{2})s^{2}+(b+Kd_{1})s+Kd_{0}=s^{3}+\alpha_{1}s^{2}+\alpha_{2}s+\alpha_{3} $
+\end{center}
+
+\item Igualando los coeficientes
+
+\subitem $a+Kd_{2}=\alpha_{1}$ 
+\subitem $b+Kd_{1}=\alpha_{2}$
+\subitem $Kd_{0}=\alpha_{3}$
+
+\item Reemplazando y resolviendo los valores $k_{p}$,$ k_{i}$, $ k_{d}$:
+
+
+\subitem $k_{d}=\frac{\alpha_{1}-a}{K}$
+\subitem $k_{p}=\frac{\alpha_{2}-b}{K}$
+\subitem $k_{i}=\frac{\alpha_{3}}{K}$
+
+\item Los valores númericos de $k_{p}$,$ k_{i}$, $ k_{d}$: 
+
+\begin{equation}\label{ec:kp}
+	k_{p}=\frac{2.95*x10^{5}-1.43*10^{5}}{1.43x10^{5}}=1.06
+\end{equation}
+
+\begin{equation}\label{ec:ki}
+	k_{i}=\frac{30.91x10^{6}}{1.43x10^{5}}=215.7
+\end{equation}
+
+\begin{equation}\label{ec:kd}
+	k_{i}=\frac{1.42x10^{3}-1.29x10^{4}}{1.43x10^{5}}=-0.08
+\end{equation}
+
+
+\end{itemize}
+

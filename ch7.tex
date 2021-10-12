@@ -2,7 +2,7 @@ En este capítulo se realiza el diseño y definición de los parámetros a controlar
 
 
 
-\section{Definición de los parámetros a controlar}
+\section{Definición de los parámetros del controlador}
 
 En esta sección se definen los parámetros a controlar tomando el sistema de segundo orden expuesto en el capítulo \ref{CAP:accio} y así estimar la respuesta con el polo deseado.
 %se debe buscar los parámetros a controlar para obtener la respuesta del polo deseado.
@@ -31,6 +31,14 @@ Se debe tomar en cuenta algunos criterios de diseño utilizados para la caracteri
 		\begin{center}
 				$Sobrepico= y_{max}-y_{ss}$
 		\end{center}
+	
+	El sobrepico con respecto al $\zeta$ es:
+	
+	\begin{center}
+		\begin{equation}\label{ec:sp}
+			S_{p}=e^{\frac{-\zeta}{\sqrt{1-\zeta^{2}}}*\pi}
+		\end{equation}
+	\end{center}
 	
 	El sobrepico se representa como un porcentaje del valor final, expuesto en la ecuación \ref{ec:sobrepico}:
 	
@@ -100,8 +108,8 @@ Los sistemas subamortiguados se acercan al valor final con mayor rapidez que los
  Las dos raíces del sistema de segundo orden \ref{ec:segundoorden} se pueden expresar como:
 
 \begin{center}
-	\begin{equation}\label{raices}
-		S_{1},S_{2}=-\zeta\omega_{n}\pm j\omega_{n}\sqrt{1-\zeta^{2}}
+	\begin{equation}\label{ec:raices}
+		s_{1},s_{2}=-\zeta\omega_{n}\pm j\omega_{n}\sqrt{1-\zeta^{2}}
 	\end{equation}
 \end{center}
 
@@ -113,14 +121,88 @@ Se debe tomar en cuenta que se tomo como condición inicial que el sistema esta e
 
 El diseño de un sistema de control no puede depender unicamente de los valores que se le asignan al sistema, por este motivo es normal agregar polos y ceros o cancelarlos si no son deseados, esto se hace para alcanzar un desempeño satisfactorio en el dominio del tiempo de los sistemas de control.
 
+Para fijar el polo deseado se toman los siguientes parámetros en cuenta un $t_{s}=0.0356s$ el cual cumple con tener un tiempo de establecimiento 10 veces más rápido que el original del sistema presentado en la tabla \ref{tab:sistemas} y $\zeta=0.07$ para obtener un sobrepico de $S_{p}=0.046$ basada en la ecuación \ref{ec:sp} .  
+
+En \ref{ec:ts} se muestra la ecuación que relaciona el tiempo de establecimiento $t_{s}$ con  $\zeta$ y  $\omega_{n}$. Entonces para obtener el $\omega_{n}$ se despeja de la siguiente manera:
+
+\begin{center}
+	\begin{equation}\label{ec:despejewn}
+		\omega_{n}=\dfrac{4}{\zeta t_{s}}=\dfrac{4}{0.036*0.7}=160.51 \frac{rad}{s}
+	\end{equation}
+\end{center}
+
+Para  polo deseado se calculan con la ecuación \ref{ec:raices}, según los valores anteriormente escogidos se obtiene:
+
+\begin{center}
+	\begin{equation}\label{ec:polo}
+		s_{1},s_{2}=-\zeta\omega_{n}\pm j\omega_{n}\sqrt{1-\zeta^{2}}=-112.36\pm j 114.62 
+	\end{equation}
+\end{center}
+
 
 \section{Diseño de un controlador digital  a utilizar }
 
 
-El controlador PD permite añadir amortiguamiento al sistema, pero no afecta la respuesta en estado estable. El controlador PI puede mejorar la estabilidad relativa y el error en estado estable, pero el tiempo de alza incrementa. 
+Los controladores PID permiten que el sistema realimentado alcance el estado de salida deseado, basándose en la unión de un controlador proporcional, integral y derivativo. La utilidad de los controladores PID se aplica a que la mayoría de los  sistemas de control, incluyendo a los que la planta no se conoce el modelo matemático, por este motivo es uno de los controladores mas utilizados.
+
+El controlador PD permite añadir amortiguamiento al sistema, pero no afecta la respuesta en estado estable. El controlador PI puede mejorar la estabilidad relativa y el error en estado estable, pero el tiempo de alza incrementa. la respuesta del sistema con distintos controladores se puede separar en:
+
+\begin{itemize}
+	\item \textbf{Acción proporcional (kp):} Esta señal es proporcional a la señal de error ($e_{ss}$). Este tipo de controlador afecta en:
+	\subitem- Aumentar la velocidad de respuesta del sistema.
+	\subitem- Disminuir el error en  estado estacionario.
+    \subitem- Aumentar la inestabilidad del sistema.
+    
+   El último efecto es negativo y debe tratar de minimizarse por este motivo se debe tener un equilibrio al aumentar el kp.
+   
+   \item \textbf{Acción derivativa (kd):} Es proporcional a la derivada de la señal de error  ($e_{ss}$). Este tipo de controlador al aumentar afecta en:
+   
+   \subitem- Aumenta la estabilidad del sistema controlado.
+   \subitem- Disminuye la velocidad del sistema.
+   \subitem- El error en estado estacionario permanecerá sin alteraciones. 
+   
+   El propósito de este tipo de controlador es mejorar la estabilidad en lazo cerrado. 
+   
+   \item \textbf{Acción proporcional (ki):} El propósito principal de este tipo de controlador es que la salida del sistema concuerde con la referencia en estado estacionario. La integral de la señal de error se compara con la suma o la acumulación de la misma y esto hace que al pasar el tiempo la acción integral aumente.  Este tipo de controlador afecta en:
+   
+   \subitem- Disminuye el error del sistema en régimen permanente.
+   \subitem- Aumente el sobrepico o inestabilidad del sistema.
+   \subitem- Aumenta un poco la velocidad del sistema.
+   
+
+    
+    
+\end{itemize}
 
 
-  
 
+La ecuación relacionada al control PID es la siguiente:
+
+
+
+\begin{center}
+	\begin{equation}\label{ec:controlador}
+	c(t)=k_{p}\left ( e(t)+\frac{1}{k_{i}}\int_{0}^{t}e(\tau )\partial \tau +k_{d}\frac{\partial e(t)}{\partial t} \right )	
+\end{equation}
+\end{center}
+ 
+
+donde:
+
+\begin{itemize}
+	\item c(t) = Señal de control.
+	\item e(t) = señal de error.
+	\item $k_{p}, k_{d}, k_{i}$= parámetros del controlador PID
+\end{itemize}
+
+En la figura \ref{fig:controlador} se observa el diagrama de bloques de un sistemas de control a lazo cerrado:
+
+ \begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.3]{img/controlador}
+	\caption{Sistema de control en lazo cerrado con control PID.}
+	\label{fig:controlador}
+	\cite{controlador}
+\end{figure}
 
 
