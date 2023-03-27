@@ -15,7 +15,7 @@ Los primeros usos del método HIL comienza en la segunda mitad del siglo XX para 
 
 Una ventaja del método HIL, es que se reduce la posibilidad de que después que el producto se encuentra en producción se descubran problemas graves en su funcionamiento. Es una herramienta que se utiliza para optimizar el diseño y para depurar el hardware/software.
 
-En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realizar una prueba en condición real, con una simulación y el método HIL. La prueba real puede aumentar el costo y el tiempo de implementación, si tomamos un ejemplo de un sistema de navegación de un avión si se hace una prueba real puede resultar en una tragedia, además de tener la posibilidad de destrucción del avión. Si por el contrario se realiza solo la simulación, el tiempo y el costo disminuyen pero se ve comprometida la precisión del objetivo. Por esta razón el método HIL logra un balance adecuado entre tiempo, costo y precisión.
+En la figura  \ref{fig:hilexperimental} se muestra una comparación entre realizar una prueba en condición real, con una simulación y el método HIL. La prueba real puede aumentar el costo y el tiempo de implementación, si tomamos un ejemplo de un sistema de navegación de un avión, si se hace una prueba real puede resultar en una tragedia, además de tener la posibilidad de destrucción del avión. Si por el contrario se realiza solo la simulación, el tiempo y el costo disminuyen pero se ve comprometida la precisión del objetivo. Por esta razón el método HIL logra un balance adecuado entre tiempo, costo y precisión.
 
 \begin{figure}[H]
 	\centering
@@ -33,7 +33,7 @@ Algunos factores que se toman en cuenta para aplicar el método HIL son los sigui
 	\item Si el software de control tiene una complejidad elevada.
 \end{itemize}
 
-Una de las técnicas utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración es cuando se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite la producción del producto.
+Una de las técnicas utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite la producción del producto.
 
 \begin{figure}[H]
 	\centering
@@ -63,9 +63,9 @@ El componente del Hardware (DUT)  es el elemento de control del sistema a lazo c
  
  Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Existen varias aplicaciones para este tipo de motores como elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
  
- Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes:  el estator (parte fija del motor), el rotor (Armadura del motor), el colector y las escobillas. Poseen una estructura fundamentalmente como se puede apreciar en la figura \ref{fig:motorcc}.
+ Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes:  el estator (parte fija del motor), el rotor (Armadura del motor), el colector y las escobillas. Poseen una estructura como la que se puede apreciar en la figura \ref{fig:motorcc}.
  
-  Entre el estator y el rotor, siendo el estator el componente fijo y el rotor el componente móvil  se producen flujos magnéticos que interactúan entre si con el objetivo de producir un par electromagnético colineal con el eje del motor.
+  Entre el estator y el rotor, siendo el estator el componente fijo y el rotor el componente móvil  se producen flujos magnéticos que interactúan entre si, con el objetivo de producir un par electromagnético colineal con el eje del motor.
  
  \begin{figure}[H]
  	\centering
@@ -193,6 +193,13 @@ La corriente de armadura se mantiene constante y el campo tiene un voltaje ajust
 %Emulación
 %\section{Emular}
 %Según la RAE, un proceso de emulación se define como $"$imitar las acciones de otro procurando igualarlas e incluso excederlas$"$ {\cite{raeemular}}. En este sentido, un emulador se puede definir como un dispositivo que cuenta con un software el cual es capaz de replicar a otro dispositivo o componente para igualarlo  o mejorarlo. {\cite{larusse}}
+
+\section{Controlador PID}
+
+El primer controlador de este tipo que se incorporó fue el Fulscope modelo 100, el cual fue creado por la empresa Taylor Instruments en 1940. A partir de la creación de éste, se originaron múltiples y diversas formas de referirse a él.
+
+Los nombres que se encuentran en la literatura técnica son controlador PID, PI-D,I-PD, con un grado de libertad o de dos grados de libertad, interactuante o no interactuante, clásico, paralelo o serie, tipo A, B, C o D. \cite{Victor}
+
 
 \section{Diferencias entre simular y emular}
 

@@ -24,15 +24,15 @@ Se diseñó un controlador PID con el método de asignación de polos, en el cuál se
 
 \begin{center}
 	\begin{equation}\label{ec:contro}
-		C(s)=k_{p}+k_{d}s+\dfrac{k_{i}}{s}=\frac{k_{d}s^{2}+k_{p}s+k_{i}}{s}
+		C(s)=K_{p}+K_{d}s+\dfrac{K_{i}}{s}=\frac{K_{d}s^{2}+K_{p}s+K_{i}}{s}
 	\end{equation}
 \end{center}
 
 Donde:
 \begin{itemize}
 	\item  $K_{p}$= Es la ganancia proporcional.
-	\item $k_{i}$= Es la ganancia integral del controlador.
-	\item $k_{d}$= Es la ganancia derivativa del controlador.
+	\item $K_{i}$= Es la ganancia integral del controlador.
+	\item $K_{d}$= Es la ganancia derivativa del controlador.
 \end{itemize}
 
 \item Se le asignan tanto al controlador como al sistema a controlar,coeficientes que representarán polinomios. 
@@ -44,7 +44,7 @@ Donde:
 \end{center}
  \begin{center}
  	
- 	$C(s)=\frac{k_{d}s^{2}+k_{p}s+k_{i}}{s}$=$\dfrac{D}{E}$
+ 	$C(s)=\frac{K_{d}s^{2}+K_{p}s+K_{i}}{s}$=$\dfrac{D}{E}$
  	
  \end{center}
 
@@ -56,7 +56,7 @@ Donde:
 \item Si se reemplaza la ecuación 
 
 \begin{center}
-	$H(s)=\frac{K(d_{2}s^{2}+d_{1}s+d_{0})}{s(s^2+as+b)+(d_{2}s^2+d_{1}s+d0)K}}$
+	$H(s)=\frac{K(d_{2}s^{2}+d_{1}s+d_{0})}{s(s^2+as+b)+(d_{2}s^2+d_{1}s+d_{0})K}$
 \end{center}
 
 \begin{center}
@@ -65,7 +65,7 @@ Donde:
 	\end{equation}
 \end{center}
 
-\item Se obtiene una función de transferencia de tercer orden, con dos polos dominantes que son los rigen la dinámica del sistema. Por este motivo, se debe completar la ecuación característica que representa al polinomio deseado, con otro polo alejado del eje imaginario y de los polos dominantes, con el objetivo de tener un polo que no afecte el comportamiento de los polos dominantes.
+\item Se obtiene una función de transferencia de tercer orden, con dos polos dominantes que son los que rigen la dinámica del sistema. Por este motivo, se debe completar la ecuación característica que representa al polinomio deseado con otro polo alejado del eje imaginario y de los polos dominantes. Esto con el objetivo de tener un polo que no afecte el comportamiento de los polos dominantes.
 
 Al polo deseado  calculado en \ref{ec:polo}, se le agrega un tercer polo siendo la ecuación general:
 
@@ -74,10 +74,10 @@ Al polo deseado  calculado en \ref{ec:polo}, se le agrega un tercer polo siendo 
 \end{center}
 
 \begin{center}
-	$P_{s}(d)=(s^{2}+2.25x10^{2}s+2.58x10^{4})(s+1200)=s^{3}+1.42x10^{3}s^{2}+2.95x10^{5}s+30.91x10^{6}$
+	$P_{s}(d)=(s^{2}+2.25\cdot 10^{2}s+2.58 \cdot10^{4})(s+1200)=s^{3}+1.42\cdot10^{3}s^{2}+2.95\cdot10^{5}s+30.91\cdot10^{6}$
 \end{center}
 
-\item A continuación se igualan las dos ecuaciones características de H(s) y de $P_{s}$, para poder determinar los valores de $ k_{p}$,$ k_{d}$ y $k_{i}$.
+\item A continuación se igualan las dos ecuaciones características de H(s) y de $P_{s}$, para poder determinar los valores de $ K_{p}$,$ K_{d}$ y $K_{i}$.
 
 \begin{center}
 	$s^{3}+(a+Kd_{2})s^{2}+(b+Kd_{1})s+Kd_{0}=s^{3}+\alpha_{1}s^{2}+\alpha_{2}s+\alpha_{3} $
@@ -89,27 +89,46 @@ Al polo deseado  calculado en \ref{ec:polo}, se le agrega un tercer polo siendo 
 \subitem $b+Kd_{1}=\alpha_{2}$
 \subitem $Kd_{0}=\alpha_{3}$
 
-\item Reemplazando y resolviendo los valores $k_{p}$,$ k_{i}$, $ k_{d}$:
+\item Reemplazando y resolviendo los valores $K_{p}$,$ K_{i}$, $ K_{d}$:
 
 
-\subitem $k_{d}=\frac{\alpha_{1}-a}{K}$
-\subitem $k_{p}=\frac{\alpha_{2}-b}{K}$
-\subitem $k_{i}=\frac{\alpha_{3}}{K}$
+\subitem $K_{d}=\frac{\alpha_{1}-a}{K}$
+\subitem $K_{p}=\frac{\alpha_{2}-b}{K}$
+\subitem $K_{i}=\frac{\alpha_{3}}{K}$
 
-\item Los valores númericos de $k_{p}$,$ k_{i}$, $ k_{d}$: 
+\item Los valores númericos de $K_{p}$,$ K_{i}$, $ K_{d}$: 
 
 \begin{equation}\label{ec:kp}
-	k_{p}=\frac{2.95*x10^{5}-1.43*10^{5}}{1.43x10^{5}}=1.06
+	K_{p}=\frac{2.95\cdot10^{5}-1.43\cdot10^{5}}{1.43\cdot10^{5}}=1.06
 \end{equation}
 
 \begin{equation}\label{ec:ki}
-	k_{i}=\frac{30.91x10^{6}}{1.43x10^{5}}=215.7
+	K_{i}=\frac{30.91\cdot10^{6}}{1.43\cdot10^{5}}=215.7
 \end{equation}
 
 \begin{equation}\label{ec:kd}
-	k_{i}=\frac{1.42x10^{3}-1.29x10^{4}}{1.43x10^{5}}=-0.08
+	K_{d}=\frac{1.42\cdot10^{3}-1.29\cdot10^{4}}{1.43\cdot10^{5}}=-0.08
 \end{equation}
 
 
 \end{itemize}
 
+
+\section{Controlador.}
+
+En \ref{ec:contro} donde se muestra la ecuación del controlador y a partir de allí se realizaran las ecuaciones de las aproximaciones de las derivadas por definición de primer y segundo orden se basan en:
+
+\begin{equation}\label{ec:derivada1}
+	sf=\frac{f(t)-f(t-T)}{T}
+\end{equation}
+
+
+\begin{equation}
+	s^{2}f=\frac{f'(t)-f'(t-T)}{T}=\frac{\frac{f(t)-f(t-1)}{T}-\frac{f(t-1)-f(t-2)}{T}}{T}=\frac{f(t)-2f(t-1)+f(t-2)}{T^{2}}
+\end{equation}
+
+Se tomará que el valor de T menor a 1, para sacar las muestras en base del periodo el cual permite aproximar la derivada a las expresiones en diferencias mostradas en la las ecuaciones \ref{ec:derivada1} y \ref{ec:segundoordfinal}.
+
+
+
+  

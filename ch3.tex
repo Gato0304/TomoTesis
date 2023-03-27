@@ -22,7 +22,7 @@ Para emular el sistema de segundo orden, es necesario cumplir con ciertos requer
 
 \begin{itemize}
 	
-	\item El recurso escogido debe generar un gráfico de la respuesta obtenida.
+	\item El recurso escogido debe generar un gráfico de la respuesta.
 	\item El lenguaje de programación debe permitir realizar los cálculos matemáticos necesarios para emular el sistema. 
 	\item Se necesita un dispositivo que cuente con un puerto de comunicación serial. 
 	\item Se necesita un dispositivo con una velocidad de procesamiento compatible con el hardware que se va a utilizar. 
@@ -111,14 +111,14 @@ Obteniendo el valor de $\omega_{n}$ y $\zeta$ con la siguientes ecuaciones:
 \end{center}
 
 
-Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito. Usando las ecuaciones obtenidas de \ref{ec:omegan} y \ref{ec:zeta} se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key, las cuales serán analizadas en el capítulo \ref{CAP:accio}.
+Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito. Usando las ecuaciones obtenidas de \ref{ec:omegan} y \ref{ec:zeta} se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key, las cuales fueron analizadas en el capítulo \ref{CAP:accio}.
 
 
 \section{Matlab}
 
 Matlab es considerado un sistema de cómputo numérico que tiene un lenguaje de programación propio, es una herramienta que permite manejar cálculos relacionados con ingeniería y ciencia.
 
-Se implementó la planta de segundo orden en Simulink para que se comunicara por puerto serial con el controlador real y obtener de esta manera una comunicación del sistema con el controlador, pero este método no cumple con los requerimientos debido a las siguientes desventajas:
+Por lo tanto, se implementó la planta de segundo orden en Simulink para que se comunicara por puerto serial con el controlador real y obtener de esta manera una comunicación del sistema con el controlador, pero este método no cumple con los requerimientos debido a las siguientes desventajas:
 
 \begin{itemize}
 	
@@ -164,13 +164,13 @@ Python permite instalar varias librerías, bibliotecas y herramientas para realiz
 	\item \textbf{tkinter:} Este paquete viene incluido en Python, sirve para desarrollar interfaces gráficas de usuarios (GUI).
 	
 	El módulo tkinker cuenta con componentes gráficos llamados Widgets, los cuales deben seguir una jerarquía para crear la interfaz, algunos de relevancia son:
-	\subitem \textbf{tkinter.font:} Permite especificar el nombre,tamaño y estilo de la fuente que se utiliza.
-	\subitem \textbf{TK:} Es la ventana principal de la interfaz, es donde se colocan los widgets.
-	\subitem \textbf{Frame: }Es un marco que permite dar estilos a la interfaz.
-	\subitem \textbf{Label:} Permite mostrar texto o imagen. 
-	\subitem \textbf{Entry: }Permite introducir textos cortos, estilo formulario.
-	\subitem \textbf{Text: }Introduce textos largos.
-	\subitem \textbf{Button: }Permite ejecutar una función al pulsar.
+	\subitem \textbf{- tkinter.font:} Permite especificar el nombre,tamaño y estilo de la fuente que se utiliza.
+	\subitem \textbf{- TK:} Es la ventana principal de la interfaz, es donde se colocan los widgets.
+	\subitem \textbf{- Frame: }Es un marco que permite dar estilos a la interfaz.
+	\subitem \textbf{- Label:} Permite mostrar texto o imagen. 
+	\subitem \textbf{- Entry: }Permite introducir textos cortos, estilo formulario.
+	\subitem \textbf{- Text: }Introduce textos largos.
+	\subitem \textbf{- Button: }Permite ejecutar una función al pulsar.
 	\item \textbf{matplotlib:} Esta librería permite generar gráficos 2d que se basan en datos que pueden estar en listas o arreglos.
 	
 	Dentro de esta librería, se encuentra módulo Pyplot el cuál es de utilidad para imprimir la imagen de un gráfico.
@@ -212,19 +212,89 @@ En esta sección se consideran los recursos descritos anteriormente que son de ut
 				\resizebox{15cm}{!} {
 				\begin{tabular}{|p{7.785em}|p{9.5em}|p{11.5em}|p{7.5em}|p{10.5em}|}
 					\hline
-					\textbf{ Sistemas considerados} & \textbf{Circuito electrónico} & \textbf{Matlab} & \textbf{Labview} & \textbf{Python} \\
+					\begin{center}
+						\textbf{ Sistemas considerados}
+					\end{center} &\begin{center}
+					 \textbf{Circuito electrónico}
+				\end{center} & \begin{center}
+				\textbf{Matlab}
+			\end{center} & \begin{center}
+			\textbf{Labview} 
+		\end{center}& \begin{center}
+		\textbf{Python} 
+	\end{center}\\
 					\hline
-					\textbf{Gráfico de la respuesta} & No    & Si    & Si    & Si \\
+					\begin{center}
+						\textbf{Gráfico de la respuesta}
+					\end{center} &\begin{center}
+					 No 
+				\end{center}   & \begin{center}
+				Si
+			\end{center}    &\begin{center}
+			 Si
+		\end{center}    & \begin{center}
+		Si
+	\end{center} \\
 					\hline
-					\textbf{Programación con cálculos matemáticos } & No    & Si    & Si    & Si \\
+					\begin{center}
+						\textbf{Programación con cálculos matemáticos }
+					\end{center} & \begin{center}
+					No 
+				\end{center}   & \begin{center}
+				Si 
+			\end{center}   & \begin{center}
+			Si
+		\end{center}    &\begin{center}
+		 Si
+	\end{center} \\
 					\hline
-					\textbf{Puerto  de comunicación serial} & No    & Si    & Si    & Si \\
+					\begin{center}
+						\textbf{Puerto  de comunicación serial}
+					\end{center} & \begin{center}
+					No 
+				\end{center}   & \begin{center}
+				Si 
+			\end{center}   & \begin{center}
+			Si 
+		\end{center}   &\begin{center}
+		 Si
+	\end{center} \\
 					\hline
-					\textbf{Procesamiento en tiempo real} & Si    & No    & Si    & Si \\
+				\begin{center}
+						\textbf{Procesamiento en tiempo real}
+				\end{center} & \begin{center}
+				Si
+			\end{center}    & \begin{center}
+			No
+		\end{center}    &\begin{center}
+		 Si 
+	\end{center}   & \begin{center}
+	Si
+\end{center} \\
 					\hline
-					\textbf{Bajo consumo de recursos en el dispositivo } & Si    & No & No & Si \\
+					\begin{center}
+						\textbf{Bajo consumo de recursos en el dispositivo }
+					\end{center} &\begin{center}
+					 Si
+				\end{center}    & \begin{center}
+				No
+			\end{center} & \begin{center}
+			No
+		\end{center} & \begin{center}
+		Si
+	\end{center} \\
 					\hline
-					\textbf{Poseer licencia libre} & Si    & No    & No    & Si \\
+					\begin{center}
+						\textbf{Poseer licencia libre}
+					\end{center} & \begin{center}
+					Si 
+				\end{center}   & \begin{center}
+				No
+			\end{center}    & \begin{center}
+			No 
+		\end{center}   & \begin{center}
+		Si
+	\end{center} \\
 					\hline
 				\end{tabular}%
 				

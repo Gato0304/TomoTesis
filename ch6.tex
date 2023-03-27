@@ -23,6 +23,7 @@ Es una placa de desarrollo Arduino con la interfaz Ethernet Wiznet que tiene las
 	\item Los puertos I/O digitales son 14 (4 cuentan con el controlador Ethernet) y 6 entradas analógicas.
 	\item  Tiene un controlador de Ethernet integrado W5100 TCP / IP.
 	\item Cuenta con una conexión RJ45, un conector de alimentación, una cabecera ICSP y un botón de reinicio.
+	\item Memoria de 32 KB y memoria RAM de 2KB. 
 \end{itemize}
  
 Este dispositivo oscila en un costo entre 45\$  y 55\$  pero el producto esta descontinuado (consultado en octubre 2021. Fuente: https://tienda.bricogeek.com/descatalogado/392-arduino-ethernet.html) y Su lenguaje de programación basado en c++.
@@ -84,11 +85,15 @@ Este dispositivo tiene un costo entre 40\$ a 60\$ (Consultado en octubre 2021). 
 \subsection{Selección}
 
 
-La selección del microcontrolador se baso en las características las cuales los puntos mas importantes a considerar son: costo del dispositivo, velocidad de procesamiento y que posea comunicación por puerto serial.
+Los puntos a considerar para la selección del microcontrolador se basaron en  las siguientes características: costo del dispositivo, velocidad de procesamiento, memoria RAM y que posea comunicación por puerto serial.
 
-Se estima que el costo del dispositivo sea accesible para los estudiantes que necesiten utilizar el programa puedan implementar el dispositivo real. Se necesita que la comunicación entre los dispositivos se lo mas rápido posible y esto se mide con la velocidad de procesamiento del dispositivo.
+Se estima que el costo del dispositivo sea accesible para los estudiantes que necesiten utilizar el programa y de este modo puedan implementar el dispositivo real. Se necesita que la comunicación entre el controlador y el emulador sea en tiempo real o con el mínimo retardo por esto es importante saber cual es la velocidad de procesamiento del dispositivo.
 
-Como se detallo en la sección  \ref{sec:diint} la comunicación entre la interfaz de emulación de la planta de segundo orden y el controlador, la comunicación se realiza por puerto serial. Para seleccionar y discriminar el dispositivo que mejor se ajusta a los requerimientos mencionados se utilizo el gráfico 
+Como se detallo en la sección  \ref{sec:diint} la comunicación entre la interfaz de emulación y el controlador se realiza por puerto serial por este motivo se necesita un conector de puerto USB.
+
+La memoria RAM es la que permite cargar todas las instrucciones que se mandan entre el dispositivo y el emulador.
+
+Para seleccionar y discriminar el dispositivo que mejor se ajusta a los requerimientos mencionados se utilizó la figura
 
 
  

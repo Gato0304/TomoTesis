@@ -1,4 +1,4 @@
-En este capítulo se realiza el diseño y definición de los parámetros a controlar, que serán parte de un dispositivo microcontrolador exterior a la planta emulada.
+En este capítulo se realiza el diseño y definición de los parámetros a controlar, que serán parte de un dispositivo microcontrolador externo al sistema emulado.
 
 
 
@@ -20,7 +20,7 @@ Al estudiar el sistema de segundo orden en el capítulo \ref{CAP:accio}, se obser
 	\label{fig:escalon}
 \end{figure}
  
-Se utiliza una función escalón ya que está representa un cambio instantaneo la entrada de referencia, este hace que revele qué tan rapido responde un sistema a entradas con cambios abruptos.
+Se utiliza una función escalón ya que está representa un cambio instantaneo en la entrada de referencia, esto hace que revele qué tan rapido responde un sistema a entradas con cambios abruptos.
 
 Se debe tomar en cuenta algunos criterios de diseño utilizados para la caracterización de los sistemas de control lineales en el dominio del tiempo:
 
@@ -54,7 +54,7 @@ Se debe tomar en cuenta algunos criterios de diseño utilizados para la caracteri
 	
    \item \textbf{Tiempo de alza $t_{r}$:} Es el tiempo que toma la respuesta escalón se eleve del 10 al 90$\%$ del valor final.
    
-   \item \textbf{Tiempo de establecimiento $t_{s}$:} Es el tiempo que se requiere para que la respuesta escalón  disminuya y permanezca dentro de un rango del valor final. Un valor frecuente que se utiliza es 2$\%$ y se calcula \ref{ec:ts}.
+   \item \textbf{Tiempo de establecimiento $t_{s}$:} Es el tiempo que se requiere para que la respuesta escalón  disminuya y permanezca dentro de un rango del valor final. Un valor frecuente que se utiliza es 2$\%$ y se calcula con la ecuación \ref{ec:ts}.
    
    \begin{center}
    	\begin{equation}\label{ec:ts}
@@ -82,7 +82,7 @@ Como ya se ha mencionado en el capítulo \ref{CAP:tecni} los sistemas de control 
 	$	F(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}$
 \end{center}
 
-El factor de amortiguamiento $\zeta$ y la frecuencia natural $\omega_{n}$ constituyen las raíces de la ecuación característica. El comportamiento dinámico de un sistema de segundo orden se puede detallar en términos del factor de amortiguamiento $\zeta$: 
+El factor de amortiguamiento $\zeta$ y la frecuencia natural $\omega_{n}$ constituyen las raíces de la ecuación característica. El comportamiento dinámico de un sistema de segundo orden se puede detallar en términos de $\zeta$: 
 
 \begin{itemize}
 	\item Cuando $\zeta > 1$ la respuesta escalón no muestra sobrepico, los polos son reales y se le conoce como un sistema sobreamortiguado.
@@ -102,10 +102,10 @@ El factor de amortiguamiento $\zeta$ y la frecuencia natural $\omega_{n}$ consti
     \end{figure}
 
 
-Los sistemas subamortiguados se acercan al valor final con mayor rapidez que los críticamente amortiguado o los sobreamortiguado los cuales son lentos para responder a las entradas que se le da al sistema.
+Como se aprecia en la figura \ref{fig:escalontrans} los sistemas subamortiguados se acercan al valor final con mayor rapidez que los críticamente amortiguado o los sobreamortiguado los cuales son lentos para responder a las entradas que se le da al sistema.
 
 
- Las dos raíces del sistema de segundo orden \ref{ec:segundoorden} se pueden expresar como:
+ Las dos raíces del sistema de segundo orden mostrada en la ecuación \ref{ec:segundoorden} se pueden expresar como:
 
 \begin{center}
 	\begin{equation}\label{ec:raices}
@@ -148,14 +148,14 @@ Los controladores PID permiten que el sistema realimentado alcance el estado de 
 El controlador PD permite añadir amortiguamiento al sistema, pero no afecta la respuesta en estado estable. El controlador PI puede mejorar la estabilidad relativa y el error en estado estable, pero el tiempo de alza incrementa. la respuesta del sistema con distintos controladores se puede separar en:
 
 \begin{itemize}
-	\item \textbf{Acción proporcional (kp):} Esta señal es proporcional a la señal de error ($e_{ss}$). Este tipo de controlador afecta en:
+	\item \textbf{Acción proporcional (Kp):} Esta señal es proporcional a la señal de error ($e_{ss}$). Este tipo de controlador afecta en:
 	\subitem- Aumentar la velocidad de respuesta del sistema.
 	\subitem- Disminuir el error en  estado estacionario.
     \subitem- Aumentar la inestabilidad del sistema.
     
-   El último efecto es negativo y debe tratar de minimizarse por este motivo se debe tener un equilibrio al aumentar el kp.
+   El último efecto es negativo y debe tratar de minimizarse por este motivo se debe tener un equilibrio al aumentar el Kp.
    
-   \item \textbf{Acción derivativa (kd):} Es proporcional a la derivada de la señal de error  ($e_{ss}$). Este tipo de controlador al aumentar afecta en:
+   \item \textbf{Acción derivativa (Kd):} Es proporcional a la derivada de la señal de error  ($e_{ss}$). Este tipo de controlador al aumentar afecta en:
    
    \subitem- Aumenta la estabilidad del sistema controlado.
    \subitem- Disminuye la velocidad del sistema.
@@ -163,7 +163,7 @@ El controlador PD permite añadir amortiguamiento al sistema, pero no afecta la r
    
    El propósito de este tipo de controlador es mejorar la estabilidad en lazo cerrado. 
    
-   \item \textbf{Acción proporcional (ki):} El propósito principal de este tipo de controlador es que la salida del sistema concuerde con la referencia en estado estacionario. La integral de la señal de error se compara con la suma o la acumulación de la misma y esto hace que al pasar el tiempo la acción integral aumente.  Este tipo de controlador afecta en:
+   \item \textbf{Acción proporcional (Ki):} El propósito principal de este tipo de controlador es que la salida del sistema concuerde con la referencia en estado estacionario. La integral de la señal de error se compara con la suma o la acumulación de la misma y esto hace que al pasar el tiempo la acción integral aumente.  Este tipo de controlador afecta en:
    
    \subitem- Disminuye el error del sistema en régimen permanente.
    \subitem- Aumente el sobrepico o inestabilidad del sistema.
@@ -182,7 +182,7 @@ La ecuación relacionada al control PID es la siguiente:
 
 \begin{center}
 	\begin{equation}\label{ec:controlador}
-	c(t)=k_{p}\left ( e(t)+\frac{1}{k_{i}}\int_{0}^{t}e(\tau )\partial \tau +k_{d}\frac{\partial e(t)}{\partial t} \right )	
+	c(t)=K_{p}\left ( e(t)+\frac{1}{K_{i}}\int_{0}^{t}e(\tau )\partial \tau K_{d}\frac{\partial e(t)}{\partial t} \right )	
 \end{equation}
 \end{center}
  
@@ -192,7 +192,7 @@ donde:
 \begin{itemize}
 	\item c(t) = Señal de control.
 	\item e(t) = señal de error.
-	\item $k_{p}, k_{d}, k_{i}$= parámetros del controlador PID
+	\item $K_{p}, K_{d}, K_{i}$= parámetros del controlador PID
 \end{itemize}
 
 En la figura \ref{fig:controlador} se observa el diagrama de bloques de un sistemas de control a lazo cerrado:
