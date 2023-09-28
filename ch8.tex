@@ -1,133 +1,679 @@
-En este capítulo se realizo el diseño del controlador PID a utilizar por el método de asignación de polos, con el calculo de los parámetros para  planta estudiada en el capítulo \ref{CAP:accio} y la interfaz para ajustar los valores de $k_{p}$, $k_{i}$ y $k_{d}$ del controlador para plantas de segundo orden.  
+En este capítulo se realizó el diseño del controlador usando el método de ubicación de polos diseñando un observador funcional lineal, con el cálculo de los parámetros para el sistema de segundo orden estudiada en el capítulo \ref{CAP:modeloplanta}.  
 
-\section{Pasos para el diseño del controlador.}
+En las siguientes secciones se va a desglosar cómo se realizo el diseño del controlador. 
 
-Se diseñó un controlador PID con el método de asignación de polos, en el cuál se tienen las siguientes consideraciones para realizarlo:
+\section{Controlabilidad}
 
-\begin{itemize}
-	\item Un sistema de segundo orden descrito por la ecuación \ref{ec:segundoorden}
-	\begin{center}
-		$
-			F(s)=\dfrac{K\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}
-		$
-	\end{center} 
+Se dice que un sistema es controlable si la variable de estado inicial arbitraría se puede transferir a cualquier otro estado arbitrario en un periodo finito, mediante una señal de control restringida. Por este motivo, ninguna de las variables de estado puede ser independiente de la señal de control.
 
-\item La ecuación del controlador PID en paralelo como se muestra en el diagrama de bloques de la figura \ref{fig:controlpa} y la ecuación viene dada por \ref{ec:contro}
+El sistema esta definido por 
 
- \begin{figure}[H]
+\begin{equation}\label{ec:ecuacioncontrolabilidad}
+x((k+1)T)= A x(kT)+ Bu(kT)	
+\end{equation}
+
+donde $x(kT)$ es un vector de dimensión n, y $A$ es una matriz de $n \times n$ y $B$ es una matriz de $n \times r$, entonces para que un sistema tenga controlabilidad completa se debe cumplir que la matriz de la ecuación \ref{ec:ecuacioncontrolab} de $n \times nr$ sea de rango n. \cite{ogatacontrolabilidad}
+
+\begin{equation}\label{ec:ecuacioncontrolab}
+	[B \vdots AB \vdots  \cdots \vdots A^{n-1}B]	
+\end{equation}
+
+La matriz de la ecuación \ref{ec:ecuacioncontrolab} es conocida como matriz de controlabilidad. Y la ecuación \ref{ec:ecuacioncontrolabilidadrango} representa la condición de controlabilidad completa del sistema.
+
+\begin{equation}\label{ec:ecuacioncontrolabilidadrango}
+	rango[B \vdots AB \vdots  \cdots \vdots A^{n-1}B]=n	
+\end{equation}
+
+ 
+\subsection{Controlabilidad completa de la salida}
+
+La controlabilidad completa de los estados no se traduce en la controlabilidad de la salida ya que no es una condición necesaria ni suficiente. 
+
+Sin embargo, teniando en cuenta que el sistema de control se puede definir con las matrices \ref{ec:espaciodeestadosdiscreto}
+
+\begin{center}
+	\begin{equation}
+		\left\{\begin{matrix}
+			
+				 x(k+1)
+			
+			= A x(k) + B x(k) \\
+			
+			y(k)=C x(k)
+		\end{matrix}\right.	
+		\label{ec:espaciodeestadosdiscreto}%
+	\end{equation}
+\end{center}
+
+Se tiene controlabilidad completa de salida, sí y sólo sí todos los renglones de la matríz C son linealmente independientes.
+
+
+\subsection{Controlabilidad del sistema de segundo orden}
+%% calcular controlabilidad
+
+Partiendo del sistema descrito en \ref{ec:espaciodeestadosdiscreto1} se tienen las ecuaciones del espacio de estado discreto dadas por \ref{ec:espaciodeestadosdiscret}:
+
+\begin{center}
+	\begin{equation}
+		\left\{\begin{matrix}
+			x(k+1)
+			=
+			\begin{bmatrix}
+				& 0.9689 & 0.3389 & \\ 
+				&   -0.0089& -0.9034 & \\ 
+			\end{bmatrix}
+			x(k)
+			+
+			\begin{bmatrix}
+				& 0.6199 \\ 
+				&  0.1766
+			\end{bmatrix}
+			u(k)\\ 
+			y(k)=\begin{bmatrix}
+				0.9844 & 0.1694
+			\end{bmatrix}
+			x(k) 
+			
+			+0.3099 \quad
+			u(k)
+			
+		\end{matrix}\right.
+		\label{ec:espaciodeestadosdiscret}%
+	\end{equation}
+\end{center}
+
+Para obtener el rango del sistema se utilizó el programa \ref{codedisrang} en MATLAB.
+
+\begin{lstlisting}[caption = {Rango controlabilidad},captionpos=b,label={codedisrang},language=Matlab]
+	
+	% Espacio de estados discretizado
+	Ad=[0.9689 0.3389; -0.0089 -0.9034];
+	Bd=[0.6199; 0.1766];
+	Cd=[0.9844 0.1694];
+	Dd=0.3099;
+	
+	%Rango de la función
+	M_con = ctrb(Ad,Bd);
+	rango = rank(M_con);
+\end{lstlisting} 
+
+De donde se obtiene la matriz de controlabilidad:
+
+\begin{equation}
+M_{controlabilidad}
+			=
+			\begin{bmatrix}
+				& 0.6199 & 0.6605 & \\ 
+				& 0.1766 & -0.1651 & \\ 
+			\end{bmatrix}
+\label{ec:m_con}%
+\end{equation}
+
+El rango de esta es igual a 2. Por lo tanto el sistema es completamente controlable.
+
+Al observar que la matriz C es linealmente independiente, se dice que la salida también es completamente controlable.
+
+\subsection{Control por ubicación de polos}
+
+Para aplicar el método de diseño de ubicación de polos se debe partir de que todas las variables de estado son medibles y están disponibles para realimentación. Es por ello que se demuestra previamente que el sistema sea completamente controlable.
+
+Entonces los polos del sistema en lazo cerrado se pueden ubicar en cualquier localización deseada, esto se consigue a través de una realimentación del estado que viene dada por una matriz de ganancia de realimentación del estado apropiada. 
+
+Para el diseño se debe determinar los polos en lazo cerrado deseado, y estos se escogen en base a los requisitos de la respuesta en frecuencia deseada o en los de la respuesta transitoria, factor de amortiguamientos u otros requisitos.
+
+Se debe considerar que en la selección del período de muestreo, no se puede tener señales de control excesivamente grandes. Si esto ocurre el sistema se volverá no lineal ya que pasarán fenómenos de saturación en el sistema.    
+
+\subsubsection{Definición de los parámetros del controlador}
+
+Los parámetros que se fijaron para obtener los polos son $t_{s}=0.035s$, $\xi=0.7$, $T_{m}=3\cdot10^{-3} s$.
+
+ Donde $t_{s}=$  Tiempo de establecimiento.\\
+       $\xi=$ Factor de amortiguamiento.\\
+       $T_{m}=$ Tiempo de muestreo.\\
+       $\omega_{n}= $ Frecuencia natural $(\dfrac{rad}{s})$\\
+ 
+ Teniendo en cuenta que  $\omega_{n}= \dfrac{4}{\xi t_{s}}$, los polos en tiempo continuo están dados por:
+
+ \begin{equation}
+ s_{d}= -\xi\omega_{n}\pm j \omega_{n}\sqrt{1-\xi^{2}} = -1.1429\cdot10^{2}\pm j 1.1659\cdot10^{2}
+ 	\label{ec:polocontinuo}%
+ \end{equation}
+
+
+
+Considerando que la relación entre el dominio de Laplace y la transformada Z es $z=e^{sT_{m}}$
+ 
+Entonces los polos en el dominio de la transformada Z son:
+ \begin{equation}
+	z_{d}= 0.6668\pm j 0.2432
+	\label{ec:polodiscreto}%
+\end{equation}
+
+
+
+\subsection{Realimentación de variables de estado}
+
+%% calcular ackerman
+La realimentación de estados se refiere a un método utilizado para la ubicación de polos, el cuál utiliza la realimentación de todas las variables de estado con el objetivo de construir el vector de control deseado.
+
+Una de las limitaciones de este método es que en la práctica no todas las variables están disponibles para una medición directa pero se puede estimar a través de la observación aquellas variables que no pueden medirse directamente.
+
+Para utilizar la realimentación de estados el sistema debe ser completamente controlable. En el sistema descrito por la ecuación \ref{ec:espaciodeestadosdiscret} este criterio se cumple, por este motivo se puede utilizar la formula de Ackermann.
+
+\subsubsection{Fórmula de Ackermann}
+
+Al tener un sistema realimentado como en la figura \ref{fig:ackermann}, la ley de control se cambia por $u(k)=-K_{Ackermann}x(k)$, siendo $K_{Ackermann}$ la matriz de ganancias de realimentación para ubicación de los polos a lazo cerrado.
+
+\begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.7]{img/controlpa}
-	\caption{Sistema de control en lazo cerrado con control PID.}
-	\label{fig:controlpa}
+	\includegraphics[width=0.9\linewidth ]{img/ackermann}
+	\caption{Ackermann}
+	\label{fig:ackermann}
+\end{figure}
+
+Para calcular los valores de la matriz de realimentación $K_{Ackermann}$ , se utiliza la fórmula de Ackermann mostrada en la ecuación \ref{ec:ecuacionackermann}.
+
+\begin{equation}\label{ec:ecuacionackermann}
+	K_{Ackermann}=[0 \quad 0 \cdots  0 \quad 1][B \vdots AB \vdots  \cdots \vdots A^{n-1}B] \phi(A)	
+\end{equation}
+
+
+Siendo $[B \vdots AB \vdots  \cdots \vdots A^{n-1}B]$ la matriz de controlabilidad y  $\phi(A)$ la ecuación característica deseada:
+
+\begin{equation}\label{ec:ecuacionficaracteristica}
+	\phi(A)= A^{n}+\alpha A^{n-1}+\cdots+ \alpha_{n-1} A +\alpha_{n} I	
+\end{equation}
+
+Para los cálculos de la $K_{Ackermann}$ se utilizó el programa \ref{codeackermann} en MATLAB 
+
+\begin{lstlisting}[caption = {K de Ackermann},captionpos=b,label={codeackermann},language=Matlab]
+	% Espacio de estados discreto
+	Ad=[ 0.9689    0.3389;    -0.0089   -0.9034];
+	Bd=[0.6199;0.1766];
+	Cd=[0.9844 0.1694];
+	Dd=0.3099;
+	
+	% Polo deseado
+	zd = [0.6668 + 0.2432i ; 0.6668 - 0.2432i];
+	
+	% Matriz de Ackermann
+	Kacker = acker(Ad,Bd,zd);
+\end{lstlisting} 
+
+Obteniendo como resultado \ref{ec:resultadokackerman}
+ 
+ \begin{equation}\label{ec:resultadokackerman}
+ K_{Ackermann}=[0.0870  \quad -7.4854] 	
+ \end{equation}
+
+\subsection{Observabilidad}\label{sec:observabilidad}
+
+La observabilidad se puede utilizar para resolver problemas de reconstrucción de variables de estado que no pueden ser medidas. Teniendo un papel importante en la práctica el diseño de los observadores de estados ya que existen algunas variables las cuales no son accesibles para una medición directa.
+
+Si se tiene un sistema de control discreto e invariante en el tiempo por ejemplo el presentado en la ecuación \ref{ec:espaciodeestadosdiscreto}. El sistema es completamente observable sí cualquier estado inicial $x(0)$ puede determinarse por la observación de $y(kT)$ en finitos periodos de muestreo.\cite{ogataobservabilidad}
+
+Siendo $A$ una matriz de $n \times n$ y $C$ una matriz de $m \times n$, entonces la observabilidad es estudiada por la ecuación \ref{ec:ecuacionobservab} cuya dimensión es de orden $n\times nm$, conocida como matriz de observabilidad.
+
+\begin{equation}\label{ec:ecuacionobservab}
+	[C^{*} \vdots A^{*}C^{*} \vdots  \cdots \vdots (A^{*})^{n-1}C^{*}]	
+\end{equation}
+
+Por lo tanto, para que un sistema sea completamente observable, el rango de la matriz de observabilidad debe ser de rango n, tal como lo indica la ecuación \ref {ec:ecuacionobservabcondicion}.
+
+\begin{equation}\label{ec:ecuacionobservabcondicion}
+	rango[C^{*} \vdots A^{*}C^{*} \vdots  \cdots \vdots (A^{*})^{n-1}C^{*}]	= n
+\end{equation}
+
+%Sí $y(kT)$ es un vector de dimensión m, entonces las n ecuaciones anteriores dan como resultado $nm$ ecuaciones, con el objetivo de obtener soluciones para $x_{n}(0)$ a partir de estas $nm$ ecuaciones, para obtener n ecuaciones linealmente independientes, se necesita tener una ecuación $n \times nm$ 
+
+\subsection{Observabilidad del sistema de segundo orden}
+
+%% calcular observabilidad
+
+Siendo el espacio de estado descrito por las ecuación \ref{ec:espaciodeestadosdiscret}
+
+\begin{center}
+	\begin{equation*}
+		\left\{\begin{matrix}
+			x(k+1)
+			=
+			\begin{bmatrix}
+				& 0.9689 & 0.3389 & \\ 
+				&   -0.0089& -0.9034 & \\ 
+			\end{bmatrix}
+			x(k)
+			+
+			\begin{bmatrix}
+				& 0.6199 \\ 
+				&  0.1766
+			\end{bmatrix}
+			u(k)\\ 
+			y(k)=\begin{bmatrix}
+				0.9844 & 0.1694
+			\end{bmatrix}
+			x(k) 
+			
+			+0.3099 \quad
+			u(k)
+			
+		\end{matrix}\right.	
+	\end{equation*}
+\end{center}
+
+Se tiene que cumplir el criterio de observabilidad para poder acceder a los estados que se realimentarán con las ganancias estimadas en \ref{ec:resultadokackerman}.
+
+Para obtener el rango del sistema se utilizó el programa \ref{codedisrangobs} en MATLAB.
+
+\begin{lstlisting}[caption = {Rango observabilidad},captionpos=b,label={codedisrangobs},language=Matlab]
+	
+% Observabilidad del sistema
+
+% Espacio de estados discreto
+Ad=[ 0.9689    0.3389;    -0.0089   -0.9034];
+Bd=[0.6199;0.1766];
+Cd=[0.9844 0.1694];
+Dd=0.3099;
+
+
+M_obs = obsv(Ad,Cd);
+rango = rank(M_obs);
+\end{lstlisting}
+
+De donde se obtiene la matriz de observabilidad
+
+\begin{equation}
+	M_{observabilidad}
+	=
+	\begin{bmatrix}
+		& 0.9844 & 0.1694 & \\ 
+		& 0.9523 & 0.1806 & \\ 
+	\end{bmatrix}
+	\label{ec:m_obv}%
+\end{equation} 
+
+El rango de esta es igual a 2. Por lo tanto el sistema es completamente observable.
+
+\subsection{Observadores de estado}
+
+En la práctica no todas las variables de estado de un sistema pueden estar disponibles para su medición desde la salida. En estos casos es necesario estimar las variables de estado que no puedan medirse de manera directa, está estimación es conocida como observación de estados y esto se hace a partir de las variables de salida y control.
+
+Los observadores pueden diseñarse sí y solo sí se cumple el criterio de observabilidad, tal como se indica en \ref{sec:observabilidad}. El caso general de diseño es el Observador de orden completo, indicado en la figura \ref{fig:observador} el cual consiste en estimar las $n$ salidas y los $n-m$ estados no medibles, es decir todas las variables.
+
+Un observador que estime únicamente los $n-m$ estados no medibles se conoce como observador de orden reducido. Si estos estados son el mínimo posible, entonces es llamado observador de órden mínimo.
+%grafico de observador
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.9\linewidth ]{img/observador}
+	\caption{Diagrama de bloque del sistema y del observador de estado de orden completo, cuando la entrada u y la salida y son escalares \cite{ogatacontinuo}.}
+	\label{fig:observador}
 \end{figure}
 
 
-\begin{center}
-	\begin{equation}\label{ec:contro}
-		C(s)=K_{p}+K_{d}s+\dfrac{K_{i}}{s}=\frac{K_{d}s^{2}+K_{p}s+K_{i}}{s}
-	\end{equation}
-\end{center}
+En resumen, un observador de estados es un subsistema del sistema de control para llevar a cabo una estimación de las variables de estado no medibles, a partir de mediciones de las variables de salida y control. 
 
-Donde:
-\begin{itemize}
-	\item  $K_{p}$= Es la ganancia proporcional.
-	\item $K_{i}$= Es la ganancia integral del controlador.
-	\item $K_{d}$= Es la ganancia derivativa del controlador.
-\end{itemize}
 
-\item Se le asignan tanto al controlador como al sistema a controlar,coeficientes que representarán polinomios. 
+\subsection{Observador de orden mínimo}
 
+Es de orden mínimo ya que el sistema cuenta con dos estados, siendo uno de ellos la salida del mismo. 
+
+
+%% calcular observador
+
+Sea el sistema de segundo orden dado por:
 
 
 \begin{center}
-	$f(s)=\dfrac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}=\frac{K}{s^{2}+as+b}=\dfrac{A}{B}$
+	\begin{equation*}
+		\left\{\begin{matrix}
+			x(k+1)
+			=A
+			x(k)
+			+B
+			u(k)\\ 
+			y(k+1)=C
+			x(k) 
+			+D
+			u(k)	
+		\end{matrix}\right.	
+	\end{equation*}
+\label{ec:sissegundoorden}
 \end{center}
+
+Siendo $A,B,C,D$ las matrices correspondientes al sistema dado en \ref{ec:espaciodeestadosdiscreto1}.
+
+Entonces las matrices A y B serían:
+
+ 
  \begin{center}
- 	
- 	$C(s)=\frac{K_{d}s^{2}+K_{p}s+K_{i}}{s}$=$\dfrac{D}{E}$
- 	
+ 	\begin{equation*}
+ 		A=\left[ \begin{matrix}
+ 				& A_{11} & A_{12} & \\ 
+ 				&   A_{21}& A_{22} & \\ 
+ 		\end{matrix}\right] 
+ 	\end{equation*}
  \end{center}
 
-\item La función a lazo cerrado es 
-\begin{center}
-	$H(s)=\frac{DA}{EB+DA}$
-\end{center}
-
-\item Si se reemplaza la ecuación 
 
 \begin{center}
-	$H(s)=\frac{K(d_{2}s^{2}+d_{1}s+d_{0})}{s(s^2+as+b)+(d_{2}s^2+d_{1}s+d_{0})K}$
+	\begin{equation*}
+		B=\left[ \begin{matrix}
+			 B_{1} \\ 
+			   B_{2} \\ 
+		\end{matrix}\right] 
+	\end{equation*}
 \end{center}
+
+Las variables de estados:
 
 \begin{center}
-	\begin{equation}\label{ec:controlfinal}
-		H(s)=\frac{Kd_{2}s^{2}+Kd_{1}s+Kd_{0}}{s^{3}+(a+Kd_{2})s^{2}+(b+Kd_{1})s+Kd_{0}}
-	\end{equation}
+	\begin{equation*}
+		x(k)=\left( \begin{matrix}
+			y(k)\\\omega(k) 			
+		\end{matrix}\right) 
+	\end{equation*}
 \end{center}
 
-\item Se obtiene una función de transferencia de tercer orden, con dos polos dominantes que son los que rigen la dinámica del sistema. Por este motivo, se debe completar la ecuación característica que representa al polinomio deseado con otro polo alejado del eje imaginario y de los polos dominantes. Esto con el objetivo de tener un polo que no afecte el comportamiento de los polos dominantes.
+Donde $y(k)$ es la salida del sistema y $\omega(k)$ es el estado oculto.
 
-Al polo deseado  calculado en \ref{ec:polo}, se le agrega un tercer polo siendo la ecuación general:
+  
+Se tiene que la ecuación de estados de un observador de orden completo es:
+
 
 \begin{center}
-	$P_{d}(s)=(s^{2}+h_{1}s+h_{2})(s+p_{1})$=$s^{3}+\alpha_{1}s^{2}+\alpha_{2}s+\alpha_{3}$
+	\begin{equation*}
+		\left\{\begin{matrix}
+			x(k+1)
+			= (A-GC) x(k)+Gy(k)+Bu(K)\\ 
+			y(k)=Cx(k)
+		\end{matrix}\right.	
+	\end{equation*}
+\label{ec:observadordeestado}
 \end{center}
+
+Siendo G la ganancia del observador que debe ser calculada.
+
+En la ecuación \ref{ec:sissegundoorden} como el estado $y(k)$ es conocido. Se plantea un observador de orden mínimo para estimar $\omega(k)$, por lo tanto \ref{ec:sissegundoorden} quedaría:
+
 
 \begin{center}
-	$P_{s}(d)=(s^{2}+2.25\cdot 10^{2}s+2.58 \cdot10^{4})(s+1200)=s^{3}+1.42\cdot10^{3}s^{2}+2.95\cdot10^{5}s+30.91\cdot10^{6}$
+	\begin{equation*}
+		\left\{\begin{matrix}
+			\omega(k+1)
+			=A_{22}
+		\omega(k)+A_{21}y(k)+B_{2}u(k)
+			
+	\\ 
+			y(k+1)-A_{11}y(k)-B_{1}u(k)=A_{21}\omega(k)
+		\end{matrix}\right.	
+	\end{equation*}
+	\label{ec:sissegundoorden2}
 \end{center}
 
-\item A continuación se igualan las dos ecuaciones características de H(s) y de $P_{s}$, para poder determinar los valores de $ K_{p}$,$ K_{d}$ y $K_{i}$.
+Entonces la ecuación \ref{ec:observadordeestado} se convierte en:
+
 
 \begin{center}
-	$s^{3}+(a+Kd_{2})s^{2}+(b+Kd_{1})s+Kd_{0}=s^{3}+\alpha_{1}s^{2}+\alpha_{2}s+\alpha_{3} $
+	\begin{equation*}
+			\omega(k+1)
+			= (A_{22}-G A_{21})
+			\omega(k)+A_{21}y(k)+B_{2}u(k) + G (y(k+1)-A_{11}y(k)-B_{1}u(k))	
+	\end{equation*}
+	\label{ec:sissegundoorden3}
 \end{center}
 
-\item Igualando los coeficientes
-
-\subitem $a+Kd_{2}=\alpha_{1}$ 
-\subitem $b+Kd_{1}=\alpha_{2}$
-\subitem $Kd_{0}=\alpha_{3}$
-
-\item Reemplazando y resolviendo los valores $K_{p}$,$ K_{i}$, $ K_{d}$:
+Al ser una realimentación de estados, se tiene que:
 
 
-\subitem $K_{d}=\frac{\alpha_{1}-a}{K}$
-\subitem $K_{p}=\frac{\alpha_{2}-b}{K}$
-\subitem $K_{i}=\frac{\alpha_{3}}{K}$
+\begin{center}
+	\begin{equation*}
+		\left\{\begin{matrix}
+			u(k)
+			=-k_{Ackerman}
+			x(k)
+			
+			\\ 
+			u(k)
+			=-k_{1}y(k)-k_{2}\omega(k)
+		\end{matrix}\right.	
+	\end{equation*}
+	\label{ec:ralimentaciondeestados}
+\end{center}
 
-\item Los valores númericos de $K_{p}$,$ K_{i}$, $ K_{d}$: 
+En la ecuación \ref{ec:sissegundoorden3} se observa que para la estimación de $\omega(k+1)$ se necesita el valor de $y(k+1)$, lo cual no es conveniente. Por ello, es necesario hacer algunas operaciones. Si se reescribe \ref{ec:sissegundoorden3}:
+ 
 
-\begin{equation}\label{ec:kp}
-	K_{p}=\frac{2.95\cdot10^{5}-1.43\cdot10^{5}}{1.43\cdot10^{5}}=1.06
+\begin{center}
+	\begin{equation*}
+		\begin{matrix}
+		\omega(k+1)-Gy(k+1)= (A_{22}-GA_{12})
+		\omega(k)+(A_{21}-GA_{11})y(k)+(B_{2}-GB_{1})u(k)\\ + (A_{22}-GA_{12})Gy(k)-(A_{22}-GA_{12})Gy(k)
+\end{matrix}
+\end{equation*}
+	\label{ec:sissegundoorden4}
+\end{center}
+
+Reordenando la ecuación se obtiene:
+
+\begin{center}
+	\begin{equation*}
+			\begin{matrix}
+		\omega(k+1)-Gy(k+1)= (A_{22}-GA_{12}) 
+		(\omega(k)-Gy(k))\\+[(A_{22}-GA_{12})G+A_{21}-GA_{11}]y(k)+(B_{2}-GB_{1})u(k)
+\end{matrix}	
+	\end{equation*}
+	\label{ec:sissegundoorden5}
+\end{center}
+
+Definiendo que:
+
+\begin{center}
+	\begin{equation*}
+			\begin{matrix}
+		\omega(k)-Gy(k)= \eta(k) \\
+		\omega(k+1)-Gy(k+1)= \eta(k+1)
+	\end{matrix}
+	\end{equation*}
+\label{ec:ordenmin}
+\end{center}
+
+Entonces, la ecuación \ref{ec:sissegundoorden5} quedaría como:
+
+\begin{center}
+	\begin{equation*}
+		\begin{matrix}
+			\eta(k+1)= (A_{22}-GA_{12}) \eta(k)
+			\\+[(A_{22}-GA_{12})G+A_{21}-GA_{11}]y(k)+(B_{2}-GB_{1})u(k)
+		\end{matrix}	
+	\end{equation*}
+	\label{ec:sissegundoordenfinal}
+\end{center}
+
+Por lo tanto, para estimar el estado $\omega(k)$ es necesario para calcular la dinámica en \ref{ec:ralimentaciondeestados}.
+
+ Se define el observador de orden mínimo con las ecuaciones \ref{ec:ordenmin} y \ref{ec:sissegundoordenfinal}
+
+
+
+	\begin{equation*}
+		\left\{\begin{matrix}
+		    \omega(k)
+			=\eta(k)+Gy(k)
+			\\ 
+			\eta(k+1)
+			=(A_{22}-GA_{12}) \eta(k)
+			\\+[(A_{22}-GA_{12})G\\+A_{21}-GA_{11}]y(k)\\+(B_{2}-GB_{1})u(k)
+		\end{matrix}\right.	
+	\end{equation*}
+	\label{ec:observadorfinal}
+ 
+Para estimar la ganancia de G que define la dinámica del sistema, se desea obtener la respuesta por oscilaciones muertas para obtener una mayor rapidez. Entonces la ecuación característica determinada por los autovalores de G
+
+\begin{equation}\label{ec: autovalores}
+	\alpha(\lambda)=\lambda+\alpha_{1}=0
 \end{equation}
 
-\begin{equation}\label{ec:ki}
-	K_{i}=\frac{30.91\cdot10^{6}}{1.43\cdot10^{5}}=215.7
+donde $\alpha_{1}=0$. Por lo tanto $\lambda_{observador}=0$ y $(\lambda)=\lambda$ 
+
+En consecuencia, los autovalores del observador son:
+
+\begin{equation}\label{ec:autovaloresdelobservador}
+	|\lambda_{I}-A_{22}+GA_{12}|=\alpha(\lambda)
 \end{equation}
 
-\begin{equation}\label{ec:kd}
-	K_{d}=\frac{1.42\cdot10^{3}-1.29\cdot10^{4}}{1.43\cdot10^{5}}=-0.08
-\end{equation}
+Tomando en cuenta que $ \lambda =\lambda-A_{22}+GA_{12}$. Despejando G se tendría que $GA_{12}-A_{22}=0$, entonces $G=\dfrac{A_{22}}{A_{12}}$
 
+Entonces: $u(k)=-k_{1}y(k)-k_{2}\omega(k)$ y $\omega(k)=\eta(k)+Gy(k)$
 
-\end{itemize}
-
-
-\section{Controlador.}
-
-En \ref{ec:contro} donde se muestra la ecuación del controlador y a partir de allí se realizaran las ecuaciones de las aproximaciones de las derivadas por definición de primer y segundo orden se basan en:
-
-\begin{equation}\label{ec:derivada1}
-	sf=\frac{f(t)-f(t-T)}{T}
-\end{equation}
-
+Sustituyendo $\omega(k)$ en la ecuación \ref{ec:ralimentaciondeestados} queda:
 
 \begin{equation}
-	s^{2}f=\frac{f'(t)-f'(t-T)}{T}=\frac{\frac{f(t)-f(t-1)}{T}-\frac{f(t-1)-f(t-2)}{T}}{T}=\frac{f(t)-2f(t-1)+f(t-2)}{T^{2}}
+	U(k+1)=-k_{1}y(k+1)-k_{2}\eta(k+1)-k_{2}Gy(k+1)
 \end{equation}
 
-Se tomará que el valor de T menor a 1, para sacar las muestras en base del periodo el cual permite aproximar la derivada a las expresiones en diferencias mostradas en la las ecuaciones \ref{ec:derivada1} y \ref{ec:segundoordfinal}.
+
+Como $GA_{12}-A_{22}=0$, la ecuación \ref{ec:sissegundoordenfinal} quedaría:
+
+
+\begin{center}
+	\begin{equation*}
+		\begin{matrix}
+			\eta(k+1)= (A_{21}-GA_{11}) y(k)+(B_{2}-GB_{1})u(k)
+		\end{matrix}	
+	\end{equation*}
+	\label{ec:sissegundoordenreducida}
+\end{center}
+%% fin del capitulo
+
+
+%
+%Se diseñó un controlador PID con el método de asignación de polos, en el cuál se tienen las siguientes consideraciones para realizarlo:
+%
+%\begin{itemize}
+%	\item Un sistema de segundo orden descrito por la ecuación \ref{ec:segundoorden}
+%	\begin{center}
+%		$
+%			F(s)=\dfrac{K\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}
+%		$
+%	\end{center} 
+%
+%\item La ecuación del controlador PID en paralelo como se muestra en el diagrama de bloques de la figura \ref{fig:controlpa} y la ecuación viene dada por \ref{ec:contro}
+%
+% \begin{figure}[H]
+%	\centering
+%	\includegraphics[scale=0.7]{img/controlpa}
+%	\caption{Sistema de control en lazo cerrado con control PID.}
+%	\label{fig:controlpa}
+%\end{figure}
+%
+%
+%\begin{center}
+%	\begin{equation}\label{ec:contro}
+%		C(s)=K_{p}+K_{d}s+\dfrac{K_{i}}{s}=\frac{K_{d}s^{2}+K_{p}s+K_{i}}{s}
+%	\end{equation}
+%\end{center}
+%
+%Donde:
+%\begin{itemize}
+%	\item  $K_{p}$= Es la ganancia proporcional.
+%	\item $K_{i}$= Es la ganancia integral del controlador.
+%	\item $K_{d}$= Es la ganancia derivativa del controlador.
+%\end{itemize}
+%
+%\item Se le asignan tanto al controlador como al sistema a controlar,coeficientes que representarán polinomios. 
+%
+%
+%
+%\begin{center}
+%	$f(s)=\dfrac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}=\frac{K}{s^{2}+as+b}=\dfrac{A}{B}$
+%\end{center}
+% \begin{center}
+% 	
+% 	$C(s)=\frac{K_{d}s^{2}+K_{p}s+K_{i}}{s}$=$\dfrac{D}{E}$
+% 	
+% \end{center}
+%
+%\item La función a lazo cerrado es 
+%\begin{center}
+%	$H(s)=\frac{DA}{EB+DA}$
+%\end{center}
+%
+%\item Si se reemplaza la ecuación 
+%
+%\begin{center}
+%	$H(s)=\frac{K(d_{2}s^{2}+d_{1}s+d_{0})}{s(s^2+as+b)+(d_{2}s^2+d_{1}s+d_{0})K}$
+%\end{center}
+%
+%\begin{center}
+%	\begin{equation}\label{ec:controlfinal}
+%		H(s)=\frac{Kd_{2}s^{2}+Kd_{1}s+Kd_{0}}{s^{3}+(a+Kd_{2})s^{2}+(b+Kd_{1})s+Kd_{0}}
+%	\end{equation}
+%\end{center}
+%
+%\item Se obtiene una función de transferencia de tercer orden, con dos polos dominantes que son los que rigen la dinámica del sistema. Por este motivo, se debe completar la ecuación característica que representa al polinomio deseado con otro polo alejado del eje imaginario y de los polos dominantes. Esto con el objetivo de tener un polo que no afecte el comportamiento de los polos dominantes.
+%
+%Al polo deseado  calculado en \ref{ec:polo}, se le agrega un tercer polo siendo la ecuación general:
+%
+%\begin{center}
+%	$P_{d}(s)=(s^{2}+h_{1}s+h_{2})(s+p_{1})$=$s^{3}+\alpha_{1}s^{2}+\alpha_{2}s+\alpha_{3}$
+%\end{center}
+%
+%\begin{center}
+%	$P_{s}(d)=(s^{2}+2.25\cdot 10^{2}s+2.58 \cdot10^{4})(s+1200)=s^{3}+1.42\cdot10^{3}s^{2}+2.95\cdot10^{5}s+30.91\cdot10^{6}$
+%\end{center}
+%
+%\item A continuación se igualan las dos ecuaciones características de H(s) y de $P_{s}$, para poder determinar los valores de $ K_{p}$,$ K_{d}$ y $K_{i}$.
+%
+%\begin{center}
+%	$s^{3}+(a+Kd_{2})s^{2}+(b+Kd_{1})s+Kd_{0}=s^{3}+\alpha_{1}s^{2}+\alpha_{2}s+\alpha_{3} $
+%\end{center}
+%
+%\item Igualando los coeficientes
+%
+%\subitem $a+Kd_{2}=\alpha_{1}$ 
+%\subitem $b+Kd_{1}=\alpha_{2}$
+%\subitem $Kd_{0}=\alpha_{3}$
+%
+%\item Reemplazando y resolviendo los valores $K_{p}$,$ K_{i}$, $ K_{d}$:
+%
+%
+%\subitem $K_{d}=\frac{\alpha_{1}-a}{K}$
+%\subitem $K_{p}=\frac{\alpha_{2}-b}{K}$
+%\subitem $K_{i}=\frac{\alpha_{3}}{K}$
+%
+%\item Los valores númericos de $K_{p}$,$ K_{i}$, $ K_{d}$: 
+%
+%\begin{equation}\label{ec:kp}
+%	K_{p}=\frac{2.95\cdot10^{5}-1.43\cdot10^{5}}{1.43\cdot10^{5}}=1.06
+%\end{equation}
+%
+%\begin{equation}\label{ec:ki}
+%	K_{i}=\frac{30.91\cdot10^{6}}{1.43\cdot10^{5}}=215.7
+%\end{equation}
+%
+%\begin{equation}\label{ec:kd}
+%	K_{d}=\frac{1.42\cdot10^{3}-1.29\cdot10^{4}}{1.43\cdot10^{5}}=-0.08
+%\end{equation}
+%
+%
+%\end{itemize}
+%
+%
+%\section{Controlador.}
+%
+%En \ref{ec:contro} donde se muestra la ecuación del controlador y a partir de allí se realizaran las ecuaciones de las aproximaciones de las derivadas por definición de primer y segundo orden se basan en:
+%
+%\begin{equation}\label{ec:derivada1}
+%	sf=\frac{f(t)-f(t-T)}{T}
+%\end{equation}
+%
+%
+%\begin{equation}
+%	s^{2}f=\frac{f'(t)-f'(t-T)}{T}=\frac{\frac{f(t)-f(t-1)}{T}-\frac{f(t-1)-f(t-2)}{T}}{T}=\frac{f(t)-2f(t-1)+f(t-2)}{T^{2}}
+%\end{equation}
+%
+%Se tomará que el valor de T menor a 1, para sacar las muestras en base del periodo el cual permite aproximar la derivada a las expresiones en diferencias mostradas en la las ecuaciones \ref{ec:derivada1} y \ref{ec:segundoordfinal}.
+
 
 
 

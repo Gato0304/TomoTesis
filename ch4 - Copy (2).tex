@@ -16,7 +16,7 @@
 %
 En este capítulo se muestran los requisitos y las características que se necesitan para la selección de la plataforma tecnológica utilizada en el proyecto.
 
-\section{Requerimientos para el desarrollo del proyecto }\label{sec:requerimientos}
+\section{Requerimientos para el desarrollo del proyecto }
 
 Para emular el sistema de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos realistas y precisos. 
 
@@ -39,12 +39,82 @@ Para esto se tomó en cuenta lo siguiente:
 A continuación, se presentarán cuatro posibles formas de trabajar y emular la planta de segundo orden.
 \subsection{Emulación mediante un circuito electrónico}
 
-La ventaja principal de los circuitos electrónicos es que ofrecen una aproximación rápida y de bajo costo para algunos sistemas. Sin embargo, no siempre se ajustan correctamente debido a limitaciones de hardware y la tolerancia de los componentes usados. Además, para su debido procesamiento es necesario el uso de periféricos convertidores de señal analógica y microcontroladores con una alta tasa de bits de muestreo.
 
-Teniendo esto en cuenta y para cumplir con los requerimientos mencionados en \ref{sec:requerimientos} y las estimaciones hechas en  \ref{sec:modeladocircuito} se determina que el uso de un circuito para emular el sistema de segundo orden no ofrece una solución debido a las limitaciones que se tienen en este trabajo para medir su desempeño a través del método HIL.
+Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de un sistema.  
+
+En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
 
 
 %Este tipo de filtros se utiliza como un circuito que permite implementar filtros activos de orden superior.
+
+Su topología se basa en un filtro activo de segundo orden, que cuenta con un amplificador operacional no inversor, dos resistencias y dos condensadores. El circuito utilizado se puede apreciar en la figura \ref{fig:sallenkey} 
+
+ \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/sallenkey}
+	\caption{Circuito Sallen-Key}
+	\label{fig:sallenkey}
+\end{figure}
+
+El modelo de un sistema de control segundo orden corresponde a la ecuación \ref{ec:segundoorden}:
+
+ \begin{center}
+	\begin{equation}
+		F(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}
+		%\textup{Ecuación que representa una planta de segundo orden}
+	\end{equation}	
+\end{center}
+
+La ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
+
+ \begin{center}
+	\begin{equation}\label{ec:sallenkey}
+		\frac{V_{0}}{V_{i}}=\frac{K}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1}+R_{1}C_{2}*(1-k))+1}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+	
+	\end{center}
+
+Según la figura \ref{fig:sallenkey} se plantea un buffer en la etapa amplificadora por lo que k=1.
+ \begin{center}
+ 	\begin{equation}\label{ec:sallen2}
+ 		\frac{V_{0}}{V_{i}}=\frac{1}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1})+1}
+ 		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+ 	\end{equation}
+ 	
+ \end{center}
+
+Usando la ecuación \ref{ec:sallen2} se expresa un sistema de la forma detallada en la ecuación \ref{ec:segundoorden} de donde se obtiene:
+
+ \begin{center}
+	\begin{equation} \label{ec:filtroresistencia}
+		\frac{V_{0}}{V_{i}}=\frac{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}{s^{2}+s\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}+\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+Obteniendo el valor de $\omega_{n}$ y $\zeta$ con la siguientes ecuaciones:
+
+
+\begin{center}
+	\begin{equation} \label{ec:omegan}
+		\omega_{n}=\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+
+\begin{center}
+	\begin{equation} \label{ec:zeta}
+		\zeta=\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}\frac{1}{2\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito. Usando las ecuaciones obtenidas de \ref{ec:omegan} y \ref{ec:zeta} se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key, las cuales serán analizadas en el capítulo \ref{CAP:accio}.
 
 
 \subsection{Matlab}
@@ -81,7 +151,7 @@ Según la revista científica IEEE Spectrum en el 2020 Python se encontraba como u
 
  \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/ranking}
+	\includegraphics[width=1\linewidth]{img/ranking}
 	\caption{Ranking de lenguajes de programación mas populares del 2020}
 	\label{fig:ranking}
     \cite{lang}

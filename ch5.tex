@@ -1,0 +1,308 @@
+De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño esta basada en el lenguaje de programación Python. Para esto se contempla realizar una interfaz gráfica que contenga comunicación serial, cálculos matemáticos, modificación de texto y posibilidad de mostrar el gráfico de las señales, para lo cual se utilizarán varios paquetes integrados como lo es TKinter, Matplotlib y Numpy.
+
+\section{Estructura del programa}
+
+La estructura del programa consiste en separar las funciones principales de la interfaz las cuales serían: configuración, comunicación y resultados.
+
+Esto obedece a la estructura propuesta en la figura \ref{fig:estructurahil} donde las funciones de configuración y resultados pertenecen al modelo del sistema de segundo orden y establecen una interfaz de comunicación vía serial con el hardware del controlador.
+%Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se permita cambiar los parámetros que componen a la ecuación del sistema de segundo orden, además de contener las siguientes acciones:
+
+\section{Configuración}
+
+En la interfaz se deben realizar las configuraciones del sistema de segundo orden, puerto serial y los parámetros del controlador.
+
+\subsection{Configuración del puerto}
+
+Previo a todas las tareas que se pueden llevar a cabo en el sistema es necesario como primer paso la configuración del puerto serial que se usará como medio de comunicación con el controlador. 
+
+Por lo tanto, se considera el uso de la librería pySerial \cite{serial} la cual es una extensión compatible con  Windows 32 bits, OSX, Linux, BSD, Jython y IronPython, permitiendo configurar el puerto a través de las propiedades de Python. 
+
+Para la comunicación del puerto se establece una tasa de 115200 baudios con un timeout de 10 segundos.
+
+Luego de configurar el puerto serial correctamente, se habilitan las opciones de configuración de la planta, configuración del controlador y los gráficos. En el diagrama de la figura \ref{fig:Pserial} se muestra la operación de estas instrucciones.
+
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/pserial}
+	\caption{Conexión puerto serial. }
+	\label{fig:Pserial}
+\end{figure}
+
+
+\subsection{Configuración de los parámetros del sistema de segundo orden}
+
+Se desea emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:discretizacionBA}. Para lo cuál es necesario configurar los coeficientes de los polinomios $A(z)$ y $B(z)$.
+
+Para estimar el resultado de la ecuación en diferencias del sistema discretizado se realizó el siguiente procedimiento:
+
+Siendo el sistema de segundo órden descrito por la ecuación \ref{ec:discretizacionSO}  
+\begin{equation}
+	\dfrac{Y(z)}{U(z)}=\dfrac{b_{2} + b_{1}z^{-1} + b_{0} z^{-2}}{a_{2} + a_{1} z^{-1} + a_{0}z^{-2}}
+	\label{ec:discretizacionSO}%
+\end{equation}
+
+Se tiene que: 
+\begin{equation}
+	(a_{2} + a_{1} z^{-1} + a_{0}z^{-2})Y(z)=(b_{2} + b_{1}z^{-1} + b_{0} z^{-2})U(z)
+	%\label{ec:discretizacionBA}%
+\end{equation}
+
+Entonces, 
+\begin{equation}
+	a_{2}Y(z) + a_{1} z^{-1}Y(z) + a_{0}z^{-2}Y(z)=b_{2}U(z) + b_{1}z^{-1}U(z) + b_{0} z^{-2}U(z)
+	%\label{ec:discretizacionBA}%
+\end{equation}
+
+Luego, según la anti transformada $\mathcal{Z}$ en ambos lados de la igualdad,
+
+\begin{equation}
+	a_{2}y(k) + a_{1}y(k-1) + a_{0}y(k-2)=b_{2}u(k) + b_{1}u(k-1) + b_{0}u(k-2)
+	%\label{ec:discretizacionBA}%
+\end{equation}
+
+Despejando con respecto a $y(k)$,
+
+\begin{equation}
+	a_{2}y(k) = b_{2}u(k) + b_{1}u(k-1) + b_{0}u(k-2) -a_{1}y(k-1) - a_{0}y(k-2)
+	%\label{ec:discretizacionBA}%
+\end{equation}
+
+Si $a_{2} + a_{1} z^{-1} + a_{0}z^{-2}$ es un polinomio mónico, entonces $a_{2} = 1$, 
+
+\begin{equation}
+	y(k) = b_{2}u(k) + b_{1}u(k-1) -a_{1}y(k-1) + b_{0}u(k-2) - a_{0}y(k-2)
+	\label{ec:salidaDiscreta}%
+\end{equation}
+
+Agrupando los términos $k-2$, 
+\begin{equation}
+	y_{k-2} =  b_{0}u(k-2) - a_{0}y(k-2)
+	%\label{ec:discretizacionBA}%
+\end{equation}
+
+Agrupando los términos $k-1$
+\begin{equation}
+	y_{k-1} = b_{1}u(k-1) -a_{1}y(k-1) + y_{k-2}
+	%\label{ec:discretizacionBA}%
+\end{equation}
+
+Entonces, la ecuación \ref{ec:salidaDiscreta} se convierte en:
+
+\begin{equation}
+	y(k) = b_{2}u(k) + y_{k-1}
+	\label{ec:salidaDiscretaCodigo}%
+\end{equation}
+
+La ecuación \ref{ec:salidaDiscretaCodigo} es una representación discreta del sistema dado por la ecuación \ref{ec:discretizacionSO}, la cuál será utilizada para el desarrollo del algoritmo en Python. 
+
+En el diagrama \ref{fig:confip} se muestra como configurar el sistema de segundo orden en la interfaz. 
+
+	\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{img/confip}
+	\caption{Configuración del sistema. }
+	\label{fig:confip}
+\end{figure}
+\subsection{Configuración del controlador}
+Este apartado se desarrolla en el capitulo \ref{CAP:controlador}.
+\section{Comunicación}
+
+
+
+
+
+
+
+La trama de comunicación entre el sistema y el controlador consta de un campo caracteres variables que representan el valor numérico decimal que se manejará en las ecuaciones y un caracter de salto de línea (ASCII hexadecimal: 0x0A) para culminar el mensaje. El valor enviado o recibido debe ser procesado según corresponda. Es decir, para enviar al controlador el valor $a = 123.56$, debe multiplicarse por $100000000$, quedando $a= 12356000000$
+
+Una vez hecho esto, se transforma de valor numérico 12356000000 a una cadena de caracteres ``12356000000'' a la cuál se adiciona un salto de línea para concluir el mensaje, quedando de la siguiente manera:
+
+
+Mensaje a enviar = ``12356000000(0x0A)''
+
+En la tabla \ref{tab:trama} se encuentra la estructura que debe poseer la trama de comunicación.
+
+
+\begin{table}[htbp]
+	\centering
+	\caption{Trama de comunicación}
+	\begin{tabular}{|l|l|c|}
+		\hline
+		\multicolumn{3}{|c|}{Estructura de trama de comunicación} \\
+		\hline
+		& Descripcion & \multicolumn{1}{l|}{Tamaño} \\
+		\hline
+		Inicio & valor decimal x 100000000 & \multicolumn{1}{l|}{Variable} \\
+		\hline
+		Final & ``0x0A$"$ o ``Salto de linea$"$ & 1 \\
+		\hline
+	\end{tabular}%
+	\label{tab:trama}%
+\end{table}%
+
+
+
+En la figura \ref{fig:confic} se muestra la manera de en que se ejecuta la comunicación:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.4\linewidth]{img/confic}
+	\caption{Configuración de comunicación }
+	\label{fig:confic}
+\end{figure}
+
+\subsection{Validaciones previas}
+
+El programa evalúa mediante un comando condicional si el puerto esta funcionando y si los parámetros están configurados correctamente. En caso de ser cierto se limpia el buffer de comunicación, los arreglos de tiempo y los valores que tomará el gráfico de resultados para evitar datos erróneos.
+
+\subsection{Inicio de la comunicación}
+
+Una vez se han hecho las validaciones, se procede a enviar al controlador el mensaje de inicio de comunicación haciendo uso del comando indicado en la tabla \ref{tab:comandos}. 
+
+La comunicación se establece entre el sistema de segundo orden y el controlador durante un número de muestras finito que será definido en la interfaz, con el objetivo de almacenar los datos suficientes para el desarrollo de los gráficos.
+
+
+\begin{table}[htbp]
+	\centering
+	\caption{Lista de comandos enviados al controlador.}
+	\begin{tabular}{|l|l|}
+		\hline
+		\multicolumn{2}{|c|}{Lista de comandos enviados al controlador} \\
+		\hline
+		Comando & Función \\
+		\hline
+		o 0x0A  & Inicio de comunicación \\
+		\hline
+		c 0x0A  & Fin de comunicación \\
+		
+		\hline
+	\end{tabular}%
+	\label{tab:comandos}%
+\end{table}%
+
+\subsection{Comunicación entre el sistema y el controlador}
+
+Una vez recibido un nuevo valor desde el puerto serial, se evalúa la longitud del mensaje, ya que pueden existir valores nulos. Si este es válido, se procederá a procesar la respuesta del sistema de segundo orden dado por la ecuación \ref{ec:salidaDiscretaCodigo}. En el caso contrario, el valor se ignora.
+ 
+La comunicación termina cuando se alcanza el número de muestras finitas y se envía el comando de fin de comunicación indicado en la tabla \ref{tab:comandos}.
+
+
+En resumen, el proceso de comunicación entre la interfaz de emulación y el controlador indicado en la figura \ref{fig:confic} transcurre de la siguiente manera:
+	\begin{itemize}
+	\item Se presiona un botón que abre la comunicación.
+	\item Este provoca que se envíe el comando de inicio al dispositivo controlador. De ser aceptada la respuesta, el microcontrolador comienza a comunicarse.
+	\item El controlador calculará los valores respectivos según los reciba desde el sistema, para luego devolver los valores de la señal de control al sistema permitiendo repetir el ciclo. 
+	\item La comunicación termina cuando el ciclo, el cual tiene una cantidad definida de valores, acaba y cuando se haga uso del comando de fin de comunicación.
+	
+\end{itemize}
+%\begin{description}
+%	%\item[a.] \textbf{Selección del puerto para la comunicación serial con el controlador.}
+%	
+%	%Se utilizó la librería pySerial \cite{serial} la cual es una extensión compatible con  Windows 32 bits, OSX, Linux, BSD, Jython y IronPython, permitiendo configurar el puerto a través de las propiedades de Python. 
+%	
+%	%Se conecto el puerto serial a 115200 baudios con un timeout de 10 seg. Se habilitó una entrada de texto en la interfaz para poder insertar el puerto  por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde saldrá una notificación si la comunicación fue correcta o ocurrió un error en el proceso.
+%	
+%	
+%	
+%	%Se utiliza los siguientes pasos para abrir la comunicación con el controlador:
+%
+%	
+%%	En el diagrama \ref{fig:Pserial} se muestra como se ejecuta la comunicación inicial del puerto serial:
+%	
+%%	\begin{figure}[H]
+%%		\centering
+%%		\includegraphics[width=0.7\linewidth]{img/pserial}
+%%		\caption{Conexión puerto serial. }
+%%		\label{fig:Pserial}
+%%	\end{figure}
+%	
+%	%\item[b.] \textbf{Configuración de los parámetros del sistema de segundo orden.}
+%	
+%	%Para esto se preestablecieron los datos para el funcionamiento del motor Quanser. De igual forma, la interfaz permite modificar los parámetros para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
+%		
+%	
+%	\item[c.]\textbf{ Configuración de los parámetros del controlador.}
+%	
+%	La interfaz cuenta con unas entradas que permiten configurar los parámetros  del controlador PID que se desea utilizar. 
+%	
+%	\item[d.] \textbf{Graficar la respuesta controlada y sin controlar.}
+%	
+%	Una vez se termina la comunicación, se puede presionar el botón para obtener la respuesta controlada y la respuesta original del sistema. En el diagrama \ref{fig:Graficos} se muestra la configuración de los gráficos:
+%	
+%	\begin{figure}[H]
+%		\centering
+%		\includegraphics[width=0.3\linewidth]{img/Graficos}
+%		\caption{Configuración de gráficos }
+%		\label{fig:Graficos}
+%	\end{figure}
+%	
+%	
+%	\item[e.] \textbf{Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.}
+%	
+%	Por último, después de graficar se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza tomados de los valores que proporciona la gráfica.
+%	
+%	\item [d.]\textbf{ Posibles errores del sistema.}
+%	En el inicio del código se definen las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se decidirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
+%	\begin{itemize}
+%		\item Error 01: Error si el campo de puerto esta vacío.
+%		\item Error 02: Error si no hay conexión de puerto.
+%		\item Error 03: Error si no se ha configurado  la planta.
+%		\item Error 04: Error con la conexión.
+%	\end{itemize} 
+%\end{description}
+
+%Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
+
+%Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
+
+%Una vez terminada la comunicación se calcula los valores de sobrepico, tiempo de alza y tiempo de establecimiento, tomados de los valores que proporciona la gráfica.
+
+
+
+
+%La trama de comunicación entre el sistema y el controlador consta de un campo variable de máximo 6 caracteres que representan el valor numérico decimal que se manejará en las ecuaciones y un caracter de salto de línea para culminar el mensaje. El valor enviado o recibido debe ser procesado según corresponda. Es decir, para enviar al controlador el valor a = 123.56, debe multiplicarse por cien, quedando a= 12356
+
+%Una vez hecho esto, se transforma de valor numérico 123456 a una cadena de caracteres $"$12356$"$ a la cuál se adiciona un salto de línea para concluir el mensaje, quedando de la siguiente manera:
+
+
+%Mensaje a enviar = $"$123456 0x0A$"$
+%La trama de la comunicación entre el sistema y el controlador consta de un protocolo de comunicación entre el controlador y el emulador donde una vez validados los campos en el programa, se convierten en un tipo de dato float y comienza la comunicación.  
+
+
+% donde el usuario incorpora los coeficientes que componen el sistema de segundo orden mostrado en la ecuación \ref{ec:plantasegundo} ; una vez validados los campos en el programa, se convierten en un tipo de dato float y comienza la comunicación.
+
+
+%Los condiciones iniciales se toman en reposo al inicio, por este motivo son iguales a cero. Luego se comienza un ciclo que comenzará a contar y a calcular los valores del arreglo con respecto los coeficientes de la ecuación y con el tiempo de muestreo.
+
+
+
+
+
+%Con el valor obtenido en \ref{ec:yinicial} se va creando un arreglo con el método $"$np.append$"$ que es parte de la librería Numpy. Este método permite agregar la $y_{inicial}$ al final del arreglo e ir obteniendo todos los valores. El código continua cambiando en cada ciclo los valores de $y_2=y_{1}$  y $y_1=y_{inicial}$.
+
+%El programa evalúa mediante un comando condicional si el puerto esta funcionando y si los parámetros están configurados correctamente. En caso de ser cierto se limpia el buffer de comunicación, los arreglos de tiempo y los valores que tomara la gráfica para evitar datos erroneos.
+
+
+%Se manda por el puerto serial una $"$o$"$ y comienza el timeout que es el tiempo que dice cuánto dura la comunicación, se lee el puerto serial con el método readline y se guarda en la variable  $"$lect $"$.
+
+
+%Una vez recibido un nuevo valor a través del puerto serial, se evalúa la longitud del mismo con el método $"$len$"$ , ya que pueden existir valores nulos. De ser así, en el arreglo U se inserta un 0 con ayuda del método np.insert. De no ser nulo el valor recibido, se calcula la respuesta a través de \ref{ec:yinicial}. 
+
+%Luego el método $"$len$"$ que devuelve la longitud de una lista, se pone con un comando condicional de que si es estrictamente igual a cero, se con el método np.insert se crea un arreglo de ceros si esto no se cumple se calcula en valor dado en \ref{ec:yinicial} .
+
+
+%\begin{center}
+%	\begin{equation}\label{ec:ecupro}
+%		y=\frac{float(\frac{int(lect)}{100})b_{0}t_{m}^{2}+(2a_{2}+a_{1}t_{m})y_{1}-a_{2}y_{2}-a_{2}y_{2}}{a_{2}+a_{1}t_{m}+a_{0}t_{m}^{2}}
+%	\end{equation}
+%\end{center}
+
+%Dividiendo el coeficiente que se obtiene del controlador y convirtiendolo en un valor de tipo float, luego se multiplica la respuesta por 100 y se convierte en un valor de tipo int enviándolo de respuesta al controlador mas un salto de linea. Por último, se aumenta el contador del tiempo.
+
+%Para salir del ciclo cada vez que se calcula un valor de la respuesta se aumenta un contador y se compara cuándo se cumple el timeout establecido, si el contador es mayor que el timeout se envía a la interfaz el mensaje de $"$Terminado$"$, y se manda el comando de finalización de la comunicación, según como se muestra en la tabla  \ref{tab:comandos}.
+
+
+
+\section{Interfaz gráfica}
+
+

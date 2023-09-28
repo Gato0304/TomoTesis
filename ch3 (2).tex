@@ -27,7 +27,7 @@ Sabiendo que la corriente de campo es constante ($I_{f}$), se toman como variabl
 		\left\{\begin{matrix}
 			\begin{bmatrix}
 				& \dot{\omega _{m}(t)}\\ 
-				& \dot{i_{a}(t)}
+				& \dot{I_{a}(t)}
 			\end{bmatrix}
 			=
 			\begin{bmatrix}
@@ -36,7 +36,7 @@ Sabiendo que la corriente de campo es constante ($I_{f}$), se toman como variabl
 			\end{bmatrix}
 			\begin{bmatrix}
 				& \omega _{m}(t) \\ 
-				& i_{a}(t)
+				& I_{a}(t)
 			\end{bmatrix}
 			+
 			\begin{bmatrix}
@@ -49,7 +49,7 @@ Sabiendo que la corriente de campo es constante ($I_{f}$), se toman como variabl
 			\end{bmatrix}
 			\begin{bmatrix}
 				\omega_{m}(t)\\ 
-				i_{a}(t)
+				I_{a}(t)
 			\end{bmatrix}
 		\end{matrix}\right.	
 		\label{ec:espaciodeestado1q}%
@@ -151,7 +151,7 @@ De acuerdo con la información presentada anteriormente, se obtiene el modelo de 
 		\left\{\begin{matrix}
 			\begin{bmatrix}
 				& \dot{\omega _{m}(t)}\\ 
-				& \dot{i_{a}(t)}
+				& \dot{I_{a}(t)}
 			\end{bmatrix}
 			=
 			\begin{bmatrix}
@@ -160,7 +160,7 @@ De acuerdo con la información presentada anteriormente, se obtiene el modelo de 
 			\end{bmatrix}
 			\begin{bmatrix}
 				& \omega_{m}(t) \\ 
-				& i_{a}(t)
+				& I_{a}(t)
 			\end{bmatrix}
 			+
 			\begin{bmatrix}
@@ -168,12 +168,12 @@ De acuerdo con la información presentada anteriormente, se obtiene el modelo de 
 				& 1220
 			\end{bmatrix}
 			e_{a}(t)\\ 
-			y(t)=\begin{bmatrix}
+			Y=\begin{bmatrix}
 				1 & 0
 			\end{bmatrix}
 			\begin{bmatrix}
 				\omega_{m}(t)\\ 
-				i_{a}(t)
+				I_{a}(t)
 			\end{bmatrix}
 		\end{matrix}\right.
 	\label{ec:espaciodeestado2q}%	
@@ -205,85 +205,7 @@ Esto cumple con el modelo de un sistema de control segundo orden que corresponde
 	\end{equation}	
 \end{center}
 
-\section{Modelado del sistema con un circuito de segundo orden}\label{sec:modeladocircuito}
-
-
-Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de un sistema.  
-
-Su topología se basa en un filtro activo de segundo orden, que cuenta con un amplificador operacional no inversor, dos resistencias y dos condensadores. El circuito utilizado se puede apreciar en la figura \ref{fig:sallenkey} 
-
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=1\linewidth]{img/sallenkey}
-	\caption{Circuito Sallen-Key}
-	\label{fig:sallenkey}
-\end{figure}
-
-Se propone una aproximación a través de un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
-
-El modelo de un sistema de control segundo orden corresponde a la ecuación \ref{ec:segundoorden}:
-
-\begin{center}
-	\begin{equation}
-		F(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}
-		%\textup{Ecuación que representa una planta de segundo orden}
-	\end{equation}	
-\end{center}
-
-La ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
-
-\begin{center}
-	\begin{equation}\label{ec:sallenkey}
-		\frac{V_{0}}{V_{i}}=\frac{K}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1}+R_{1}C_{2}*(1-k))+1}
-		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
-	\end{equation}
-	
-\end{center}
-
-Según la figura \ref{fig:sallenkey} se plantea un buffer en la etapa amplificadora por lo que k=1.
-\begin{center}
-	\begin{equation}\label{ec:sallen2}
-		\frac{V_{0}}{V_{i}}=\frac{1}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1})+1}
-		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
-	\end{equation}
-	
-\end{center}
-
-Usando la ecuación \ref{ec:sallen2} se expresa un sistema de la forma detallada en la ecuación \ref{ec:segundoorden} de donde se obtiene:
-
-\begin{center}
-	\begin{equation} \label{ec:filtroresistencia}
-		\frac{V_{0}}{V_{i}}=\frac{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}{s^{2}+s\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}+\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
-		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
-	\end{equation}
-\end{center}
-
-
-Obteniendo el valor de $\omega_{n}$ y $\zeta$ con la siguientes ecuaciones:
-
-
-\begin{center}
-	\begin{equation} \label{ec:omegan}
-		\omega_{n}=\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
-		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
-	\end{equation}
-\end{center}
-
-
-
-\begin{center}
-	\begin{equation} \label{ec:zeta}
-		\zeta=\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}\frac{1}{2\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}}
-		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
-	\end{equation}
-\end{center}
-
-
-Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito.
-
-% Usando las ecuaciones obtenidas de \ref{ec:omegan} y \ref{ec:zeta} se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key, las cuales serán analizadas en el capítulo \ref{CAP:modeloplanta}.
-
+\section{Modelado del sistema con un circuito de segundo orden}
 
 Con la funcion de transferencia planteada en  \ref{ec:filtroresistencia} y los valores obtenidos en \ref{ec:plantaarmaduracompleta}, se obtiene el siguiente sistema de ecuaciones:
 
@@ -498,7 +420,7 @@ Entonces, partiendo de la ecuación \ref{ec:espaciodeestado2q}:
 				& 1220
 			\end{bmatrix}
 			e_{a}(t)\\ 
-			y(t)=\begin{bmatrix}
+			Y=\begin{bmatrix}
 				1 & 0
 			\end{bmatrix}
 			\begin{bmatrix}
@@ -717,7 +639,7 @@ Partiendo de la ecuación \ref{ec:espaciodeestado2q}, se tiene:
 		\left\{\begin{matrix}
 			\begin{bmatrix}
 				& \dot{\omega _{m}(t)}\\ 
-				& \dot{i_{a}(t)}
+				& \dot{I_{a}(t)}
 			\end{bmatrix}
 			=
 			\begin{bmatrix}
@@ -726,7 +648,7 @@ Partiendo de la ecuación \ref{ec:espaciodeestado2q}, se tiene:
 			\end{bmatrix}
 			\begin{bmatrix}
 				& \omega_{m}(t) \\ 
-				& i_{a}(t)
+				& I_{a}(t)
 			\end{bmatrix}
 			+
 			\begin{bmatrix}
@@ -734,12 +656,12 @@ Partiendo de la ecuación \ref{ec:espaciodeestado2q}, se tiene:
 				& 1220
 			\end{bmatrix}
 			e_{a}(t)\\ 
-			y(t)=\begin{bmatrix}
+			Y=\begin{bmatrix}
 				1 & 0
 			\end{bmatrix}
 			\begin{bmatrix}
 				\omega_{m}(t)\\ 
-				i_{a}(t)
+				I_{a}(t)
 			\end{bmatrix}
 		\end{matrix}\right.
 		%	\label{ec:espaciodeestado2q}%	
@@ -768,117 +690,241 @@ Luego, se realiza la discretización a través del programa \ref{code2} en MATLAB.
 	Gdiscreta = tf(num,den,Tm);
 \end{lstlisting}
 
-
-El resultado de las matrices que conforman el espacio de estado discreto es reflejado en \ref{ec:espaciodeestadosdiscreto1} :
-
-
-\begin{center}
-	\begin{equation}
-		\left\{\begin{matrix}
-			x(k+1)
-			=
-			\begin{bmatrix}
-				& 0.9689 & 0.3389 & \\ 
-				&   -0.0089& -0.9034 & \\ 
-			\end{bmatrix}
-			x(k)
-			+
-			\begin{bmatrix}
-				& 0.6199 \\ 
-				&  0.1766
-			\end{bmatrix}
-			u(k)\\ 
-			y(k)=\begin{bmatrix}
-				0.9844 & 0.1694
-			\end{bmatrix}
-			x(k) 
-			
-			+0.3099 \quad
-			u(k)
-			
-		\end{matrix}\right.
-			\label{ec:espaciodeestadosdiscreto1}%	
-	\end{equation}
-\end{center}
-
-La función de transferencia de pulso que se obtiene es:
+La ecuación que se obtiene es:
 
 \begin{equation}
-	G(z)=\dfrac{0.3099z^{2} + 0.6199z + 0.3099}{z^{2} - 0.06544 z - 0.8723}
+	G(z)=\dfrac{0.3099(z)^2 + 0.6199z + 0.3099}{(z)^2 - 0.06544 z - 0.8723}
 	\label{ec:discretizacion}%
 \end{equation}
 
-En términos de $z^-1$:
+En términos de $z^-1$
 
 \begin{equation}
-G(z)=\dfrac{0.3099 + 0.6199z^{-1} + 0.3099 z^{-2}}{1 - 0.06544 z^{-1} - 0.8723z^{-2}}
+G(z)=\dfrac{0.3099 + 0.6199z^-1 + 0.3099 z^-2}{1 - 0.06544 z^-1 - 0.8723z^-2}
 	\label{ec:discretizacionz}%
 \end{equation}
 
-Esto obedece a un sistema de la forma $B(z)/A(z)$: 
+\section{Diseño de la interfaz de emulación de la planta de segundo orden}\label{sec:diint}
+
+De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño esta basada en el lenguaje de programación Python. Para esto se contempla realizar una interfaz gráfica que contenga comunicación serial, cálculos matemáticos, modificación de texto y posibilidad de realizar gráficos, para lo cual se utiliza varios paquetes integrados como lo es TKinter.
+
+\subsection{Interfaz gráfica}
+Para el diseño de la interfaz gráfica se consideró el paquete Tkinter, que es parte de la herramientas que se pueden utilizar en Python de forma nativa. Esta herramienta se configuró para que se permita cambiar los parámetros que componen a la ecuación del sistema de segundo orden, además de contener las siguientes acciones:
 
 
-\begin{equation}
-	\dfrac{B(z)}{A(z)}=\dfrac{b_{2} + b_{1}z^{-1} + b_{0} z^{-2}}{a_{2} + a_{1} z^{-1} + a_{0}z^{-2}}
-	\label{ec:discretizacionBA}%
-\end{equation}
+\begin{description}
+	\item[a.] \textbf{Selección del puerto para la comunicación serial con el controlador.}
+	
+	Se utilizó la librería pySerial \cite{serial} la cual es una extensión compatible con  Windows 32 bits, OSX, Linux, BSD, Jython y IronPython, permitiendo configurar el puerto a través de las propiedades de Python. 
+	
+	Se conecto el puerto serial a 921600 baudios con un timeout de 10 seg. Se habilitó una entrada de texto en la interfaz para poder insertar el puerto  por el cual se va a realizar la comunicación serial con el controlador real y un botón para conectarlo donde saldrá una notificación si la comunicación fue correcta o ocurrió un error en el proceso.
+	
+	El proceso de comunicación entre la interfaz de emulación y el controlador transcurre de la siguiente manera
+	
+	%Se utiliza los siguientes pasos para abrir la comunicación con el controlador:
+	\begin{itemize}
+		%\item Se presiona un botón que envía por el puerto serial un $"$o$"$ el cual significa que se abrió la comunicación, enviando un cero.
+		\item La interfaz cuenta con un botón de inicio de comunicación. Este provoca que se envíe el carácter $"o"$ que se interpreta como un comando de inicio en el dispositivo controlador. De ser aceptada la respuesta, el microcontrolador devuelve cero como valor de la respuesta.
+		\item El controlador calculará los valores respectivos según los reciba desde el sistema, para luego devolver los valores de la señal de control al sistema permitiendo repetir el ciclo. 
+		
+		%\item El controlador comienza a calcular los valores y se los envía al sistema.
+		\item La comunicación termina cuando el ciclo el cual tiene una cantidad definida de valores acaba y cuando se haga uso del comando $"$c$"$.
+		
+		\begin{table}[htbp]
+			\centering
+			\caption{Lista de comandos enviados al controlador.}
+			\begin{tabular}{|l|l|}
+				\hline
+				\multicolumn{2}{|c|}{Lista de comandos enviados al controlador} \\
+				\hline
+				carácter & función \\
+				\hline
+				$"$c$"$   & fin de comunicación \\
+				\hline
+				$"$o$"$   & inicio de comunicación \\
+				\hline
+			\end{tabular}%
+			\label{tab:comandos}%
+		\end{table}%
+	\end{itemize}
 
-Para comparar la coincidencia entre el dominio discreto y el sistema continuo se realizo la siguiente gráfica 
+En el diagrama \ref{fig:Pserial} se muestra como se ejecuta la comunicación inicial del puerto serial:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/pserial}
+	\caption{Conexión puerto serial. }
+	\label{fig:Pserial}
+\end{figure}
+	
+	\item[b.] \textbf{Configuración de los parámetros del sistema de segundo orden.}
+	
+Para esto se preestablecieron los datos para el funcionamiento del motor Quanser. De igual forma, la interfaz permite modificar los parámetros para que se pueda emular cualquier sistema de segundo orden que cumpla con la ecuación dada en \ref{ec:plantasegundo}.
+
+\begin{center}
+	\begin{equation}
+		\frac{Y(s)}{U(s)}= \frac{b_{0}}{a_{2}s^{2}+a_{1}s+a_{0}} 
+		\label{ec:plantasegundo}%
+	\end{equation}
+\end{center}	
+
+El código principal define arreglos para la entrada, salida y tiempo. Al obtener los parámetros de la interfaz, se definen los coeficientes $b_{0}$, $a_{2}$, $a_{1}$  y $a_{0}$ que son necesarios para estimar el resultado de la ecuación en diferencias del sistema discretizado. En el diagrama \ref{fig:confip} se muestra la configuración del sistema.
 
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/confip}
+	\caption{Configuración del sistema. }
+	\label{fig:confip}
+\end{figure}
+
+Para obtener el sistema discretizado se debe tomar en cuenta las condiciones que se utilizaron para las derivadas. Para la derivada de segundo orden se utiliza:
+\begin{center}
+	\begin{equation}\label{ec:segundoor}
+		s^{2}f=\frac{{f}'(t)-{f}'(t-1)}{t}=\frac{ \frac{f(t)-f(t-1)}{t} -  \frac{f(t-1)-f(t-2)}{t}}{t}
+	\end{equation}
+\end{center}
+
+teniendo como resultado final
+
+\begin{center}
+	\begin{equation}\label{ec:segundoordfinal}
+		s^{2}f=\frac{{f}(t)-2{f}(t-1)+f(t-2)}{t^{2}}
+	\end{equation}
+\end{center}
+
+
+Una vez obtenida la derivada de segundo orden, se despeja de la ecuación \ref{ec:plantasegundo} obteniendo:
+
+\begin{center}
+	\begin{equation}\label{ec:plantaseg}
+	Ub_{0}=a_{2}s^{2}y+a_{1}sy+a_{0}y
+	\end{equation}
+\end{center}
+
+Tomando $y(t-1)=y_{1}$, $y(t-2)=y_{2}$ y $t_{m}=$ tiempo de muestreo, se obtiene \ref{ec:plantaseg1}:
+
+\begin{center}
+	\begin{equation}\label{ec:plantaseg1}
+		Ub_{0}=a_{2}\left ( \frac{y-2y_{1}+y_{2}}{t_{m}^{2}} \right )+a_{1}s\left ( \frac{y-y_{1}}{t_{m}} \right )+a_{0}y
+	\end{equation}
+\end{center}
+
+\begin{center}
+	\begin{equation}\label{ec:yinicial}
+		y_{inicial}=\frac{(Ub_{0}t_{m}^{2}+(2a_{2}+a_{1}t_{m})y_{1}-a_{2}y_{2}-a_{2}y_{2})}{a_{2}+a_{1}t_{m}+a_{0}t_{m}^{2}}
+	\end{equation}
+\end{center}
+	
+	
+	\item[c.]\textbf{ Configuración de los parámetros del controlador.}
+	
+	La interfaz cuenta con unas entradas que permiten configurar los parámetros  del controlador PID que se desea utilizar. 
+	
+	\item[d.] \textbf{Graficar la respuesta controlada y sin controlar.}
+	
+	Una vez se termina la comunicación, se puede presionar el botón para obtener la respuesta controlada y la respuesta original del sistema. En el diagrama \ref{fig:Graficos} se muestra la configuración de los gráficos:
+	
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/Graficos}
+	\caption{Configuración de gráficos }
+	\label{fig:Graficos}
+\end{figure}
+	 
+	 
+	\item[e.] \textbf{Obtener los datos de tiempo de alza, tiempo de establecimiento y sobrepico del sistema controlado.}
+	
+	Por último, después de graficar se mostrará los datos de sobrepico porcentual, tiempo de establecimiento y tiempo de alza tomados de los valores que proporciona la gráfica.
+	
+	\item [d.]\textbf{ Posibles errores del sistema.}
+	En el inicio del código se definen las librerías que se utilizaran para el desarrollo del sistema de segundo orden, se decidirá el puerto serial de comunicación y la velocidad que tendrá el mismo. Las ventanas de error son las siguientes:
+	\begin{itemize}
+		\item Error 01: Error si el campo de puerto esta vacío.
+		\item Error 02: Error si no hay conexión de puerto.
+		\item Error 03: Error si no se ha configurado  la planta.
+		\item Error 04: Error con la conexión.
+	\end{itemize} 
+\end{description}
+
+%Se cuenta con un botón para iniciar la comunicación con el controlador y dos botones uno para graficar la respuesta controlada y otro para ver la respuesta original.
+
+%Al abrir la comunicación con el controlador se envía por el puerto serial un $"$o$"$ de y se comienza la comunicación enviando un cero y luego calculando los valores del sistema dependiendo de los valores que envié el controlador y la comunicación acaba cuando se termina el ciclo de una cantidad definida de valores antes de  salir.
+
+%Una vez terminada la comunicación se calcula los valores de sobrepico, tiempo de alza y tiempo de establecimiento, tomados de los valores que proporciona la gráfica.
+
+
+En el siguiente diagrama se muestra la manera de en que se ejecuta la comunicación:
 
 	\begin{figure}[H]
-		\includegraphics{img/discretovscontinuo.png}	
-		\caption{Comparación entre el sistema discreto y el continuo}
-		\label{fig:discretovscontinuo}
-	\end{figure}
+	\centering
+	\includegraphics[width=0.3\linewidth]{img/confic}
+	\caption{Configuración de comunicación }
+	\label{fig:confic}
+\end{figure}
 
-Se observa en el gráfico los siguientes resultados:
+
+
+La trama de comunicación entre el sistema y el controlador consta de un campo variable de máximo 6 caracteres que representan el valor numérico decimal que se manejará en las ecuaciones y un caracter de salto de línea para culminar el mensaje. El valor enviado o recibido debe ser procesado según corresponda. Es decir, para enviar al controlador el valor a = 123.56, debe multiplicarse por cien, quedando a= 12356
+
+Una vez hecho esto, se transforma de valor numérico 123456 a una cadena de caracteres $"$12356$"$ a la cuál se adiciona un salto de línea para concluir el mensaje, quedando de la siguiente manera:
+
+
+Mensaje a enviar = $"$123456 0x0A$"$
+%La trama de la comunicación entre el sistema y el controlador consta de un protocolo de comunicación entre el controlador y el emulador donde una vez validados los campos en el programa, se convierten en un tipo de dato float y comienza la comunicación.  
+
+
+% donde el usuario incorpora los coeficientes que componen el sistema de segundo orden mostrado en la ecuación \ref{ec:plantasegundo} ; una vez validados los campos en el programa, se convierten en un tipo de dato float y comienza la comunicación.
 
 \begin{table}[htbp]
 	\centering
-	\caption{Parámetros de la comparación del sistema discreto y el sistema continuo.}
-	\resizebox{15cm}{!} {
-		\begin{tabular}{|l|l|l|}
-			\hline
-			\textbf{Sistemas considerados} & \textbf{tiempo de alza$(t_{r})$ (seg)} & \textbf{tiempo de establecimiento $(t_{s})$ (seg)} \\
-			\hline
-			Sistema continuo & 0.1981 s & 0.3528 s \\
-			\hline
-			Sistema discreto & 0.1980 s & 0.3540 s \\
-			\hline
-		\end{tabular}%
-		\label{tab:sistemascontinuovsdiscreto}%
-	}
+	\caption{Trama de comunicación}
+	\begin{tabular}{|l|l|c|}
+		\hline
+		\multicolumn{3}{|c|}{Estructura de trama de comunicación} \\
+		\hline
+		& Descripcion & \multicolumn{1}{l|}{Tamaño} \\
+		\hline
+		Inicio & valor decimal x 100 & \multicolumn{1}{l|}{Maximo 5} \\
+		\hline
+		Final & $"$0x0A$"$ o $"$Salto de linea$"$ & 1 \\
+		\hline
+	\end{tabular}%
+	\label{tab:trama}%
 \end{table}%
 
-Con la tabla \ref{tab:sistemascontinuovsdiscreto} se estudia el error porcentual asociado a estos modelos con la ecuación  \ref{ec:errorporcentualcontinuovsdiscreto}: 
 
-\begin{center}
-	\begin{equation}
-		Error= \left |\frac{Valor_{sistemacontinuo} - Valor_{discreto}}{Valor_{sistemacontinuo}}*100 \%\right |	
-		\label{ec:errorporcentualcontinuovsdiscreto}
-	\end{equation}
-\end{center}
-
-De allí se obtiene que para el tiempo de alza ($ t_{r}$) y para el tiempo de establecimiento ($t_{s}$) los errores serían:
-%Se observa que el error porcentual calculado con \ref{ec:errorporcentual} dan los siguientes valores para el tiempo de alza y el tiempo de establecimiento:
-
-\begin{center}
-	\begin{equation}
-		Error t_{r}= \left |\frac{0.1981 - 0.1980}{0.1981}*100\%\right | =0.0505\%	
-		\label{ec:errorporcentualtrconvsdis}
-	\end{equation}
-\end{center}
+Los condiciones iniciales se toman en reposo al inicio, por este motivo son iguales a cero. Luego se comienza un ciclo que comenzará a contar y a calcular los valores del arreglo con respecto los coeficientes de la ecuación y con el tiempo de muestreo.
 
 
 
-\begin{center}
-	\begin{equation}
-		Error t_{s}= \left |\frac{0.3528 - 0.3540}{0.3528}*100\%\right | =0.3401\%	
-		\label{ec:errorporcentualtsconvsdis}
-	\end{equation}
-\end{center}
-%Los errores al ser menores al 2$\%$ son valores validos para la aproximación de nuestro modelo.
 
-Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del valor teórico, se considera que es una aproximación válida para modelar el sistema.
+
+Con el valor obtenido en \ref{ec:yinicial} se va creando un arreglo con el método $"$np.append$"$ que es parte de la librería Numpy. Este método permite agregar la $y_{inicial}$ al final del arreglo e ir obteniendo todos los valores. El código continua cambiando en cada ciclo los valores de $y_2=y_{1}$  y $y_1=y_{inicial}$.
+
+El programa evalúa mediante un comando condicional si el puerto esta funcionando y si los parámetros están configurados correctamente. En caso de ser cierto se limpia el buffer de comunicación, los arreglos de tiempo y los valores que tomara la gráfica para evitar datos erroneos.
+
+
+Se manda por el puerto serial una $"$o$"$ y comienza el timeout que es el tiempo que dice cuánto dura la comunicación, se lee el puerto serial con el método readline y se guarda en la variable  $"$lect $"$.
+
+
+Una vez recibido un nuevo valor a través del puerto serial, se evalúa la longitud del mismo con el método $"$len$"$ , ya que pueden existir valores nulos. De ser así, en el arreglo U se inserta un 0 con ayuda del método np.insert. De no ser nulo el valor recibido, se calcula la respuesta a través de \ref{ec:yinicial}. 
+
+%Luego el método $"$len$"$ que devuelve la longitud de una lista, se pone con un comando condicional de que si es estrictamente igual a cero, se con el método np.insert se crea un arreglo de ceros si esto no se cumple se calcula en valor dado en \ref{ec:yinicial} .
+
+
+%\begin{center}
+%	\begin{equation}\label{ec:ecupro}
+%		y=\frac{float(\frac{int(lect)}{100})b_{0}t_{m}^{2}+(2a_{2}+a_{1}t_{m})y_{1}-a_{2}y_{2}-a_{2}y_{2}}{a_{2}+a_{1}t_{m}+a_{0}t_{m}^{2}}
+%	\end{equation}
+%\end{center}
+
+Dividiendo el coeficiente que se obtiene del controlador y convirtiendolo en un valor de tipo float, luego se multiplica la respuesta por 100 y se convierte en un valor de tipo int enviándolo de respuesta al controlador mas un salto de linea. Por último, se aumenta el contador del tiempo.
+
+Para salir del ciclo cada vez que se calcula un valor de la respuesta se aumenta un contador y se compara cuándo se cumple el timeout establecido, si el contador es mayor que el timeout se envía a la interfaz el mensaje de $"$Terminado$"$, y se manda el comando de finalización de la comunicación, según como se muestra en la tabla  \ref{tab:comandos}.
+
+ 
+
+
+
+

@@ -31,6 +31,31 @@
 \usepackage{algorithm2e}
 \usepackage{cite}
 \usepackage{tabularx}
+\usepackage{listings}
+%\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+	language=Matlab,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=left,
+	numberstyle=\color{gray},
+	keywordstyle=\color{blue},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+
 \newcolumntype{L}{>{\raggedright\arraybackslash}X}
 %\usepackage{fancyheadings}
 
@@ -142,6 +167,8 @@
   \def\indexname{Índice alfabético}%
   \def\figurename{Figura}%
   \def\tablename{Tabla}%
+ \renewcommand{\lstlistingname}{Programa}% Listing -> Algorithm
+ \renewcommand{\lstlistlistingname}{LISTA DE PROGRAMAS}% List of Listings -> List of Algorithms
   \def\partname{Parte}%
   \def\enclname{Adjunto}%
   \def\ccname{Copia a}%
@@ -338,32 +365,43 @@ Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 
 %\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
 \input{ch2.tex}%
 %==================================================================
-
-\chapter{Selección de la plataforma tecnológica para el diseño de la interfaz de emulación}\label{CAP:tecni}
+\chapter{Descripción del modelo de la planta de segundo orden}\label{CAP:modeloplanta}
 %\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
 \input{ch3.tex}%
-%==================================================================
-\chapter{Descripción del modelo de la planta de segundo orden}\label{CAP:accio}
-%\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
-\input{ch4.tex}%
 
 %==================================================================
+\chapter{Selección de la plataforma tecnológica para el diseño de la interfaz de emulación}\label{CAP:tecni}
+%\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
+\input{ch4.tex}%
 %==================================================================
-\chapter{Definición de los parámetros del controlador}\label{CAP:mod}
+\chapter{Diseño del controlador digital a utilizar}\label{CAP:controlador}
 %\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
-\input{ch7.tex}
+\input{ch8.tex}
+
+%% QUITAR CA0PITULO Y METER EN DISEÑO DEL CONTROLADOR
+%==================================================================
+%\chapter{Definición de los parámetros del controlador}\label{CAP:mod}
+%\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
+%\input{ch7.tex}
 
 %==================================================================
 \chapter{Selección del dispositivo microcontrolador a utilizar}\label{CAP:met}
 %\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
 \input{ch6.tex}%
 
-
+%==================================================================
 
 %==================================================================
-\chapter{Diseño del controlador digital a utilizar}\label{CAP:exp}
-%\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
-\input{ch8.tex}
+\chapter{Diseño de la interfaz de emulación de la planta de segundo orden}\label{CAP:interfaz}
+%\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
+\input{ch5.tex}%
+
+
+
+
+
+
+
 
 %==================================================================
 \chapter{RESULTADOS}\label{CAP:resultados}

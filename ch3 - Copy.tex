@@ -16,38 +16,105 @@
 %
 En este capítulo se muestran los requisitos y las características que se necesitan para la selección de la plataforma tecnológica utilizada en el proyecto.
 
-\section{Requerimientos para el desarrollo del proyecto }\label{sec:requerimientos}
+\section{Requerimientos para el desarrollo del proyecto }
 
-Para emular el sistema de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos realistas y precisos. 
-
-Para esto se tomó en cuenta lo siguiente:
+Para emular el sistema de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos realistas y precisos. Para esto se tomó en cuenta lo siguiente:
 
 \begin{itemize}
 	
-	\item El recurso escogido para emular el sistema debe generar un gráfico de la respuesta.
+	\item El recurso escogido debe generar un gráfico de la respuesta.
 	\item El lenguaje de programación debe permitir realizar los cálculos matemáticos necesarios para emular el sistema. 
 	\item Se necesita un dispositivo que cuente con un puerto de comunicación serial. 
 	\item Se necesita un dispositivo con una velocidad de procesamiento compatible con el hardware que se va a utilizar. 
 	\item La emulación debe hacerse mediante cálculos matemáticos sin consumir recursos excesivos en el dispositivo.
-    \item El programa a desarrollar debe estar basado en software libre.
+    \item Poseer licencia libre.
 	
 	  
 \end{itemize}
 
 %Se necesitaba un dispositivo real que pudiera cumplir con los requerimientos para realizar la emulación de la planta de segundo orden, de las cuales se obtuvo dos opciones la primera fue un filtro Sallen-Key y el segundo fue un computador personal
-\section{Formas de emular la planta de segundo orden}
-A continuación, se presentarán cuatro posibles formas de trabajar y emular la planta de segundo orden.
-\subsection{Emulación mediante un circuito electrónico}
 
-La ventaja principal de los circuitos electrónicos es que ofrecen una aproximación rápida y de bajo costo para algunos sistemas. Sin embargo, no siempre se ajustan correctamente debido a limitaciones de hardware y la tolerancia de los componentes usados. Además, para su debido procesamiento es necesario el uso de periféricos convertidores de señal analógica y microcontroladores con una alta tasa de bits de muestreo.
+\section{Emulación mediante un circuito electrónico}
 
-Teniendo esto en cuenta y para cumplir con los requerimientos mencionados en \ref{sec:requerimientos} y las estimaciones hechas en  \ref{sec:modeladocircuito} se determina que el uso de un circuito para emular el sistema de segundo orden no ofrece una solución debido a las limitaciones que se tienen en este trabajo para medir su desempeño a través del método HIL.
+
+Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de un sistema.  
+
+En este sentido, para cumplir con los requerimientos mencionados anteriormente se propuso diseñar un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
 
 
 %Este tipo de filtros se utiliza como un circuito que permite implementar filtros activos de orden superior.
 
+Su topología se basa en un filtro activo de segundo orden, que cuenta con un amplificador operacional no inversor, dos resistencias y dos condensadores. El circuito utilizado se puede apreciar en la figura \ref{fig:sallenkey} 
 
-\subsection{Matlab}
+ \begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/sallenkey}
+	\caption{Circuito Sallen-Key}
+	\label{fig:sallenkey}
+\end{figure}
+
+El modelo de un sistema de control segundo orden corresponde a la ecuación \ref{ec:segundoorden}:
+
+ \begin{center}
+	\begin{equation}\label{ec:segundoorden}
+		F(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}
+		%\textup{Ecuación que representa una planta de segundo orden}
+	\end{equation}	
+\end{center}
+
+La ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
+
+ \begin{center}
+	\begin{equation}\label{ec:sallenkey}
+		\frac{V_{0}}{V_{i}}=\frac{K}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1}+R_{1}C_{2}*(1-k))+1}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+	
+	\end{center}
+
+Según la figura \ref{fig:sallenkey} se plantea un buffer en la etapa amplificadora por lo que k=1.
+ \begin{center}
+ 	\begin{equation}\label{ec:sallen2}
+ 		\frac{V_{0}}{V_{i}}=\frac{1}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1})+1}
+ 		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+ 	\end{equation}
+ 	
+ \end{center}
+
+Usando la ecuación \ref{ec:sallen2} se expresa un sistema de la forma detallada en la ecuación \ref{ec:segundoorden} de donde se obtiene:
+
+ \begin{center}
+	\begin{equation} \label{ec:filtroresistencia}
+		\frac{V_{0}}{V_{i}}=\frac{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}{s^{2}+s\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}+\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+Obteniendo el valor de $\omega_{n}$ y $\zeta$ con la siguientes ecuaciones:
+
+
+\begin{center}
+	\begin{equation} \label{ec:omegan}
+		\omega_{n}=\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+
+\begin{center}
+	\begin{equation} \label{ec:zeta}
+		\zeta=\frac{R_{1}C_{1}+R_{2}C_{1}}{R_{1}R_{2}C_{1}C_{2}}\frac{1}{2\sqrt{\frac{1}{R_{1}R_{2}C_{1}C_{2}}}}
+		%\textup{Ecuación que representa la ganancia del filtro Sallen-key}
+	\end{equation}
+\end{center}
+
+
+Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito. Usando las ecuaciones obtenidas de \ref{ec:omegan} y \ref{ec:zeta} se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key, las cuales fueron analizadas en el capítulo \ref{CAP:accio}.
+
+
+\section{Matlab}
 
 Matlab es considerado un sistema de cómputo numérico que tiene un lenguaje de programación propio, es una herramienta que permite manejar cálculos relacionados con ingeniería y ciencia.
 
@@ -55,13 +122,13 @@ Por lo tanto, se implementó la planta de segundo orden en Simulink para que se c
 
 \begin{itemize}
 	
-	\item La comunicación serial no era en tiempo real y los dos dispositivos no podían comunicarse correctamente.
+	\item La comunicación serial no era en tiempo real y los dos dispositivos no podían comunicarse.
     \item Es una herramienta que no posee licencia libre.
-    \item Consume demasiados recursos gráficos y de memoria para su ejecución.
+    \item Consume demasiados recursos gráficos y de memorias para su ejecución.
 \end{itemize}
 
 
- \subsection{LabVIEW}
+ \section{LabVIEW}
 
 Es un entorno de programación gráfica, el cual  se basa en tareas de medición y experimentación, es aplicado en ámbitos de distribución eléctrica y control de procesos, entre otros.
 
@@ -73,7 +140,7 @@ Existe un añadido de LabVIEW, que es LabVIEW-Multisim el cuál contiene el módulo
 	\item Es un software que posee una licencia paga.
 \end{itemize}
 
- \subsection{Python}
+ \section{Python}
  
 Es un lenguaje de programación libre, el cual tiene diferentes aplicaciones como lo es el desarrollo web y software, ciencia de datos (aprendizaje automático, análisis de datos), cálculo científico y numérico.
 
@@ -81,13 +148,13 @@ Según la revista científica IEEE Spectrum en el 2020 Python se encontraba como u
 
  \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/ranking}
+	\includegraphics[width=1\linewidth]{img/ranking}
 	\caption{Ranking de lenguajes de programación mas populares del 2020}
 	\label{fig:ranking}
     \cite{lang}
 \end{figure}   
 
- Desarrollar en Python no se traduce en un uso excesivo de memoria del sistema ya que este se adapta a las condiciones del programa según las habilidades del programador, pudiendo optimizarse el código para ser utilizado en una computadora de bajos recursos.  
+ Programar en Python no se traduce en un uso excesivo de memoria del sistema ya que este se adapta a las condiciones del programa según las habilidades del programador, pudiendo optimizarse el código para ser utilizado en una computadora de bajos recursos.  
 
 Python permite instalar varias librerías, bibliotecas y herramientas para realizar entornos gráficos y cálculos científicos, modelado de sistemas complejos y estadísticos, algunas librerias de utilidad para el modelado de sistemas de control e interfaces de usuario son:
  

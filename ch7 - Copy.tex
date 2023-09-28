@@ -4,23 +4,23 @@ En este capítulo se realiza el diseño y definición de los parámetros a controlar
 
 \section{Definición de los parámetros del controlador}
 
-En esta sección se definen los parámetros a controlar tomando el sistema de segundo orden expuesto en el capítulo \ref{CAP:modeloplanta} y así estimar la respuesta con el polo deseado.
+En esta sección se definen los parámetros a controlar tomando el sistema de segundo orden expuesto en el capítulo \ref{CAP:accio} y así estimar la respuesta con el polo deseado.
 %se debe buscar los parámetros a controlar para obtener la respuesta del polo deseado.
 
 \subsection{Respuesta del sistema ante un escalón unitario}
 
-Al estudiar el sistema de segundo orden en el capítulo \ref{CAP:modeloplanta}, se observa que la respuesta al escalón unitario da como resultado la figura \ref{fig:escalon}:
+Al estudiar el sistema de segundo orden en el capítulo \ref{CAP:accio}, se observa que la respuesta al escalón unitario da como resultado la figura \ref{fig:escalon}:
 
 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=1.0]{img/escalon}
+	\includegraphics[width=0.7\linewidth]{img/escalon}
 	\caption{Respuesta escalón}
 	\label{fig:escalon}
 \end{figure}
  
-Se utiliza una función escalón ya que está representa un cambio instantáneo en la entrada de referencia, esto hace que revele qué tan rápido responde un sistema a entradas con cambios abruptos.
+Se utiliza una función escalón ya que está representa un cambio instantaneo en la entrada de referencia, esto hace que revele qué tan rapido responde un sistema a entradas con cambios abruptos.
 
 Se debe tomar en cuenta algunos criterios de diseño utilizados para la caracterización de los sistemas de control lineales en el dominio del tiempo:
 
@@ -48,7 +48,7 @@ Se debe tomar en cuenta algunos criterios de diseño utilizados para la caracteri
 		\end{equation}
 	\end{center}
 	
-	El sobrepico se utiliza para medir la estabilidad relativa del sistema de control por este motivo un sobrepico alto es indeseable.
+	El sobrepico se utiliza para medir la estabilidad relativa del sistema de control por este motivo un  sobrepico alto es indeseable.
 	
 	\item \textbf{Tiempo de retardo $t_{d}$:} Es el tiempo que se necesita para que la respuesta escalón alcance el 50$\%$  del valor final de la gráfica.
 	
@@ -69,7 +69,7 @@ Para ejemplificar mejor todos los criterios antes mencionados se muestra la figu
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.9\linewidth]{img/imagenescalonej}
+	\includegraphics[width=0.7\linewidth]{img/imagenescalonej}
 	\caption{Respuesta típica al escalón unitario de un sistema de control}
 	\cite{kuo}
 	\label{fig:escalon1}
@@ -89,13 +89,13 @@ El factor de amortiguamiento $\zeta$ y la frecuencia natural $\omega_{n}$ consti
 	\item Si $\zeta = 1$  los polos son reales e de igual valor numérico, y el sistema se denomina críticamente amortiguado.
 	\item Si $0< \zeta < 1$ entonces el sistema es subamortiguado y los polos son complejos.
 	\item si $\zeta=o $ el amortiguamiento es cero, el sistema se vuelve críticamente estable y los polos son imaginarios conjugados.
-	\item $\zeta<0$ el sistema es inestable y los polos están en el semiplano derecho.
+	\item $\zeta<0$ el sistema es inestable y los polos estan en el semiplano derecho.
 \end{itemize}
 
  
     \begin{figure}[H]
     	\centering
-    	\includegraphics[scale=0.8]{img/respuestastrans}
+    	\includegraphics[scale=0.7]{img/respuestastrans}
     	\caption{Comparación de la respuesta al escalón para varios sitios del lugar geométrico de las raíces en el plano S.}
     	\cite{kuo}
     	\label{fig:escalontrans}
