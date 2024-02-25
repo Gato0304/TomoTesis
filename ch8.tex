@@ -1,35 +1,37 @@
-En este capítulo se realizó el diseño del controlador usando el método de ubicación de polos diseñando un observador funcional lineal, con el cálculo de los parámetros para el sistema de segundo orden estudiada en el capítulo \ref{CAP:modeloplanta}.  
+En este capítulo se realizó el diseño del controlador usando el método de ubicación de polos, diseñando un observador funcional lineal, con el cálculo de los parámetros para el sistema de segundo orden estudiado en el capítulo \ref{CAP:modeloplanta}.  
 
-En las siguientes secciones se va a desglosar cómo se realizo el diseño del controlador. 
+En las siguientes secciones se va a desglosar cómo se realizó el diseño del controlador. 
 
 \section{Controlabilidad}
 
 Se dice que un sistema es controlable si la variable de estado inicial arbitraría se puede transferir a cualquier otro estado arbitrario en un periodo finito, mediante una señal de control restringida. Por este motivo, ninguna de las variables de estado puede ser independiente de la señal de control.
 
-El sistema esta definido por 
+El sistema está definido por 
 
 \begin{equation}\label{ec:ecuacioncontrolabilidad}
 x((k+1)T)= A x(kT)+ Bu(kT)	
 \end{equation}
 
-donde $x(kT)$ es un vector de dimensión n, y $A$ es una matriz de $n \times n$ y $B$ es una matriz de $n \times r$, entonces para que un sistema tenga controlabilidad completa se debe cumplir que la matriz de la ecuación \ref{ec:ecuacioncontrolab} de $n \times nr$ sea de rango n. \cite{ogatacontrolabilidad}
+donde $x(kT)$ es un vector de dimensión n, $A$ es una matriz de $n \times n$ y $B$ es una matriz de $n \times r$, entonces para que un sistema tenga controlabilidad completa se debe cumplir que la matriz de la ecuación \ref{ec:ecuacioncontrolab} de $n \times nr$ sea de rango n. \cite{ogatacontrolabilidad}
 
 \begin{equation}\label{ec:ecuacioncontrolab}
-	[B \vdots AB \vdots  \cdots \vdots A^{n-1}B]	
+	M_{controlabilidad} = [B \vdots AB \vdots  \cdots \vdots A^{n-1}B]	
 \end{equation}
 
-La matriz de la ecuación \ref{ec:ecuacioncontrolab} es conocida como matriz de controlabilidad. Y la ecuación \ref{ec:ecuacioncontrolabilidadrango} representa la condición de controlabilidad completa del sistema.
+La matriz $M_{controlabilidad}$ de la ecuación \ref{ec:ecuacioncontrolab} es conocida como matriz de controlabilidad.
+
+La ecuación \ref{ec:ecuacioncontrolabilidadrango} representa la condición de controlabilidad completa del sistema.
 
 \begin{equation}\label{ec:ecuacioncontrolabilidadrango}
-	rango[B \vdots AB \vdots  \cdots \vdots A^{n-1}B]=n	
+	rango[M_{controlabilidad}]  = rango[B \vdots AB \vdots  \cdots \vdots A^{n-1}B]=n	
 \end{equation}
 
  
 \subsection{Controlabilidad completa de la salida}
 
-La controlabilidad completa de los estados no se traduce en la controlabilidad de la salida ya que no es una condición necesaria ni suficiente. 
+La controlabilidad completa de los estados no se traduce en la controlabilidad de la salida, ya que no es una condición necesaria ni suficiente. 
 
-Sin embargo, teniando en cuenta que el sistema de control se puede definir con las matrices \ref{ec:espaciodeestadosdiscreto}
+Sin embargo, teniendo en cuenta que el sistema de control se puede definir con el Espacio de Estados de la ecuación \ref{ec:espaciodeestadosdiscreto}.
 
 \begin{center}
 	\begin{equation}
@@ -51,7 +53,7 @@ Se tiene controlabilidad completa de salida, sí y sólo sí todos los renglones de
 \subsection{Controlabilidad del sistema de segundo orden}
 %% calcular controlabilidad
 
-Partiendo del sistema descrito en \ref{ec:espaciodeestadosdiscreto1} se tienen las ecuaciones del espacio de estado discreto dadas por \ref{ec:espaciodeestadosdiscret}:
+Partiendo del sistema descrito en la ecuación \ref{ec:espaciodeestadosdiscreto1} se tienen las ecuaciones del espacio de estado discreto dadas por \ref{ec:espaciodeestadosdiscret}:
 
 \begin{center}
 	\begin{equation}
@@ -84,7 +86,7 @@ Partiendo del sistema descrito en \ref{ec:espaciodeestadosdiscreto1} se tienen l
 
 Para obtener el rango del sistema se utilizó el programa \ref{codedisrang} en MATLAB.
 
-\begin{lstlisting}[caption = {Rango controlabilidad},captionpos=b,label={codedisrang},language=Matlab]
+\begin{lstlisting}[caption = {Estimación del rango de la matriz de controlabilidad},captionpos=b,label={codedisrang},language=Matlab]
 	
 	% Espacio de estados discretizado
 	Ad=[0.9689 0.3389; -0.0089 -0.9034];
@@ -119,7 +121,7 @@ Para aplicar el método de diseño de ubicación de polos se debe partir de que tod
 
 Entonces los polos del sistema en lazo cerrado se pueden ubicar en cualquier localización deseada, esto se consigue a través de una realimentación del estado que viene dada por una matriz de ganancia de realimentación del estado apropiada. 
 
-Para el diseño se debe determinar los polos en lazo cerrado deseado, y estos se escogen en base a los requisitos de la respuesta en frecuencia deseada o en los de la respuesta transitoria, factor de amortiguamientos u otros requisitos.
+Para el diseño se debe determinar los polos en lazo cerrado deseados, y estos se escogen en base a los requisitos de la respuesta en frecuencia deseada o en los de la respuesta transitoria, factor de amortiguamiento u otros requisitos.
 
 Se debe considerar que en la selección del período de muestreo, no se puede tener señales de control excesivamente grandes. Si esto ocurre el sistema se volverá no lineal ya que pasarán fenómenos de saturación en el sistema.    
 
@@ -156,9 +158,9 @@ Entonces los polos en el dominio de la transformada Z son:
 %% calcular ackerman
 La realimentación de estados se refiere a un método utilizado para la ubicación de polos, el cuál utiliza la realimentación de todas las variables de estado con el objetivo de construir el vector de control deseado.
 
-Una de las limitaciones de este método es que en la práctica no todas las variables están disponibles para una medición directa pero se puede estimar a través de la observación aquellas variables que no pueden medirse directamente.
+Una de las limitaciones de este método, es que en la práctica no todas las variables están disponibles para una medición directa, pero se puede estimar a través de la observación aquellas variables que no pueden medirse directamente.
 
-Para utilizar la realimentación de estados el sistema debe ser completamente controlable. En el sistema descrito por la ecuación \ref{ec:espaciodeestadosdiscret} este criterio se cumple, por este motivo se puede utilizar la formula de Ackermann.
+Para utilizar la realimentación de estados el sistema debe ser completamente controlable. En el sistema descrito por la ecuación de Espacio de Estados \ref{ec:espaciodeestadosdiscret} este criterio se cumple, por este motivo se puede utilizar la fórmula de Ackermann.
 
 \subsubsection{Fórmula de Ackermann}
 
@@ -167,7 +169,7 @@ Al tener un sistema realimentado como en la figura \ref{fig:ackermann}, la ley d
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth ]{img/ackermann}
-	\caption{Ackermann}
+	\caption{Representación de la realimentación de variables de estado con una matriz de ganancias estimadas por la fórmula de Ackermann}
 	\label{fig:ackermann}
 \end{figure}
 
@@ -200,7 +202,7 @@ Para los cálculos de la $K_{Ackermann}$ se utilizó el programa \ref{codeackerman
 	Kacker = acker(Ad,Bd,zd);
 \end{lstlisting} 
 
-Obteniendo como resultado \ref{ec:resultadokackerman}
+Obteniendo como resultado
  
  \begin{equation}\label{ec:resultadokackerman}
  K_{Ackermann}=[0.0870  \quad -7.4854] 	
@@ -208,20 +210,22 @@ Obteniendo como resultado \ref{ec:resultadokackerman}
 
 \subsection{Observabilidad}\label{sec:observabilidad}
 
-La observabilidad se puede utilizar para resolver problemas de reconstrucción de variables de estado que no pueden ser medidas. Teniendo un papel importante en la práctica el diseño de los observadores de estados ya que existen algunas variables las cuales no son accesibles para una medición directa.
+La observabilidad se puede utilizar para resolver problemas de reconstrucción de variables de estado que no pueden ser medidas. Teniendo un papel importante en la práctica el diseño de los observadores de estados ya que existen algunas variables que no son accesibles para una medición directa.
 
-Si se tiene un sistema de control discreto e invariante en el tiempo por ejemplo el presentado en la ecuación \ref{ec:espaciodeestadosdiscreto}. El sistema es completamente observable sí cualquier estado inicial $x(0)$ puede determinarse por la observación de $y(kT)$ en finitos periodos de muestreo.\cite{ogataobservabilidad}
+Si se tiene un sistema de control discreto e invariante en el tiempo, el sistema es completamente observable si cualquier estado inicial $x(0)$ puede determinarse por la observación de $y(kT)$ en finitos periodos de muestreo.\cite{ogataobservabilidad}
 
-Siendo $A$ una matriz de $n \times n$ y $C$ una matriz de $m \times n$, entonces la observabilidad es estudiada por la ecuación \ref{ec:ecuacionobservab} cuya dimensión es de orden $n\times nm$, conocida como matriz de observabilidad.
+Siendo $A$ una matriz $n \times n$ y $C$ una matriz $m \times n$, entonces la observabilidad es estimada por la siguiente ecuación
 
 \begin{equation}\label{ec:ecuacionobservab}
-	[C^{*} \vdots A^{*}C^{*} \vdots  \cdots \vdots (A^{*})^{n-1}C^{*}]	
+	M_{observabilidad} = [C^{*} \vdots A^{*}C^{*} \vdots  \cdots \vdots (A^{*})^{n-1}C^{*}]	
 \end{equation}
 
-Por lo tanto, para que un sistema sea completamente observable, el rango de la matriz de observabilidad debe ser de rango n, tal como lo indica la ecuación \ref {ec:ecuacionobservabcondicion}.
+La matriz obtenida $M_{observabilidad}$ es de orden $n\times nm$, y es conocida como matriz de observabilidad.
+
+Por lo tanto, para que un sistema sea completamente observable, el rango de la matriz de observabilidad debe ser $n$, tal como lo indica la siguiente ecuación
 
 \begin{equation}\label{ec:ecuacionobservabcondicion}
-	rango[C^{*} \vdots A^{*}C^{*} \vdots  \cdots \vdots (A^{*})^{n-1}C^{*}]	= n
+	rango[M_{observabilidad}]= rango[C^{*} \vdots A^{*}C^{*} \vdots  \cdots \vdots (A^{*})^{n-1}C^{*}]	= n
 \end{equation}
 
 %Sí $y(kT)$ es un vector de dimensión m, entonces las n ecuaciones anteriores dan como resultado $nm$ ecuaciones, con el objetivo de obtener soluciones para $x_{n}(0)$ a partir de estas $nm$ ecuaciones, para obtener n ecuaciones linealmente independientes, se necesita tener una ecuación $n \times nm$ 
@@ -230,7 +234,7 @@ Por lo tanto, para que un sistema sea completamente observable, el rango de la m
 
 %% calcular observabilidad
 
-Siendo el espacio de estado descrito por las ecuación \ref{ec:espaciodeestadosdiscret}
+Siendo el espacio de estado descrito por 
 
 \begin{center}
 	\begin{equation*}
@@ -260,11 +264,11 @@ Siendo el espacio de estado descrito por las ecuación \ref{ec:espaciodeestadosdi
 	\end{equation*}
 \end{center}
 
-Se tiene que cumplir el criterio de observabilidad para poder acceder a los estados que se realimentarán con las ganancias estimadas en \ref{ec:resultadokackerman}.
+Se tiene que cumplir el criterio de observabilidad para poder acceder a los estados que se realimentarán con las ganancias estimadas en la ecuación \ref{ec:resultadokackerman}.
 
 Para obtener el rango del sistema se utilizó el programa \ref{codedisrangobs} en MATLAB.
 
-\begin{lstlisting}[caption = {Rango observabilidad},captionpos=b,label={codedisrangobs},language=Matlab]
+\begin{lstlisting}[caption = {Estimación del rango de la matriz de  observabilidad},captionpos=b,label={codedisrangobs},language=Matlab]
 	
 % Observabilidad del sistema
 
@@ -295,27 +299,27 @@ El rango de esta es igual a 2. Por lo tanto el sistema es completamente observab
 
 \subsection{Observadores de estado}
 
-En la práctica no todas las variables de estado de un sistema pueden estar disponibles para su medición desde la salida. En estos casos es necesario estimar las variables de estado que no puedan medirse de manera directa, está estimación es conocida como observación de estados y esto se hace a partir de las variables de salida y control.
+En la práctica, no todas las variables de estado de un sistema pueden estar disponibles para su medición desde la salida. En estos casos es necesario estimar las variables de estado que no puedan medirse de manera directa, está estimación es conocida como observación de estados y esto se hace a partir de las variables de salida y control.
 
-Los observadores pueden diseñarse sí y solo sí se cumple el criterio de observabilidad, tal como se indica en \ref{sec:observabilidad}. El caso general de diseño es el Observador de orden completo, indicado en la figura \ref{fig:observador} el cual consiste en estimar las $n$ salidas y los $n-m$ estados no medibles, es decir todas las variables.
+Los observadores pueden diseñarse sí y solo sí se cumple el criterio de observabilidad, tal como se indica en la sección \ref{sec:observabilidad}. El caso general de diseño es el Observador de orden completo que se encuentra en la figura \ref{fig:observador}, que consiste en estimar las $n$ salidas y los $n-m$ estados no medibles, es decir todas las variables.
 
-Un observador que estime únicamente los $n-m$ estados no medibles se conoce como observador de orden reducido. Si estos estados son el mínimo posible, entonces es llamado observador de órden mínimo.
+Un observador que estime únicamente los $n-m$ estados no medibles, se conoce como observador de orden reducido. Si estos estados son el mínimo posible de estimar, entonces es llamado observador de orden mínimo.
 %grafico de observador
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth ]{img/observador}
-	\caption{Diagrama de bloque del sistema y del observador de estado de orden completo, cuando la entrada u y la salida y son escalares \cite{ogatacontinuo}.}
+	\caption{Diagrama de bloques del sistema y del observador de estado de orden completo, cuando la entrada u y la salida y son escalares \cite{ogatacontinuo}.}
 	\label{fig:observador}
 \end{figure}
 
 
-En resumen, un observador de estados es un subsistema del sistema de control para llevar a cabo una estimación de las variables de estado no medibles, a partir de mediciones de las variables de salida y control. 
+En resumen, un observador de estados es un subsistema del sistema de control, para llevar a cabo una estimación de las variables de estado no medibles, a partir de mediciones de las variables de salida y control. 
 
 
-\subsection{Observador de orden mínimo}
+\subsection{Observador de orden mínimo}\label{subsec:observador}
 
-Es de orden mínimo ya que el sistema cuenta con dos estados, siendo uno de ellos la salida del mismo. 
+El estimador a diseñar se considera de orden mínimo, ya que el sistema cuenta con dos estados, siendo uno de ellos la salida del mismo. 
 
 
 %% calcular observador
@@ -324,7 +328,7 @@ Sea el sistema de segundo orden dado por:
 
 
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 		\left\{\begin{matrix}
 			x(k+1)
 			=A
@@ -336,11 +340,41 @@ Sea el sistema de segundo orden dado por:
 			+D
 			u(k)	
 		\end{matrix}\right.	
-	\end{equation*}
-\label{ec:sissegundoorden}
+	\label{ec:sissegundoorden}
+	\end{equation}
+
 \end{center}
 
-Siendo $A,B,C,D$ las matrices correspondientes al sistema dado en \ref{ec:espaciodeestadosdiscreto1}.
+Siendo $A,B,C,D$ las matrices correspondientes al sistema 
+
+\begin{center}
+	\begin{equation}
+		\left\{\begin{matrix}
+			x(k+1)
+			=
+			\begin{bmatrix}
+				& 0.9689 & 0.3389 & \\ 
+				&   -0.0089& -0.9034 & \\ 
+			\end{bmatrix}
+			x(k)
+			+
+			\begin{bmatrix}
+				& 0.6199 \\ 
+				&  0.1766
+			\end{bmatrix}
+			u(k)\\ 
+			y(k)=\begin{bmatrix}
+				0.9844 & 0.1694
+			\end{bmatrix}
+			x(k) 
+			
+			+0.3099 \quad
+			u(k)
+			
+		\end{matrix}\right.
+		\label{ec:espaciodeestadosDiscretoSistema}%	
+	\end{equation}
+\end{center}
 
 Entonces las matrices A y B serían:
 
@@ -364,7 +398,7 @@ Entonces las matrices A y B serían:
 	\end{equation*}
 \end{center}
 
-Las variables de estados:
+Las variables de estado:
 
 \begin{center}
 	\begin{equation*}
@@ -381,23 +415,24 @@ Se tiene que la ecuación de estados de un observador de orden completo es:
 
 
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 		\left\{\begin{matrix}
 			x(k+1)
 			= (A-GC) x(k)+Gy(k)+Bu(K)\\ 
 			y(k)=Cx(k)
 		\end{matrix}\right.	
-	\end{equation*}
-\label{ec:observadordeestado}
+	\label{ec:observadordeestado}
+	\end{equation}
+
 \end{center}
 
 Siendo G la ganancia del observador que debe ser calculada.
 
-En la ecuación \ref{ec:sissegundoorden} como el estado $y(k)$ es conocido. Se plantea un observador de orden mínimo para estimar $\omega(k)$, por lo tanto \ref{ec:sissegundoorden} quedaría:
+Según el sistema de la ecuación \ref{ec:sissegundoorden} como el estado $y(k)$ es conocido, se plantea un observador de orden mínimo para estimar $\omega(k)$, por lo tanto quedaría de esta forma:
 
 
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 		\left\{\begin{matrix}
 			\omega(k+1)
 			=A_{22}
@@ -405,97 +440,93 @@ En la ecuación \ref{ec:sissegundoorden} como el estado $y(k)$ es conocido. Se pl
 			
 	\\ 
 			y(k+1)-A_{11}y(k)-B_{1}u(k)=A_{21}\omega(k)
-		\end{matrix}\right.	
-	\end{equation*}
-	\label{ec:sissegundoorden2}
+		\end{matrix}\right.
+	\label{ec:sissegundoorden2}	
+	\end{equation}
+	
 \end{center}
 
-Entonces la ecuación \ref{ec:observadordeestado} se convierte en:
+Entonces la ecuación de estado del observador para la variable $\omega(k+1)$ según lo indicado en la ecuación \ref{ec:observadordeestado} se convierte en:
 
 
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 			\omega(k+1)
 			= (A_{22}-G A_{21})
-			\omega(k)+A_{21}y(k)+B_{2}u(k) + G (y(k+1)-A_{11}y(k)-B_{1}u(k))	
-	\end{equation*}
-	\label{ec:sissegundoorden3}
+			\omega(k)+A_{21}y(k)+B_{2}u(k) + G (y(k+1)-A_{11}y(k)-B_{1}u(k))
+			\label{ec:sissegundoorden3}	
+	\end{equation}
+	
 \end{center}
 
-Al ser una realimentación de estados, se tiene que:
-
-
-\begin{center}
-	\begin{equation*}
-		\left\{\begin{matrix}
-			u(k)
-			=-k_{Ackerman}
-			x(k)
-			
-			\\ 
-			u(k)
-			=-k_{1}y(k)-k_{2}\omega(k)
-		\end{matrix}\right.	
-	\end{equation*}
+Al ser una realimentación de estados, se tiene que
+\begin{equation}
+			u(k)=-k_{Ackerman}x(k)
+\end{equation}
+Sustituyendo $k_{Ackerman}$
+\begin{equation}
+			u(k)=-k_{1}y(k)-k_{2}\omega(k)
 	\label{ec:ralimentaciondeestados}
-\end{center}
+\end{equation}
 
-En la ecuación \ref{ec:sissegundoorden3} se observa que para la estimación de $\omega(k+1)$ se necesita el valor de $y(k+1)$, lo cual no es conveniente. Por ello, es necesario hacer algunas operaciones. Si se reescribe \ref{ec:sissegundoorden3}:
+En la ecuación \ref{ec:sissegundoorden3} se observa que para la estimación de $\omega(k+1)$, se necesita el valor de $y(k+1)$, lo cual no es conveniente. Por ello, si se reescribe la ecuación \ref{ec:sissegundoorden3}:
  
 
-\begin{center}
-	\begin{equation*}
+\begin{equation}
 		\begin{matrix}
 		\omega(k+1)-Gy(k+1)= (A_{22}-GA_{12})
 		\omega(k)+(A_{21}-GA_{11})y(k)+(B_{2}-GB_{1})u(k)\\ + (A_{22}-GA_{12})Gy(k)-(A_{22}-GA_{12})Gy(k)
 \end{matrix}
-\end{equation*}
 	\label{ec:sissegundoorden4}
-\end{center}
+\end{equation}
 
 Reordenando la ecuación se obtiene:
 
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 			\begin{matrix}
 		\omega(k+1)-Gy(k+1)= (A_{22}-GA_{12}) 
 		(\omega(k)-Gy(k))\\+[(A_{22}-GA_{12})G+A_{21}-GA_{11}]y(k)+(B_{2}-GB_{1})u(k)
-\end{matrix}	
-	\end{equation*}
-	\label{ec:sissegundoorden5}
+\end{matrix}
+\label{ec:sissegundoorden5}	
+	\end{equation}
+	
 \end{center}
 
 Definiendo que:
 
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 			\begin{matrix}
 		\omega(k)-Gy(k)= \eta(k) \\
 		\omega(k+1)-Gy(k+1)= \eta(k+1)
 	\end{matrix}
-	\end{equation*}
 \label{ec:ordenmin}
+	\end{equation}
+
 \end{center}
 
 Entonces, la ecuación \ref{ec:sissegundoorden5} quedaría como:
 
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 		\begin{matrix}
 			\eta(k+1)= (A_{22}-GA_{12}) \eta(k)
 			\\+[(A_{22}-GA_{12})G+A_{21}-GA_{11}]y(k)+(B_{2}-GB_{1})u(k)
 		\end{matrix}	
-	\end{equation*}
 	\label{ec:sissegundoordenfinal}
+	\end{equation}
+	
 \end{center}
 
-Por lo tanto, para estimar el estado $\omega(k)$ es necesario para calcular la dinámica en \ref{ec:ralimentaciondeestados}.
-
- Se define el observador de orden mínimo con las ecuaciones \ref{ec:ordenmin} y \ref{ec:sissegundoordenfinal}
+La cual es de utilidad para estimar el estado $\omega(k)$ necesario para calcular la dinámica del sistema indicada en la ecuación \ref{ec:ralimentaciondeestados}.
 
 
+ Se define el observador de orden mínimo a partir de las ecuaciones \ref{ec:ordenmin} y \ref{ec:sissegundoordenfinal}
 
-	\begin{equation*}
+
+
+	\begin{equation}
 		\left\{\begin{matrix}
 		    \omega(k)
 			=\eta(k)+Gy(k)
@@ -503,12 +534,14 @@ Por lo tanto, para estimar el estado $\omega(k)$ es necesario para calcular la d
 			\eta(k+1)
 			=(A_{22}-GA_{12}) \eta(k)
 			\\+[(A_{22}-GA_{12})G\\+A_{21}-GA_{11}]y(k)\\+(B_{2}-GB_{1})u(k)
-		\end{matrix}\right.	
-	\end{equation*}
-	\label{ec:observadorfinal}
+		\end{matrix}\right.
+	\label{ec:observadorfinal}	
+	\end{equation}
+	
  
-Para estimar la ganancia de G que define la dinámica del sistema, se desea obtener la respuesta por oscilaciones muertas para obtener una mayor rapidez. Entonces la ecuación característica determinada por los autovalores de G
+Para estimar la ganancia de G que define la dinámica del sistema, se desea obtener la respuesta por oscilaciones muertas con el objetivo de conseguir una mayor rapidez. 
 
+Entonces la ecuación característica determinada por los autovalores de G, es la siguiente
 \begin{equation}\label{ec: autovalores}
 	\alpha(\lambda)=\lambda+\alpha_{1}=0
 \end{equation}
@@ -516,33 +549,180 @@ Para estimar la ganancia de G que define la dinámica del sistema, se desea obten
 donde $\alpha_{1}=0$. Por lo tanto $\lambda_{observador}=0$ y $(\lambda)=\lambda$ 
 
 En consecuencia, los autovalores del observador son:
-
 \begin{equation}\label{ec:autovaloresdelobservador}
 	|\lambda_{I}-A_{22}+GA_{12}|=\alpha(\lambda)
 \end{equation}
 
-Tomando en cuenta que $ \lambda =\lambda-A_{22}+GA_{12}$. Despejando G se tendría que $GA_{12}-A_{22}=0$, entonces $G=\dfrac{A_{22}}{A_{12}}$
-
-Entonces: $u(k)=-k_{1}y(k)-k_{2}\omega(k)$ y $\omega(k)=\eta(k)+Gy(k)$
-
-Sustituyendo $\omega(k)$ en la ecuación \ref{ec:ralimentaciondeestados} queda:
-
+Tomando en cuenta que:
 \begin{equation}
-	U(k+1)=-k_{1}y(k+1)-k_{2}\eta(k+1)-k_{2}Gy(k+1)
+ \lambda =\lambda-A_{22}+GA_{12}
+\end{equation}
+
+Despejando G se tendría que:
+\begin{equation}
+	 GA_{12}-A_{22}=0
+\end{equation}
+
+Entonces
+\begin{equation}
+	G=\dfrac{A_{22}}{A_{12}}
+\end{equation}
+
+Por lo tanto:
+\begin{equation}
+	 u(k)=-k_{1}y(k)-k_{2}\omega(k)
+\end{equation}
+\begin{equation}
+	\omega(k)=\eta(k)+Gy(k)
 \end{equation}
 
 
-Como $GA_{12}-A_{22}=0$, la ecuación \ref{ec:sissegundoordenfinal} quedaría:
+Sustituyendo $\omega(k)$ en la ecuación \ref{ec:ralimentaciondeestados} queda:
+\begin{equation}
+	u(k+1)=-k_{1}y(k+1)-k_{2}\eta(k+1)-k_{2}Gy(k+1)
+		\label{ec:dinamicaSistemaEc}
+\end{equation}
+Que define la dinámica del sistema.
 
-
+Luego, como $GA_{12}-A_{22}=0$, a partir de la ecuación \ref{ec:sissegundoordenfinal} se obtiene:
 \begin{center}
-	\begin{equation*}
+	\begin{equation}
 		\begin{matrix}
 			\eta(k+1)= (A_{21}-GA_{11}) y(k)+(B_{2}-GB_{1})u(k)
-		\end{matrix}	
-	\end{equation*}
-	\label{ec:sissegundoordenreducida}
+		\end{matrix}
+		\label{ec:sissegundoordenreducida}
+	\end{equation}
+
 \end{center}
+
+Entonces, sustituyendo $\eta(k+1)$ en la ecuación \ref{ec:dinamicaSistemaEc}, la dinámica del sistema es:
+\begin{center}
+	\begin{equation}
+	u(k+1)= -[(k_{1}+GK_{2})y(k+1) + k_{2}(A_{21}-GA_{11})y(k)+ k_{2}(B_{2}-GB_{1})u(k)]
+		\label{ec:dinamicareducida}
+	\end{equation}
+	
+\end{center}
+
+Simplificando
+
+\begin{equation*}
+	\begin{matrix}
+		G_{y} =  k_{2}(A_{21}-GA_{11})\\ 
+		G_{u} =  k_{2}(B_{2}-GB_{1})
+	\end{matrix}	
+\end{equation*}
+
+Sustituyendo $G_{y}$ y $G_{u}$ en la ecuación \ref{ec:dinamicareducida} queda: 
+\begin{center}
+\begin{equation}
+		u(k+1)= -[(k_{1}+GK_{2})y(k+1) + G_{y}y(k)+ G_{u}u(k)]
+		\label{ec:dinamicareducida2}
+\end{equation}
+	
+\end{center}
+Que define la ecuación de control del sistema con un observador de orden mínimo.
+
+
+Para el sistema de la ecuación \ref{ec:espaciodeestadosDiscretoSistema}, los valores de $k_{1}, k_{2}, G, G_{y}, G_{u}$ en la ecuación de control \ref{ec:dinamicareducida2} son:
+
+\begin{equation}
+	\begin{matrix}
+		k_{1} = 0.0870\\ 
+		k_{2}= -7.4854\\ 
+		G= -2.6657\\ 
+		G_{y}= 2.5828\\ 
+		G_{u}= 1.8291
+	\end{matrix}
+		\label{ec:valorescont}	
+\end{equation}
+
+\subsubsection {Efecto de la modificación del sistema de regulación}
+
+Al modificar el sistema de regulación en un sistema de control, la ubicación de polos con el observador de estados modifica la ganancia de la totalidad del sistema. Por lo que es necesario compensar con una ganancia $K_{o}$ en la trayectoria de la señal de entrada, de tal forma que la ganancia de entrada de la totalidad del sistema de control pueda determinarse para que la salida sea unitaria en estado permanente a una entrada escalón unitario.\cite{ogataregulacion}
+
+Entonces, según el teorema del valor final
+\[\lim _{k \to \infty }y(k)= \lim _{z \to 1 } (1 - z^{-1}) Y(z)  \]
+
+El valor de $Y(z)$ para una entrada escalón es: 
+
+\begin{equation*}
+	Y(z) =K_{o}\frac{U_{e}G_{discreta}}{1 + U_{e}U_{y}G_{discreta}}\frac{1}{ (1 - z^{-1})}
+\end{equation*}
+
+
+\begin{equation*}
+	Y(z) =K_{o}\frac{0.3099 + 0.6199 z^{-1} + 0.3099 z^{-2} }{7.212 - 7.326 z^{-1 }- 5.75 z^{-2} + 5.951 z^{-3}}\frac{1}{ (1 - z^{-1})}
+\end{equation*}
+
+Entonces,
+
+\[  \lim _{z \to 1 } (1 - z^{-1}) Y(z) = 14.245K_{o} \]
+
+Como en estado permanente se desea que la salida sea unitaria para una entrada tipo escalón, el valor de
+
+\[  K_{o} = \frac{1}{14.245} = 0.0702 \]
+
+
+\subsubsection{Estructura final del sistema}
+De la ecuación \ref{ec:dinamicareducida2} se obtienen los diagramas que muestran la estructura final del sistema: 
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth ]{img/diagramafinal}
+	\caption{Diagrama de bloques del sistema de segundo orden realimentado con control por variables de estados y el observador de orden mínimo}
+	\label{fig:diagramafinal}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth ]{img/observadorreducido}
+	\caption{Diagrama de bloques del observador de orden reducido y control por variables de estado}
+	\label{fig:observadorreducido}
+\end{figure}
+
+Simplificando los diagramas de las figuras \ref{fig:diagramafinal} y \ref{fig:observadorreducido}:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth ]{img/diagramasimplificado}
+	\caption{Diagrama de bloques del sistema simplificado}
+	\label{fig:diagramasimplificado}
+\end{figure}
+
+Siendo
+
+\[ U_{e}(z)= \frac{1}{1 + k_{2}G_{u}z^{-1}}  \]
+
+\[ U_{y}(z)= Gk_{2} + k_{1} + G_{y} k_{2} z^{-1}  \]
+
+Sustituyendo los valores de $k_{1}, k_{2}, G, G_{y}, G_{u}$:
+
+\begin{equation} 
+	\begin{matrix}
+		U_{e}(z)= \frac{1}{ 1 - 13.69 z^{-1}}\\ 
+		U_{y}(z)= 20.04 - 19.33z^{-1}
+	\end{matrix}
+\end{equation}
+
+En conclusión, los parámetros de interés del controlador son:
+
+\begin{equation}
+	\begin{matrix}
+		k_{1} = 0.0870\\ 
+		k_{2}= -7.4854\\ 
+		G= -2.6657\\ 
+		G_{y}= 2.5828\\ 
+		G_{u}= 1.8291\\
+		K_{o} = 0.0702\\
+		U_{e}(z)= \frac{1}{ 1 - 13.69 z^{-1}}\\ 
+		U_{y}(z)= 20.04 - 19.33z^{-1}\\
+		G_{discreta}(z)=\dfrac{0.3099 + 0.6199z^{-1} + 0.3099 z^{-2}}{1 - 0.06544 z^{-1} - 0.8723z^{-2}}
+	\end{matrix}
+	\label{ec:valorescontfinal}	
+\end{equation}
+
 %% fin del capitulo
 
 

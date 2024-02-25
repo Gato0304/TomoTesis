@@ -30,7 +30,9 @@
 \usepackage{subfigure}
 \usepackage{algorithm2e}
 \usepackage{cite}
-\usepackage{tabularx}
+\usepackage{tabularx,booktabs,ragged2e}
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\usepackage{multirow}
 \usepackage{listings}
 %\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
 
@@ -167,8 +169,8 @@
   \def\indexname{Índice alfabético}%
   \def\figurename{Figura}%
   \def\tablename{Tabla}%
- \renewcommand{\lstlistingname}{Programa}% Listing -> Algorithm
- \renewcommand{\lstlistlistingname}{LISTA DE PROGRAMAS}% List of Listings -> List of Algorithms
+ \renewcommand{\lstlistingname}{Fragmento de código}% Listing -> Algorithm
+ \renewcommand{\lstlistlistingname}{LISTA DE FRAGMENTO DE CÓDIGOS}% List of Listings -> List of Algorithms
   \def\partname{Parte}%
   \def\enclname{Adjunto}%
   \def\ccname{Copia a}%
@@ -310,15 +312,17 @@
 \noindent%
 \textbf{Tutor Académico: Mercedes Arocha. Tesis.
 Caracas, Universidad Central de Venezuela. Facultad de Ingeniería.
-Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 2021.}
+Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 2024.}
 
 \noindent
 \textbf{Palabras clave:} Hardware in the Loop, HIL, emulación, control, controlador, sistema de segundo orden. \\[1ex]
 
 \noindent \textbf{Resumen.} 
 
+%El principal objetivo de este trabajo fue el diseño de un modelo de emulación de un sistema de segundo orden aplicando el método "Hardware in the loop". Esto es, en un sistema de control real, sustituir una planta física por una computadora y usar un controlador físico. Por ello, como resultado se diseñó un programa de emulación de una planta de segundo orden basado en Python el cual incluye una interfaz gráfica. Dicho programa implementa un modelo discretizado de un sistema de segundo orden, que responde a estímulos que vienen dados por un controlador que ejecuta un algoritmo de control por ubicación de polos usando realimentación de estados y un observador de orden reducido implementado con una placa de desarrollo Espressif ESP32 en lenguaje C, con el objetivo de validar el desempeño de un sistema de control, sin necesidad de realizar pruebas físicas que puedan resultar costosas, peligrosas o difíciles de alcanzar.
 
 
+El objetivo principal de este trabajo consistió en diseñar un modelo de emulación de un sistema de segundo orden utilizando el método "Hardware in the loop". Este enfoque aplicado en sistemas de control modernos, consiste en simular un sistema físico real mediante el uso de hardware y software. Esto requiere conectar una parte del sistema de control real, llamada "hardware", a un modelo matemático del sistema bajo prueba, llamado "simulador". Como resultado, se diseñó un programa basado en Python que emula una planta de segundo orden y cuenta con una interfaz gráfica. Este programa implementa un modelo discretizado del sistema, el cual responde a estímulos generados por un controlador que utiliza un algoritmo de control por ubicación de polos con realimentación de estados y un observador de orden reducido implementado con una placa de desarrollo Espressif ESP32 en lenguaje C. El propósito de esta emulación es proporcionar un entorno de prueba seguro y eficiente para evaluar el rendimiento y las características de un controlador antes de implementarlo en el sistema real ya que al utilizar el hardware real en lugar de solo una simulación computacional, se pueden simular con mayor precisión las condiciones reales del sistema, lo que permite un análisis más realista de la respuesta del controlador y la interacción con otros componentes.
 
 \end{spacing}
 
@@ -374,7 +378,7 @@ Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 
 %\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
 \input{ch4.tex}%
 %==================================================================
-\chapter{Diseño del controlador digital a utilizar}\label{CAP:controlador}
+\chapter{Diseño del controlador digital}\label{CAP:controlador}
 %\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
 \input{ch8.tex}
 
@@ -385,7 +389,7 @@ Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 
 %\input{ch7.tex}
 
 %==================================================================
-\chapter{Selección del dispositivo microcontrolador a utilizar}\label{CAP:met}
+\chapter{Selección del dispositivo microcontrolador}\label{CAP:met}
 %\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
 \input{ch6.tex}%
 
@@ -424,7 +428,7 @@ Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 
 
 \renewcommand \thechapter{\Roman{chapter}}
 %==================================================================
-\chapter{ANEXO}\label{CAP:anexo0}
+\chapter{ANEXOS}\label{CAP:anexo0}
 %\markboth{Tu anexo}{Tu anexo}%
 \input{apendice0.tex}%
 

@@ -1,0 +1,355 @@
+
+A continuación se mostrarán los resultados de esta investigación
+
+\section{Controlador digital}
+
+Se tiene el controlador digital que consta de un proceso de multitareas dividas entre dos núcleos del procesador; dos de estas tareas se dedican al cálculo de los valores y se ejecutan en simultáneo a la tarea de monitoreo de la comunicación. 
+
+La ecuación que da forma al algoritmo es:
+
+%El algoritmo implementa la ecuación \ref{ec:dinamicareducida2}
+
+\begin{equation*}
+	u(k+1)= -[(k_{1}+GK_{2})y(k+1) + G_{y}y(k)+ G_{u}u(k)]
+	%\label{ec:dinamicareducida2}
+\end{equation*}
+De acuerdo a lo indicado en el diagrama de la figura 
+ \begin{figure}[H]
+ 	\centering
+ 	\includegraphics[width=1.0\linewidth ]{img/diagramasimplificado}
+ 	\caption{Diagrama de bloques del sistema simplificado}
+ 	%\label{fig:diagramasimplificado}
+ \end{figure}
+ 
+\begin{itemize}
+	\item aproxTask: Tarea usada para aproximar los cálculos, alojada en el núcleo 0.
+	\item controllerTask: Tarea usada para dar la respuesta del controlador, alojada en el núcleo 0.
+	\item rx\_task: Tarea siempre activa, usada para el monitoreo de la comunicación serial, alojada en el núcleo 1.
+\end{itemize}
+
+La tarea de aproximación obedece a la acción del bloque sumador en la realimentación del lazo de control. Esto sugiere que para estimar la salida del controlador en tiempo real, se tiene que estimar aproximadamente la salida del sistema mediante la solución de una ecuación no lineal.
+
+Se usó el método de la secante de análisis numérico, el cual consiste en aproximar la raíz de una ecuación de forma iterativa a partir de dos valores iniciales.
+
+Para estimar la raíz de $f(x) = 0$, se define la relación de recurrencia \cite{secantefuente}:
+
+\begin{equation}\label{metodosecante}
+	x_{k} = x_{k-1} - f(x_{k-1}) \dfrac{x_{k-1} - x_{k-2}}{f(x_{k-1}) - f(x_{k-2})}
+\end{equation}
+
+
+Teniendo en cuenta que la función de transferencia del sistema en lazo cerrado es:
+
+\begin{equation*}
+	\frac{Y(z)}{R(z)} =\frac{U_{e}G_{discreta}}{1 + U_{e}U_{y}G_{discreta}}
+\end{equation*}
+
+Se puede reinterpretar de esta manera:
+
+\begin{equation}\label{metodosecante1}
+	E(z) = R(z) - U_{y}Y(z)
+\end{equation}
+
+\begin{equation}\label{metodosecante2}
+	Y(z) = U_{e}G_{discreta}(z)E(z)
+\end{equation}
+
+Sustituyendo \ref{metodosecante1} en \ref{metodosecante2}: 
+
+\begin{equation}\label{metodosecante3}
+	Y(z) = U_{e}G_{discreta}(z)(R(z) - U_{y}Y(z))
+\end{equation}
+
+
+
+Entonces, para aplicar el método se debe estimar $Y(z)$ tal que  
+
+\begin{equation}\label{metodosecante4}
+	f(Y(z)) =  Y(z) - U_{e}G_{discreta}(z)(R(z) - U_{y}Y(z)) = 0
+\end{equation}
+
+para dar solución a la ecuación \ref{metodosecante4}, se tiene el siguiente fragmento de código el cuál interpreta la ecuación \ref{metodosecante}:
+
+\begin{lstlisting}[caption = {Solución de la ecuación \ref{metodosecante4} por el método de aproximación de la secante},captionpos=b,label={codedisrangobs},language=C]
+	
+	double secanteAprox()
+	{
+		tControlParams.sec_x0 = 0;
+		tControlParams.sec_x1 = 1;
+		tControlParams.sec_x2 = 0;
+		for (int i = 0; i < 20; i++)
+		{
+			tControlParams.sec_x2 =
+			tControlParams.sec_x0 - (plantaIterativa(tControl.ref, tControlParams.sec_x0) * (tControlParams.sec_x1 - tControlParams.sec_x0) /(plantaIterativa(tControl.ref, tControlParams.sec_x1) - plantaIterativa(tControl.ref, tControlParams.sec_x0)));
+			if (fabs(tControlParams.sec_x2 - tControlParams.sec_x1) < 0.0001)
+			break;
+			tControlParams.sec_x0 = tControlParams.sec_x1;
+			tControlParams.sec_x1 = tControlParams.sec_x2;
+		}
+		
+		return tControlParams.sec_x2;
+	}
+\end{lstlisting}
+
+En él se observa que la iteración tiene un límite de 20 ciclos con una convergencia del 0.01\%
+
+Para dar la respuesta del controlador basada en esta estimación:
+\begin{lstlisting}[caption = {Cálculo de la respuesta en tiempo real del controlador digital basado en la respuesta de la planta},captionpos=b,label={codedisrangobs},language=C]
+	
+	void controlador(double plantaDouble)
+	{
+		char *ptr;
+		char sendBuff[100];
+		#ifdef DEBUG
+		printf("plantaDouble: %3.9f\n\n sec_x2: %3.9f\n\n", plantaDouble, tControlParams.sec_x2);
+		#endif
+		double now = Huy(plantaDouble);
+		double fError = tControl.ref - now;
+		double val = Hue(fError);
+		long entero = val * FLOAT_SCALER;
+		tControlParams.planta_x1 = (Gp.b1 * val - Gp.a1 * plantaDouble) + tControlParams.planta_x2;
+		tControlParams.planta_x2 = (Gp.b0 * val - Gp.a0 * plantaDouble);
+		sprintf(sendBuff, "%ld\n", entero);
+		sendData(sendBuff);
+		#ifdef DEBUG
+		printf("sendData: %ld\n\n", entero);
+		#endif
+	}
+\end{lstlisting}
+
+Esta función se ejecuta una vez se recibe un nuevo valor de respuesta desde la interfaz de emulación y la estimación por el método secante para dar respuesta del controlador a través del puerto serial.
+
+%El resto del código puede ser apreciado en los anexos
+
+\section{Interfaz gráfica}
+
+La interfaz gráfica realizada con Python se muestra en la figura \ref{fig:interfazgrafica}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{img/interfazgrafica}
+	\caption{Interfaz gráfica del sistema HIL}
+	\label{fig:interfazgrafica}
+\end{figure}
+
+Desglosando la pantalla de la interfaz como se observa en la figura \ref{fig:puerto} en la parte izquierda se debe escribir el nombre del puerto de comunicación y luego se debe presionar el botón conectar. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/puerto}
+	\caption{Detalle de las opciones para configurar el puerto serial}
+	\label{fig:puerto}
+\end{figure}
+
+La valores que pertenecen a la ecuación de la planta se pueden editar en los campos que muestra la figura \ref{fig:valoresplanta}, esta tiene preconfigurados los valores mostrados en la ecuación siguiente.
+
+\begin{equation}
+	G(z)=\dfrac{0.3099 + 0.6199z^{-1} + 0.3099 z^{-2}}{1 - 0.06544 z^{-1} - 0.8723z^{-2}}
+	%\label{ec:discretizacionz}%
+\end{equation}
+
+ Sin embargo, se pueden configurar otros parámetros según sea necesario. 
+ 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/plantavalores}
+	\caption{Edición y configuración de los coeficientes de la ecuación discreta de la planta de segundo orden}
+	\label{fig:valoresplanta}
+\end{figure}
+
+Por último, se ingresan los valores del controlador mostrados en la figura \ref{fig:valorescontrolador}, estos campos tienen preconfigurados los valores indicados a continuación.
+
+
+\begin{equation}
+	\begin{matrix}
+		k_{1} = 0.0870\\ 
+		k_{2}= -7.4854\\ 
+		G= -2.6657\\ 
+		G_{y}= 2.5828\\ 
+		G_{u}= 1.8291\\
+		K_{o} = 0.0702\\
+		U_{e}(z)= \frac{1}{ 1 - 13.69 z^{-1}}\\ 
+		U_{y}(z)= 20.04 - 19.33z^{-1}\\
+		G_{discreta}(z)=\dfrac{0.3099 + 0.6199z^{-1} + 0.3099 z^{-2}}{1 - 0.06544 z^{-1} - 0.8723z^{-2}}
+	\end{matrix}
+	%\label{ec:valorescontfinal}	
+\end{equation}
+
+De igual modo que en otros parámetros, estos también son valores editables.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/controladorvalores}
+	\caption{Edición y configuración de los coeficientes del controlador}
+	\label{fig:valorescontrolador}
+\end{figure}
+
+Una vez configurados estos parámetros se puede presionar el botón de inicio de comunicación y al finalizar el proceso se pueden obtener los gráficos de las respuestas. 
+
+En los botones de información se obtiene una imagen para ver las ecuaciones que muestran los valores que necesita el controlador y la planta respectivamente, como se muestra en las figuras \ref{fig:iformacioplanta} y \ref{fig:iformacioncontrol}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{img/ayudaplanta}
+	\caption{Ecuación general de la función de transferencia de la planta de segundo orden}
+	\label{fig:iformacioplanta}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{img/ayudacontrolador}
+	\caption{Diagrama de bloques de la estructura del diseño del observador de orden mínimo y el control por realimentación de variables de estado}
+	\label{fig:iformacioncontrol}
+\end{figure}
+
+\section{Comparación de resultados}
+
+Para validar la propuesta se decidió comparar los resultados obtenidos en Matlab con los de la interfaz gráfica diseñada en este trabajo.
+
+Se utilizó el software Matlab y Simulink junto con los resultados obtenidos en la sección \ref{subsec:observador}, con los cuales se determinó de forma teórica la respuesta del sistema ante un escalón unitario indicada en la figura \ref{fig:graficomatlab}. 
+
+\subsection{Respuesta natural}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth]{img/respuestamatlaboriginal}
+	\caption{Respuesta a lazo abierto del sistema teórico en dominio discreto}
+	\label{fig:originalplantamatlab}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth]{img/sistemaoriginalpractico}
+	\caption{Respuesta a lazo abierto del sistema real implementado en python en dominio discreto}
+	\label{fig:originalplantapractico}
+\end{figure}
+
+
+\subsection{Respuesta controlada}
+  
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth]{img/matlab}
+	\caption{Respuesta del sistema utilizando la plataforma Matlab.}
+	\label{fig:graficomatlab}
+\end{figure}
+
+De igual modo se puede obtener todos los parámetros de respuesta mediante la consola de Matlab en el fragmento de código \ref{codestepinforesp}
+
+\begin{lstlisting}[caption = {Parámetros de la respuesta escalón del sistema teórico obtenidos utilizando la plataforma Matlab},captionpos=b,label={codestepinforesp},language=Matlab]
+	
+	% Parámetros de la respuesta
+	
+	>> f = feedback(u_e*Gdiscreta,u_y) * 0.0702;
+	>> stepinfo(f)
+	
+	ans = 
+	
+	struct with fields:
+	
+	RiseTime: 0.0600
+	SettlingTime: 0.2910
+	SettlingMin: 0.9140
+	SettlingMax: 1.1492
+	Overshoot: 15.2216
+	Undershoot: 0
+	Peak: 1.1492
+	PeakTime: 0.1320
+\end{lstlisting}
+
+Con la interfaz gráfica diseñada y los resultados de los cálculos en la sección \ref{subsec:observador}, se obtuvo el gráfico mostrado en la figura \ref{fig:graficopython}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\linewidth]{img/python}
+	\caption{Respuesta real del sistema utilizando la interfaz gráfica.}
+	\label{fig:graficopython}
+\end{figure}
+
+
+%En donde se pueden apreciar los resultados en la tabla \ref{tab:matlabeinterfazvalores}
+
+
+\begin{table}[H]
+	\caption{Comparación de las respuestas entre el sistema de la interfaz real y el dado por la plataforma Matlab.}
+	\setlength{\tabcolsep}{4pt} % default value: 6pt
+	%% \centering % not needed since "tabularx" occupies full width of text block
+	\begin{tabularx}{\textwidth}{@{} |Y|Y|Y|Y|Y| @{}}
+			\hline
+		\textbf{Sistemas considerados} & 
+		\textbf{Tiempo de alza$(t_{r})$ (seg)} & 
+		\textbf{Tiempo de establecimiento $(t_{s})$ (seg)} &
+		\textbf{Tiempo de pico $(t_{s})$ (seg)} &
+		\textbf{Sobrepico (\%)} \\
+		\hline
+		%Sistema discreto Matlab & 0.132 s & 0.288 s & 15.2 \% \\ 
+		%\hline
+		Sistema discreto Interfaz real & 0.06 & 0.219 & 0.132& 17.26\% \\ 
+		\hline
+		Sistema discreto Teórico (Matlab) & 0.06 & 0.291 & 0.132& 15.22 \% \\ 
+		\hline
+	\end{tabularx}
+	\label{tab:matlabeinterfazvalores}%
+\end{table}
+
+Con la tabla \ref{tab:matlabeinterfazvalores} se estudia el error porcentual asociado a estos modelos con la ecuación  \ref{ec:errorporcentual1}: 
+\begin{center}
+	\begin{equation}
+		Error_{porcentual}= \left |\frac{Valor_{Matlab} - Valor_{Interfaz}}{Valor_{Matlab}}*100 \%\right |	
+		\label{ec:errorporcentual1}
+	\end{equation}
+\end{center}
+
+De allí se obtiene que comparando Matlab con los cálculos teóricos en el tiempo de alza ($ t_{r}$) y en el tiempo de establecimiento ($t_{s}$) los errores serían:
+%Se observa que el error porcentual calculado con \ref{ec:errorporcentual} dan los siguientes valores para el tiempo de alza y el tiempo de establecimiento:
+
+%\begin{center}
+%	\begin{equation}
+%		Error_{t_{r}} = \left |\frac{0.06 - 0.132}{0.06}*100\%\right | =1.2\%	
+%		\label{ec:errorporcentualtalzamatlab}
+%	\end{equation}
+%\end{center}
+
+
+
+%\begin{center}
+%	\begin{equation}
+%		Error_{t_{s}} = \left |\frac{0.219 - 0.288}{0.219}*100\%\right | =0.315\%	
+%		\label{ec:errorporcentualtestamatlab}
+%	\end{equation}
+%\end{center}
+
+Los errores calculados comparando la interfaz desarrollada en este trabajo y los cálculos teóricos serían:
+
+Error porcentual del tiempo de alza:
+\begin{center}
+	\begin{equation}
+		Error_{t_{r}}= \left |\frac{0.06 - 0.06}{0.06}*100\%\right | =0\%	
+		\label{ec:errorporcentualtalzapython}
+	\end{equation}
+\end{center}
+
+Error porcentual del tiempo de pico:
+\begin{center}
+	\begin{equation}
+		Error_{t_{p}} = \left |\frac{0.132 - 0.132}{0.132}*100\%\right | =0\%	
+		\label{ec:errorporcentualtppython}
+	\end{equation}
+\end{center}
+
+
+ 
+%Los errores al ser menores al 2$\%$ son valores validos para la aproximación de nuestro modelo.
+
+%Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del valor teórico, se considera que es una aproximación válida para modelar el sistema.
+
+Error porcentual del tiempo de establecimiento:
+\begin{center}
+	\begin{equation}
+		Error_{t_{s}} = \left |\frac{0.291 - 0.219}{0.291}*100\%\right | =24.74\%	
+		\label{ec:errorporcentualtestapython}
+	\end{equation}
+\end{center}
+
+Se obtuvo que el error es de 0\% en los tiempos de alza y pico.
+Además, se observó que el tiempo de establecimiento del sistema real es mayor al tiempo del sistema teórico, lo cual puede ser ocasionado por la diferencia entre el factor de amortiguamiento teórico y práctico, además del redondeo de decimales en cada iteración y aproximación.
+
+

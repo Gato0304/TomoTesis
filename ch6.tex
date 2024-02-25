@@ -1,4 +1,4 @@
-Para una correcta implementación del método HIL, se debe tener un emulador para la planta escogido en el capítulo \ref{CAP:tecni} con el objetivo de hacer pruebas a un controlador real para el cual en esta sección se escogió el dispositivo a utilizar. 
+Para una correcta implementación del método HIL, se debe tener un emulador para la planta, que fue seleccionado en el capítulo \ref{CAP:tecni}, y esto con el objetivo de hacer pruebas a un controlador real que vendrá representado dentro del dispositivo microcontrolador. 
 
 
 \section{Posibles dispositivos para diseñar el controlador}
@@ -6,62 +6,66 @@ Para una correcta implementación del método HIL, se debe tener un emulador para 
 \subsection{Arduino Ethernet}
 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\linewidth]{img/arduinoethernet}
-	\caption{Arduino Ethernet}{Fuente: https://tienda.bricogeek.com/descatalogado/392-arduino-ethernet.html}
-	\label{fig:arduino}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/arduinoethernet}
+%	\caption{Arduino Ethernet}{Fuente: {\cite{arduino}}}
+%	\label{fig:arduino}
+%
+%\end{figure}
 
-\end{figure}
+Se tomó en cuenta este microcontrolador ya que se encuentra disponible para el uso estudiantil en la Escuela de Ingeniería Eléctrica de la Universidad Central de Venezuela.
 
-Es una placa de desarrollo Arduino con la interfaz Ethernet Wiznet que tiene las siguientes características:
+Es una placa de desarrollo Arduino con la interfaz Ethernet Wiznet, que tiene las siguientes características:
 
 \begin{itemize}
-	\item Microcontrolador ATMega328, con frecuencia máxima de 20 MHz.
+	\item Microcontrolador ATMega328, con una velocidad de procesamiento de 16 MHz.
 	\item El voltaje de funcionamiento es de 5V.
 	\item  El voltaje de entrada es de 7-12 V.
-	\item Los puertos I/O digitales son 14 (4 cuentan con el controlador Ethernet) y 6 entradas analógicas.
+	\item Los puertos de entrada y salida digitales son 14 (4 cuentan con el controlador Ethernet) y 6 entradas analógicas.
 	\item  Tiene un controlador de Ethernet integrado W5100 TCP / IP.
 	\item Cuenta con una conexión RJ45, un conector de alimentación, una cabecera ICSP y un botón de reinicio.
 	\item Memoria de 32 KB y memoria RAM de 2KB. 
 \end{itemize}
  
-Este dispositivo oscila en un costo entre 45\$  y 55\$  pero el producto esta descontinuado (consultado en octubre 2021. Fuente: https://tienda.bricogeek.com/descatalogado/392-arduino-ethernet.html) y Su lenguaje de programación basado en c++.
+Este dispositivo oscila en un costo entre 45\$  y 55\$  pero el producto está descontinuado {\cite{arduino}} y su lenguaje de programación está basado en c++.
+
+
 
 \subsection{ESP 8266}
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\linewidth]{img/esp8266}
-	\caption{ESP 8266}{Fuente: https://sumador.com/products/modulo-wifi-esp8266-esp-12e}
-	\label{fig:esp8266}
-	
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/esp8266}
+%	\caption{ESP 8266}{Fuente: {\cite{esp8266}}}
+%	\label{fig:esp8266}
+%	
+%\end{figure}
 
 Es un microcontrolador fabricado por Espressif Systems que tiene las siguientes características:
 
 \begin{itemize}
-	\item Tiene núcleo Xtensa Tensilica L106 de 32 bit con velocidad de 80MHz.
-	\item Tiene 16 GPIO (Se puede configurar entradas, salidas, UART).
-	\item  Posee un pin de entrada analógica
-	\item Tiene una memoria flash de 4 MB y 32kB de memoria RAM .
-	\item  El convertidor analógico/digital es de 10bit.
-	\item Tiene conectividad con WI-FI, pudiendo establecer servidores TCP/IP, UDP.
-	\item Posee compatibilidad con SPI, I2C, I2S.
+	\item Núcleo Xtensa Tensilica L106 de 32 bit con velocidad de 80MHz.
+	\item 16 GPIO (Se puede configurar entradas, salidas, UART).
+	\item  Un pin de entrada analógica
+	\item Una memoria flash de 4 MB y 32kB de memoria RAM .
+	\item  Convertidor analógico/digital de 10bit.
+	\item Conectividad con WI-FI, pudiendo establecer servidores TCP/IP, UDP.
+	\item Compatibilidad con SPI, I2C, I2S.
 	
 \end{itemize}
 
 
-El dispositivo tiene un precio que varia entre los 4\$ y los 7\$ (Consultado en octubre 2021) y puede programarse en lenguaje Simba, Lua o C. 
+El dispositivo tiene un precio que varía entre los 4\$ y los 7\$ {\cite{esp8266}} y puede programarse en lenguaje Simba, Lua o C. 
 
 \subsection{Rasberry Pi 3 (modelo B+)}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\linewidth]{img/ras}
-	\caption{Rasberry Pi 3 (modelo B+)}{Fuente: https://www.raspberrypi.com/products/raspberry-pi-4-model-b/}
-	\label{fig:ra}
-	
-\end{figure}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/ras}
+%	\caption{Rasberry Pi 3 (modelo B+)}{\cite{rasberrypi}}
+%	\label{fig:ra}
+%	
+%\end{figure}
 
 
 Es un dispositivo realizado por Raspberry Pi y cuenta con las siguientes características:
@@ -69,31 +73,102 @@ Es un dispositivo realizado por Raspberry Pi y cuenta con las siguientes caracte
 \begin{itemize}
 	\item Microprocesador Broadcom BCM2837B0,
 	propiamente un Cortex-A53 (ARMv8) de 64-bit
-	\item Posee cuarenta pines de GPIO, dos UART, además de cuatro puertos USB,
+	\item Cuarenta pines de GPIO, dos UART, además de cuatro puertos USB,
 	un puerto HDMI, un conector auxiliar y puerto para conexión Ethernet.
-	\item La velocidad de procesamiento es de 1.4GB.
+	\item Velocidad de procesamiento es de 1.4GB.
 	\item Se puede conectar memoria SD y display táctil.
-	\item Tiene comunicación Bluetooth y compatibilidad con módulos de conexión Wi-Fi.
-	\item Cuenta con memoria flash de aproximadamente 1GB.
+	\item Comunicación Bluetooth y compatibilidad con módulos de conexión Wi-Fi.
+	\item Memoria flash de aproximadamente 1GB.
 	
 \end{itemize}
 
-Este dispositivo tiene un costo entre 40\$ a 60\$ (Consultado en octubre 2021). Permite la ejecución de sistemas operativos basados en Linux, es decir que puede programarse en lenguajes como Python, C$\#$ o C.
+Este dispositivo tiene un costo entre 30\$ a 60\$ {\cite{rasberrypi}}. Permite la ejecución de sistemas operativos basados en Linux, es decir que puede programarse en lenguajes como Python, C$\#$ o C.
 
+\subsection{ESP 32}
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=0.7\linewidth]{img/Esp32}
+%	\caption{Esp32}{{ \cite{rasberrypi}}}
+%	\label{fig:esp32}
+%	
+%\end{figure}
+El ESP32 fue creado por Espressif Systems emplea un microprocesador Tensilica Xtensa LX6 y posee las siguientes carácteristicas:
 
+\begin{itemize}
+	\item Microprocesador32-bit Xtensa LX6 de doble núcleo (o de un solo núcleo), operando a 160 o 240 MHz y rindiendo hasta 600 DMIPS
+	\item Veinticuatro pines GPIO, dieciocho pines analógicos ADC, sensores táctiles capacitivos, sensor de efecto Hall, amplificadores de bajo ruido, interfaz para tarjeta SD, Ethernet, SPI de alta velocidad, tres UART, I2S e I2C.
+	\item Comunicación Bluetooth, Wi-Fi  y BLE.
+	\item Memoria RAM de 520 KiB SRAM.
+	\item Velocidad de procesamiento entre 160 Mhz y 240 Mhz.
+\end{itemize}
+
+Este dispositivo tiene un costo entre 4\$ y 6\$ {\cite{esp32}} y puede programarse en lenguaje Python, Espressif IoT Development Framework, Zephyr Project, Mongoose OS, NuttX RTOS, C++.
 
 \subsection{Selección}
 
 
-Los puntos a considerar para la selección del microcontrolador se basaron en  las siguientes características: costo del dispositivo, velocidad de procesamiento, memoria RAM y que posea comunicación por puerto serial.
+Los puntos a considerar para la selección del microcontrolador se basaron en  las siguientes características:  velocidad de procesamiento, memoria RAM, que posea comunicación por puerto serial y costo del dispositivo.
 
-Se estima que el costo del dispositivo sea accesible para los estudiantes que necesiten utilizar el programa y de este modo puedan implementar el dispositivo real. Se necesita que la comunicación entre el controlador y el emulador sea en tiempo real o con el mínimo retardo por esto es importante saber cual es la velocidad de procesamiento del dispositivo.
+ Se necesita que la comunicación entre el controlador y el emulador sea en tiempo real o con el mínimo retardo, por esto, es importante saber cual es la velocidad de procesamiento del dispositivo.
 
-Como se detalló en la sección  \ref{sec:diint} la comunicación entre la interfaz de emulación y el controlador se realiza por puerto serial por este motivo se necesita un conector de puerto USB.
+La comunicación entre la interfaz de emulación y el controlador se realiza por puerto serial por este motivo se necesita un conector de puerto USB.
 
 La memoria RAM es la que permite cargar todas las instrucciones que se mandan entre el dispositivo y el emulador.
 
-Para seleccionar y discriminar el dispositivo que mejor se ajusta a los requerimientos mencionados se utilizó la figura
+Se estima que el costo del dispositivo sea accesible para los estudiantes que necesiten utilizar el programa y de este modo puedan implementar el dispositivo real.
+
+Para seleccionar el dispositivo que mejor se ajusta a los requerimientos mencionados se utilizó la tabla \ref{tabla:comparacion}.
+
+\begin{table}[H]
+	\caption{Comparación de los dispositivos microcontroladores.}
+	\setlength{\tabcolsep}{4pt} % default value: 6pt
+	%% \centering % not needed since "tabularx" occupies full width of text block
+	\begin{tabularx}{\textwidth}{@{} |Y|Y|Y|Y|Y| @{}}
+		\hline
+		\textbf{Dispositivo Microcontrolador} & 
+		\textbf{Costo del dispositivo (En dólares americanos)} & 
+		\textbf{Velocidad de procesamiento} & 
+		\textbf{Memoria RAM} & 
+		\textbf{Puerto Serial}  \\
+		\hline
+		
+		\textbf{Arduino Ethernet}
+		& Entre 45 y 55 \$
+		& 16 MHz
+		& 2KB
+		& Sí \\
+		
+		\hline
+		\textbf{ESP8266}
+		& Entre 4 y 7 \$		
+		& 80MHz 
+		& 32Kb
+		& Sí
+		\\
+		
+		\hline
+		\textbf{Rasberry Pi 3 (modelo B+)}
+		& Entre 30 y 60 \$		
+		& 1.4 GHz
+		& 1 Gb
+		& Sí
+		\\
+	\hline
+	
+		\textbf{ESP32}
+		& Entre 4 y 6\$
+		& Entre 160 MHz y 240 MHz
+		& 520 KiB SRAM
+		& Sí
+		\\	
+		\hline
+	\end{tabularx}
+\label{tabla:comparacion}
+\end{table}
+
+Se descartó el Arduino Ethernet ya que este dispositivo está descontinuado. También se descartó el Rasberry Pi 3 (modelo B+) ya que es un modelo muy costoso, la elección quedó entre el ESP8266 y el ESP32. 
+
+El ESP8266 presenta una desventaja ya que solo posee un núcleo, por este motivo se escogió el ESP32 ya que cumple con tener un precio accesible, una velocidad de procesamiento y una memoria RAM suficientes para almacenar de manera correcta los datos del sistema de segundo orden.
 
 
  

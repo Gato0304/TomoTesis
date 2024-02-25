@@ -1,7 +1,7 @@
 En este capítulo se explican los fundamentos necesarios para el modelado de la planta de segundo orden y el motor escogido para tener un referente en el sistema. Además, se realiza una comparación entre el circuito Sallen-Key y el sistema original.  
 
 \section{Fundamentos}
-Para el modelado del sistema se tomó en cuenta las ecuaciones de un motor CC contolado por armadura de segundo orden que cumple con las expresiones dadas en \ref{ec:motorarmadura}. De donde se obtiene el sistema de ecuaciones mostrado en \ref{ec:motorarmadura2}.
+Para el modelado del sistema se tomó en cuenta las ecuaciones de un motor CC contolado por armadura de segundo orden, que cumple con las expresiones dadas desde \ref{ec:motorarmadura1} hasta la ecuación \ref{ec:motorarmadura4}. De donde se obtiene el sistema de ecuaciones mostrado en \ref{ec:motorarmadura5}.
 
 \begin{center}
 	\begin{equation}
@@ -13,14 +13,14 @@ Para el modelado del sistema se tomó en cuenta las ecuaciones de un motor CC con
 			-\omega_{m}(t)\left(   \frac{k_{m}}{L_{a}} \right)
 		\end{matrix}
 		\right.
-		\label{ec:motorarmadura2}%
+		\label{ec:motorarmadura5}%
 		%\textup{Ecuaciones de un motor DC controlado por armadura}	
 	\end{equation}
 \end{center}
 
 %Se comenzó por emular un sistema de segundo orden  que permitiera obtener el comportamiento de la planta, para esto se tomó el sistema de un motor de segundo orden que cumple con las ecuaciones mostradas en \ref{ec:motorarmadura}.
 
-Sabiendo que la corriente de campo es constante ($I_{f}$), se toman como variables de estado la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{a}$), obteniendo las ecuaciones \ref{ec:espaciodeestado1q} en el siguiente espacio de estado:
+Sabiendo que la corriente de campo es constante ($I_{f}$), se toman como variables de estado la velocidad angular del motor ($\omega_{m}$) y la corriente de armadura ($I_{a}$), obteniendo el espacio de estado en \ref{ec:espaciodeestado1q}:
  
 \begin{center}
 	\begin{equation}
@@ -58,7 +58,7 @@ Sabiendo que la corriente de campo es constante ($I_{f}$), se toman como variabl
 
 %Para el trabajo de grado se tomo en cuenta
 
-Según \cite{kuo}  las constantes del par $k_{i}$ y la constante de fuerza contraelectromotriz $k_{b}$ son dos parámetros que están relacionados a través de la potencia mecánica, la cual se escribe de la siguiente manera:
+Según \cite{kuo}  las constantes del par $k_{i}$ y la constante de fuerza contraelectromotriz $k_{b}$ son dos parámetros que están relacionados a través de la potencia mecánica, la cual puede ser expresada de la siguiente manera:
 
 \begin{center}
 	\begin{equation}
@@ -68,28 +68,60 @@ Según \cite{kuo}  las constantes del par $k_{i}$ y la constante de fuerza contra
 	\end{equation}
 \end{center}
 
-También se puede expresar como:
-
+Siendo  $e_{b}$
 \begin{center}
 	\begin{equation}
-		P= \tau_{m}(t)\omega_{m}(t)
+	e_{b}=k_{b}\phi(t)\omega_{m}(t)
 		\label{ec:potencia2}%
 		%\textup{Ecuaciones de un motor DC controlado por armadura}	
 	\end{equation}
 \end{center}
 
-Se obtiene que:
+Donde $e_{b}$ es la fuerza contraelectromotriz (Volt), $\omega_{m}$ es la velocidad del eje ($\frac{rad}{s}$) del motor y $k_{b}$ es la constante de proporcionalidad.
+
+La potencia mecánica también se puede expresar como:
 
 \begin{center}
-
-		
-	$	k_{b} (V/rad/seg)= k_{i} (Nm/A)$
+	\begin{equation}
+		P= \tau_{m}(t)\omega_{m}(t)
 		\label{ec:potencia3}%
 		%\textup{Ecuaciones de un motor DC controlado por armadura}	
-
+	\end{equation}
 \end{center}
 
-Entonces en las unidades del SI, los valores de $k_{b}$ y $k_{i}$ son iguales.
+$\tau_{m}$ se expresa como:
+
+\begin{center}
+	\begin{equation}
+	 \tau_{m}= k_{m}\phi(t) i_{a}(t)
+		\label{ec:potencia4}%
+		%\textup{Ecuaciones de un motor DC controlado por armadura}	
+	\end{equation}
+\end{center}
+
+En donde $\tau_{m}$ es el par del motor(N-m), $\phi$ es el flujo magnético (Weber), $i_{a}$ es la corriente de armadura (Ampere) y $k_{m}$ es la constante de proporcionalidad.
+
+
+
+Al sustituir las ecuaciones \ref{ec:potencia2} y \ref{ec:potencia4} en 	\ref{ec:potencia} e igualando a	\ref{ec:potencia3} se obtiene que:
+
+\begin{center}
+	\begin{equation}
+		P=\tau_{m}(t)\omega_{m}(t) = k_{b}\omega_{m}(t)\frac{\tau_{m}(t)}{k_{i}}
+		\label{ec:potenciaigual}%
+		%\textup{Ecuaciones de un motor DC controlado por armadura}	
+	\end{equation}
+\end{center}
+
+De donde se puede deducir que: 
+
+\begin{center}
+	$	k_{b} (V/rad/seg)= k_{i} (Nm/A)$
+		\label{ec:potencia5}%
+		%\textup{Ecuaciones de un motor DC controlado por armadura}	
+\end{center}
+
+Entonces en las unidades del SI, el valor de $k_{b}$ y $k_{i}$ son iguales si $k_{b}$ se expresa en (V/rad/s) y $k_{i}$ (N-m/A) .
  \section{DCMCT}
  
  
@@ -116,7 +148,7 @@ Para el cálculo del momento de inercia equivalente del motor ($J_{equi}$) se tom
  	\end{equation}
 \end{center}
 
-Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y las relaciones entre los radios es de 1.
+Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y las relaciones entre los radios es 1.
 
 
 
@@ -126,7 +158,7 @@ Donde $ J_{l}=\frac{M_{l}r_{l}^{2}}{2}$ y las relaciones entre los radios es de 
 	\end{equation}
 \end{center}
 
-A continuación en \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se utilizarán para la representación del modelo del sistema.   
+A continuación en \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se utilizaron para la representación del modelo del sistema.   
  \begin{center}
 	 \begin{equation}
 		\begin{matrix}
@@ -139,7 +171,7 @@ A continuación en \ref{ec:valoresmotorarmadura} se agrupan los parámetros que se
 	\end{equation}
 \end{center}
 
-De acuerdo con la información presentada anteriormente, se obtiene el modelo de espacio de estado descrito con la ecuación \ref{ec:espaciodeestado1q} y \ref{ec:espaciodeestado2q}. Del cual se obtiene la función de transferencia indicada en la ecuación \ref{ec:plantaarmadura}. 
+De acuerdo con la información presentada anteriormente, se sustituyen los valores de  \ref{ec:valoresmotorarmadura} en la ecuación \ref{ec:espaciodeestado1q} y se obtiene el siguiente modelo de espacio de estado:
 
 
 %El sistema de segundo orden emulará es el motor Quanser la cual cumple con las características anteriores, para así poder realizar las pruebas necesarias para evaluar el comportamiento de la planta con un controlador real. Al realizar el espacio de estado de la planta se obtiene%
@@ -179,16 +211,25 @@ De acuerdo con la información presentada anteriormente, se obtiene el modelo de 
 	\label{ec:espaciodeestado2q}%	
 	\end{equation}
 \end{center}
-
+Entonces la función de transferencia es: 
 \begin{center}
 	\begin{equation}
-		\frac{W_{m}(s)}{E_{a}(s)}= \frac{2.8551\cdot10^{6}}{s^{2}+1.293\cdot10^{4}s+1.433\cdot10^{5}} 
+		\frac{\Omega_{m}(s)}{E_{a}(s)}= \frac{2.8551\cdot10^{6}}{s^{2}+1.293\cdot10^{4}s+1.433\cdot10^{5}} 
 		\label{ec:plantaarmadura}%
 	\end{equation}
 \end{center}
 
-Según la ecuación \ref{ec:motorarmadura} $e_{m}=k_{m}\omega_{m}$ la ecuación \ref{ec:plantaarmadura} queda:
+Según la ecuación \ref{ec:motorarmadura3} se tiene que $e_{m}(t)=k_{m}\omega_{m}(t)$. Es decir, $E_{m}(s)=k_{m}\Omega_{m}(s)$
 
+\begin{center}
+	\begin{equation}
+		\frac{E_{m}(s)}{E_{a}(s)}= k_{m}\frac{2.8551\cdot10^{6}}{s^{2}+1.293\cdot10^{4}s+1.433\cdot10^{5}} 
+		\label{ec:plantaarmadura2}%
+	\end{equation}
+\end{center}
+
+ Con $k_{m}= 0.0502$ la ecuación \ref{ec:plantaarmadura2} queda:
+ 
 \begin{center}
 	\begin{equation}
 		\frac{E_{m}(s)}{E_{a}(s)}= \frac{1.433\cdot10^{5}}{s^{2}+1.293\cdot10^{4}s+1.433\cdot10^{5}} 
@@ -210,7 +251,7 @@ Esto cumple con el modelo de un sistema de control segundo orden que corresponde
 
 Los filtros electrónicos son elementos que discriminan un conjunto de frecuencias de señales eléctricas que pasan a través del mismo, esto hace que se modifique su respuesta en frecuencia. Pueden generar funciones de transferencia de primer orden o superior; lo cual los hace una opción para emular funciones de transferencia de un sistema.  
 
-Su topología se basa en un filtro activo de segundo orden, que cuenta con un amplificador operacional no inversor, dos resistencias y dos condensadores. El circuito utilizado se puede apreciar en la figura \ref{fig:sallenkey} 
+Su topología se basa en un filtro activo de segundo orden, que cuenta con un amplificador operacional no inversor, dos resistencias y dos condensadores. El circuito utilizado se denomina Sallen-Key y se puede apreciar en la figura \ref{fig:sallenkey} 
 
 
 \begin{figure}[H]
@@ -220,18 +261,20 @@ Su topología se basa en un filtro activo de segundo orden, que cuenta con un amp
 	\label{fig:sallenkey}
 \end{figure}
 
-Se propone una aproximación a través de un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. Se elige este circuito debido a la facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
+Para este trabajo se propuso una aproximación a través de un filtro Sallen-Key, ajustando sus componentes para obtener los parámetros del sistema deseado. Se elige este circuito debido a:
 
-El modelo de un sistema de control segundo orden corresponde a la ecuación \ref{ec:segundoorden}:
+\begin{itemize}
+	\item Uso de pocos elementos pasivos y activos para el diseño.
+	\item  La facilidad que representa realizar sus cálculos frente al sistema que se desea emular.
+	\item El uso de un amplificador no inversor permite aumentar la ganancia de voltaje, siendo igual o mayor a la unidad. A diferencia de un circuito completamente pasivo, como lo es el RLC.
+	\item Se puede conectar en cascada si se necesita un filtro de orden superior.
+	\item Cada etapa RC puede tener una ganancia de voltaje diferente.
+	\item La estructura Sallen-Key permite implementar filtros Butterworth y Chebyshev.
+\end{itemize}
 
-\begin{center}
-	\begin{equation}
-		F(s)=\frac{\omega_{n}^{2}}{s^{2}+2\zeta \omega_{n}s+\omega_{n}^{2}}
-		%\textup{Ecuación que representa una planta de segundo orden}
-	\end{equation}	
-\end{center}
 
-La ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
+
+El modelo de un sistema de control de segundo orden corresponde a la ecuación \ref{ec:segundoorden} y la ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
 
 \begin{center}
 	\begin{equation}\label{ec:sallenkey}
@@ -241,7 +284,9 @@ La ecuación de ganancia del filtro Sallen-Key corresponde a \ref{ec:sallenkey}:
 	
 \end{center}
 
-Según la figura \ref{fig:sallenkey} se plantea un buffer en la etapa amplificadora por lo que k=1.
+Según la figura \ref{fig:sallenkey} la ganancia de la etapa amplificadora es unitaria, por lo que $K=1$.
+
+Entonces 
 \begin{center}
 	\begin{equation}\label{ec:sallen2}
 		\frac{V_{0}}{V_{i}}=\frac{1}{s^{2}R_{1}R_{2}C_{1}C_{2}+s(R_{1}C_{1}+R_{2}C_{1})+1}
@@ -280,12 +325,13 @@ Obteniendo el valor de $\omega_{n}$ y $\zeta$ con la siguientes ecuaciones:
 \end{center}
 
 
-Con esta forma de organizar las ecuaciones se puede obtener los valores de los parámetros del Sallen-key conociendo los valores del sistema y fijando alguno de los componentes que conforman el circuito.
 
 % Usando las ecuaciones obtenidas de \ref{ec:omegan} y \ref{ec:zeta} se calcularon los parámetros de las resistencias y los condensadores del filtro Sallen-Key, las cuales serán analizadas en el capítulo \ref{CAP:modeloplanta}.
 
 
-Con la funcion de transferencia planteada en  \ref{ec:filtroresistencia} y los valores obtenidos en \ref{ec:plantaarmaduracompleta}, se obtiene el siguiente sistema de ecuaciones:
+%Con la función de transferencia planteada en  \ref{ec:filtroresistencia} y los valores obtenidos en \ref{ec:plantaarmaduracompleta}, se obtiene el siguiente sistema de ecuaciones:
+
+De las ecuaciones \ref{ec:omegan}, \ref{ec:zeta} y \ref{ec:filtroresistencia} se obtiene:
 
 \begin{center}
 	\begin{equation}
@@ -298,7 +344,7 @@ Con la funcion de transferencia planteada en  \ref{ec:filtroresistencia} y los v
 	\end{equation}
 \end{center}
 
-Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$, $\omega_{n}$ y $\zeta$ son incógnitos. Primero se obtendrán los valores de  $\omega_{n}$ y $\zeta$ a partir de la función de transferencia \ref{ec:plantaarmaduracompleta} y del modelo de un sistema de control segundo orden planteado en \ref{ec:segundoorden} :
+Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$, $\omega_{n}$ y $\zeta$ son incógnitos. Primero se obtendrán los valores de  $\omega_{n}$ y $\zeta$ a partir de la función de transferencia \ref{ec:plantaarmaduracompleta} y del modelo de el sistema de control de segundo orden planteado en \ref{ec:segundoorden} :
 
 
 
@@ -307,7 +353,7 @@ Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$, $\omega_{n}$ y $\zeta$ son in
 	\begin{equation}
 		\begin{matrix}
 		 &	\omega_{n}^{2}=1.433\cdot10^{5} \\
-		 &	\omega_{n}=378.549
+		 &	\omega_{n}=378.549 \frac{rad}{s}
 		\end{matrix}	
 	\end{equation}
 \end{center}  
@@ -321,7 +367,7 @@ Donde los valores de $R_{1}, R_{2}, C_{1}, C_{2}$, $\omega_{n}$ y $\zeta$ son in
 	\end{equation}
 \end{center}
 
-Al tener cuatro incógnitas y dos ecuaciones, se fijan los valores de $C_{1}= 1\mu F $ y $ C_{2}= 470nF  $, obteniendo: 
+Al tener cuatro incógnitas y dos ecuaciones, según \cite{sallenkey} se debe tomar que $C_{1}$ sea mayor a $C_{2}$, por lo tanto $R_{1}$ y $R_{2}$ son las variables a resolver: 
 
 %$R_{1}=150k\Omega,  R_{2}=100k \Omega $
 
@@ -343,7 +389,7 @@ Al tener cuatro incógnitas y dos ecuaciones, se fijan los valores de $C_{1}= 1\m
 \end{center}
 
 
-Sustituyendo el valor de $R_{2}$ en \ref{ec:despeje} queda una ecuación cuadrática con incógnita $R_{1}$ 
+Sustituyendo el valor de $R_{2}$ en \ref{ec:despeje} queda una ecuación cuadrática con incógnita $R_{1}$, considerando que se eligieron los valores de $C_{1}= 1\mu F $ y $ C_{2}= 470nF  $, obteniendo
 
 \begin{center}
 	\begin{equation}
@@ -352,11 +398,11 @@ Sustituyendo el valor de $R_{2}$ en \ref{ec:despeje} queda una ecuación cuadráti
 	\end{equation}
 \end{center}
 
-Los valores que arroja la ecuación son $R_{1}$= $\left\lbrace   90128; 164.86\right\rbrace \Omega$, tomando el valor de $R_{1}$=$90128\Omega$ el valor de $R_{2}= 164.86 \Omega$.
+Los valores de la ecuación son $R_{1}$= $\left\lbrace   90128; 164.86\right\rbrace \Omega$, tomando el valor de $R_{1}$=$90128\Omega$ el valor de $R_{2}= 164.86 \Omega$.
 
  La solución según el estándar E24 sería: $R_{1}=91k\Omega$ y $  R_{2}=160 \Omega $.
 
-A continuación, se comparan las gráficas en la plataforma Matlab del sistema sin controlar y el modelo con el filtro Sallen-Key tambien emulado en Matlab pero con los valores de las resistencias y los condensadores.
+A continuación, se comparan las gráficas en la plataforma Matlab del sistema sin controlar y el modelo con el filtro Sallen-Key, también emulado en Matlab pero con los valores de las resistencias y los condensadores obtenidos.
 
 
 
@@ -365,44 +411,74 @@ A continuación, se comparan las gráficas en la plataforma Matlab del sistema sin
 	\begin{figure}[H]
 	\rotatebox[origin=c]{-90}{	\includegraphics[scale=0.50]{img/comparacion.eps}}
 	
-	\caption{Comparación entre el sistema original y Sallen-Key}
+	\caption{Comparación entre la respuesta del sistema teórico y el modelo del Sallen-Key}
 	\label{fig:QuanservsSallen}
 \end{figure}
 \end{center}
 	
 Se observa en el gráfico los siguientes resultados:
 
-\begin{table}[htbp]
+%%%%%%%5
+\begin{table}[H]
 	\centering
-	\caption{Parámetros de la comparación del sistema original y el circuito Sallen-Key en Matlab.}
-	\resizebox{15cm}{!} {
-	\begin{tabular}{|l|l|l|}
-		\hline
-		\textbf{Sistemas considerados} & \textbf{tiempo de alza$(t_{r})$ (seg)} & \textbf{tiempo de establecimiento $(t_{s})$ (seg)} \\
-		\hline
-		Sallen-Key & 0.198 s & 0.353 s \\
-		\hline
-		Sistema original & 0.2 s & 0.356 s \\
-		\hline
-	\end{tabular}%
+	\caption{Parámetros de la comparación del sistema teórico y el modelo Sallen-Key en Matlab.}
+\begin{tabular}{|p{7.785em}|p{9.5em}|p{11.5em}|}
+	\hline
+	\begin{center}
+		\textbf{ Sistemas considerados}
+	\end{center} & 
+	\begin{center}
+		\textbf{Tiempo de alza $(t_{r})$}
+	\end{center}
+	& 
+	\begin{center}
+		\textbf{Tiempo de establecimiento $(t_{s})$}
+	\end{center}
+	\\
+	\hline
+	
+	\begin{center}
+	Sallen-Key
+	\end{center}
+	& 
+	\begin{center}
+		0.198 s
+	\end{center}
+	& 
+	\begin{center}
+		0.353 s
+	\end{center}
+	\\
+	\hline
+	\begin{center}
+		Sistema teórico
+	\end{center} & \begin{center}
+		 0.2 s
+	\end{center}  & \begin{center}
+		 0.356 s
+	\end{center}  \\
+	\hline
+\end{tabular}%
 	\label{tab:sistemas}%
-}
 \end{table}%
+%
+Para estimar el error porcentual se utiliza la ecuación \ref{ec:errorporcentual}:
 
-Con la tabla \ref{tab:sistemas} se estudia el error porcentual asociado a estos modelos con la ecuación  \ref{ec:errorporcentual}: 
+%Con los valores en la tabla \ref{tab:sistemas} se aprecian los errores porcentuales asociados a estos modelos, calculados con la ecuación  \ref{ec:errorporcentual}: 
+
 \begin{center}
 	\begin{equation}
-		Error= \left |\frac{Valor_{sistemaoriginal} - Valor_{Sallen-Key}}{Valor_{sistemaoriginal}}*100 \%\right |	
+		Error= \left |\frac{Valor_{teorico} - Valor_{Sallen-Key}}{Valor_{teorico}}*100 \%\right |	
 		\label{ec:errorporcentual}
 	\end{equation}
 \end{center}
 
-De allí se obtiene que para el tiempo de alza ($ t_{r}$) y para el tiempo de establecimiento ($t_{s}$) los errores serían:
+Con los valores en la tabla \ref{tab:sistemas} y la ecuación \ref{ec:errorporcentual} se obtiene que para el tiempo de alza ($ t_{r}$) y para el tiempo de establecimiento ($t_{s}$) los errores serían:
 %Se observa que el error porcentual calculado con \ref{ec:errorporcentual} dan los siguientes valores para el tiempo de alza y el tiempo de establecimiento:
 
 \begin{center}
 	\begin{equation}
-		Error t_{r}= \left |\frac{0.198 - 0.2}{0.198}*100\%\right | =1.01\%	
+		Error_{t_{r}}= \left |\frac{0.198 - 0.2}{0.198}*100\%\right | =1.01\%	
 		\label{ec:errorporcentualtalza}
 	\end{equation}
 \end{center}
@@ -411,13 +487,15 @@ De allí se obtiene que para el tiempo de alza ($ t_{r}$) y para el tiempo de est
 
 \begin{center}
 	\begin{equation}
-		Error t_{s}= \left |\frac{0.353 - 0.356}{0.353}*100\%\right | =0.849\%	
+		Error_{t_{s}}= \left |\frac{0.353 - 0.356}{0.353}*100\%\right | =0.849\%	
 		\label{ec:errorporcentualtesta}
 	\end{equation}
 \end{center}
 %Los errores al ser menores al 2$\%$ son valores validos para la aproximación de nuestro modelo.
 
-Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del valor teórico, se considera que es una aproximación válida para modelar el sistema.
+
+
+%Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del valor teórico, se considera que es una  aproximación válida para modelar el sistema.
 %
 %Para una planta de segundo orden genérica se tiene la ecuación \ref{ec:plantasegundo}
 %\begin{center}
@@ -473,44 +551,44 @@ Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del
 \section{Modelo discreto de la planta de segundo orden}\label{sec:discplan}
 
 \subsection{Diagrama de Bode}
-Para la discretización del modelo de la planta indicado por las ecuaciones \ref{ec:espaciodeestado1q} y \ref{ec:espaciodeestado2q}, se debe analizar la respuesta en frecuencia del sistema continuo.
+Para la discretización del modelo de la planta indicado por la ecuación \ref{ec:espaciodeestado2q}, se debe analizar la respuesta en frecuencia del sistema continuo.
 
-Entonces, partiendo de la ecuación \ref{ec:espaciodeestado2q}:
-\begin{center}
-	\begin{equation}
-		\left\{\begin{matrix}
-			\begin{bmatrix}
-				& \dot{\omega _{m}(t)}\\ 
-				& \dot{I_{a}(t)}
-			\end{bmatrix}
-			=
-			\begin{bmatrix}
-				& 0 & 2340 & \\ 
-				&  -61,22& -1,293\cdot10^{4} & \\ 
-			\end{bmatrix}
-			\begin{bmatrix}
-				& \omega_{m}(t) \\ 
-				& I_{a}(t)
-			\end{bmatrix}
-			+
-			\begin{bmatrix}
-				& 0 \\ 
-				& 1220
-			\end{bmatrix}
-			e_{a}(t)\\ 
-			y(t)=\begin{bmatrix}
-				1 & 0
-			\end{bmatrix}
-			\begin{bmatrix}
-				\omega_{m}(t)\\ 
-				I_{a}(t)
-			\end{bmatrix}
-		\end{matrix}\right.
-	%	\label{ec:espaciodeestado2q}%	
-	\end{equation}
-\end{center}
+%Entonces, partiendo de la ecuación \ref{ec:espaciodeestado2q}:
+%\begin{center}
+%	\begin{equation}
+%		\left\{\begin{matrix}
+%			\begin{bmatrix}
+%				& \dot{\omega _{m}(t)}\\ 
+%				& \dot{I_{a}(t)}
+%			\end{bmatrix}
+%			=
+%			\begin{bmatrix}
+%				& 0 & 2340 & \\ 
+%				&  -61,22& -1,293\cdot10^{4} & \\ 
+%			\end{bmatrix}
+%			\begin{bmatrix}
+%				& \omega_{m}(t) \\ 
+%				& I_{a}(t)
+%			\end{bmatrix}
+%			+
+%			\begin{bmatrix}
+%				& 0 \\ 
+%				& 1220
+%			\end{bmatrix}
+%			e_{a}(t)\\ 
+%			y(t)=\begin{bmatrix}
+%				1 & 0
+%			\end{bmatrix}
+%			\begin{bmatrix}
+%				\omega_{m}(t)\\ 
+%				I_{a}(t)
+%			\end{bmatrix}
+%		\end{matrix}\right.
+%	%	\label{ec:espaciodeestado2q}%	
+%	\end{equation}
+%\end{center}
 
-Se procede hacer el análisis del sistema realimentado unitariamente, como se indica en la figura \ref{fig:bloquesistemarealimentado}.
+Se procede a hacer el análisis del sistema realimentado unitariamente, como se indica en la figura \ref{fig:bloquesistemarealimentado}.
 
 \begin{figure}[H]
 	\centering
@@ -520,16 +598,16 @@ Se procede hacer el análisis del sistema realimentado unitariamente, como se ind
 \end{figure}
 
 
- Luego, se realiza el diagrama de bode de magnitud de acuerdo con la ecuación  \ref{ec:bodemagnitud} y a través del programa \ref{code1} en MATLAB.
+ Luego, se realiza el diagrama de Bode de magnitud a través del programa \ref{code1} en MATLAB.
+%
+%\begin{center}
+%		\begin{equation}
+%	{|F(\omega)|_{dB}}= 20\log {|F(\omega)|} 
+%	\label{ec:bodemagnitud}%
+%\end{equation}
+%\end{center}
 
-\begin{center}
-		\begin{equation}
-	{|F(\omega)|_{dB}}= 20\log {|F(\omega)|} 
-	\label{ec:bodemagnitud}%
-\end{equation}
-\end{center}
-
-\begin{lstlisting}[caption = {Sistema de espacio de estados en Matlab},captionpos=b,label={code1},language=Matlab]
+\begin{lstlisting}[caption = {Respuesta en frecuencia del sistema continuo en Matlab},captionpos=b,label={code1},language=Matlab]
 	% Constantes
 	km=0.0502;
 	jm=21.456E-6;
@@ -552,15 +630,15 @@ Se procede hacer el análisis del sistema realimentado unitariamente, como se ind
 \end{lstlisting}
 
 
-De donde se obtiene el diagrama de la figura \ref{fig:bodesistemamagnitud}.
+Obteniendo el diagrama de Bode de magnitud de la figura \ref{fig:bodesistemamagnitud}.
 	\begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{img/bodesistemamagnitud.png}
-	\caption{Respuesta del diagrama de Bode magnitud.}
+	\caption{Respuesta del diagrama de Bode de magnitud.}
 	\label{fig:bodesistemamagnitud}
 \end{figure}
 
-Y el ancho de banda es de $\omega_{B}=  235.4757 rad/s$.
+De donde se obtiene el ancho de banda del sistema: $\omega_{B}=  235.4757 rad/s$.
 
 
 \subsection{Tiempo de muestreo}
@@ -572,14 +650,14 @@ De acuerdo al teorema de Nyquist-Shannon \cite{Shannon} la frecuencia de muestre
 		\label{ec:teoremaNyS}%
 	\end{equation}
 
-Con la intención de poder obtener una señal discreta fiel a la señal continua, se tomará para esta investigación, cumpliendo con el teorema de Nyquist, el intervalo indicado por la ecuación \ref{ec:teoremaNySreal}, considerando como  $f_{N}$ el ancho de banda de la señal, tal que  ${f}_{B} = \frac{\omega_{B}}{2\pi}$.
+Con la intención de poder obtener una señal discreta mejor aproximada a la señal continua, se tomó para esta investigación, cumpliendo con el teorema de Nyquist, el intervalo indicado por la ecuación \ref{ec:teoremaNySreal}, considerando como  $f_{N}$ el ancho de banda de la señal, tal que  ${f}_{B} = \frac{\omega_{B}}{2\pi}$.
 	\begin{equation}
 	{2\omega_{B}}< {\omega_{s}}< 10 {\omega_{B} }
 	\label{ec:teoremaNySreal}%
 \end{equation}
 
 
-Por lo tanto, la frecuencia de muestreo a utilizar \ref{ec:teoremaNySreal2}
+Por lo tanto, la frecuencia de muestreo a utilizar es:
 
 %	\begin{equation}
 %	{\omega_{s}} > 1883,8056 \quad rad/s
@@ -591,7 +669,7 @@ Por lo tanto, la frecuencia de muestreo a utilizar \ref{ec:teoremaNySreal2}
 	\label{ec:teoremaNySreal2}%
 \end{equation}
 
-y el tiempo de muestreo $T_{s} = \frac{2\pi}{\omega_{s}}$ sería
+y el tiempo de muestreo $T_{s} = \frac{2\pi}{\omega_{s}}$ es
 
 %	\begin{equation}
 % {T_{s}}>  	3,3353ms
@@ -603,26 +681,26 @@ y el tiempo de muestreo $T_{s} = \frac{2\pi}{\omega_{s}}$ sería
 	\label{ec:tiempodemuestreo}%
 \end{equation}
 
-El criterio escogido para el desarrollo de este proyecto es de $T_{s}= 3ms$.
+El tiempo de muestreo escogido para el desarrollo de este proyecto es de $T_{s}= 3ms$ ya que es un valor que esta dentro del rango indicado en \ref{ec:tiempodemuestreo}. 
 
 \subsection{Discretización}\label{sec:discretizacion}
 
-Para la discretización de un modelo continuo se contempla la posibilidad de trabajar con Euler en atraso, Euler en adelanto ó Tustin tambien conocido como Trapezoidal.
+Para la discretización de un modelo continuo se contempló la posibilidad de trabajar con el método de aproximación de Euler en atraso, Euler en adelanto ó el método Trapezoidal también conocido como Bilineal o Tustin.
 
-A continuación conoceremos mejor las ventajas y desventajas de cada método y cual fue escogido para el desarrollo de este trabajo.
+A continuación se presentan las ventajas y desventajas de cada método y cuál se escogió para el desarrollo de este trabajo.
 
-\subsubsection{Euler en atraso:}
+\subsubsection{Método de aproximación de Euler en atraso:}
 
-El método Euler se basa en aproximar a través de rectángulos de ancho $T_{s}$ el gráfico de una señal contínua. Se define el método en atraso tomando como referencia el instante $f((k+ 1)T_{s})$. Esto se aprecia en el gráfico de la figura  \ref{fig:Euleratraso}.
+El método Euler se basa en aproximar a través de rectángulos de ancho $T_{s}$ el gráfico de una señal continua. Se define el método en atraso tomando como referencia el instante $f((k+ 1)T_{s})$ \cite{lecture:discrete_equivalents}. Esto se aprecia en el gráfico de la figura  \ref{fig:Euleratraso}.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{img/euleratraso.jpg}
-	\caption{Euler en atraso.}
+	\caption{Método de aproximación de Euler en atraso.}
 	\label{fig:Euleratraso}
 \end{figure}
-Siendo $k$ el número de muestras.
+Siendo $k$ el número de muestras y  $T_{s}$ el tiempo de muestreo.
 
 La forma de este mapeo responde a la ecuación \ref{ec:Euleratraso}
 
@@ -635,47 +713,47 @@ Siendo $s$ la variable compleja asociada al dominio continuo según la transforma
 
 Una de las ventajas de este método es que cuando se discretiza un sistema en tiempo continuo estable, se obtiene un resultado de tiempo discreto estable.
 
-\subsubsection{Euler Adelanto:}
+\subsubsection{Método de aproximación de Euler en adelanto:}
 
-Como en la sección de Euler en atraso, este método tambien se basa en aproximar con rectángulos pero el instante de referencia que se toma es $f(kT_{s})$. El gráfico que representa este metodo viene dado por la figura \ref{fig:Euleradelanto}.
+Como en la sección de Euler en atraso, este método también se basa en aproximar con rectángulos el gráfico de una señal continua pero el instante de referencia que se toma es $f(kT_{s})$\cite{lecture:discrete_equivalents}. El gráfico que representa este método viene dado por la figura \ref{fig:Euleradelanto}.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{img/euleradelanto.jpg}
-	\caption{Euler en adelanto.}
+	\caption{Método de aproximación de Euler en adelanto.}
 	\label{fig:Euleradelanto}
 \end{figure}
 
-La forma del mapeo viene dada por la ecuación \ref{ec:Euleradelanto}
+La forma del mapeo viene dada por \ref{ec:Euleradelanto}
 
 \begin{equation}
 	s=\dfrac{z-1}{T_{s}}
 	\label{ec:Euleradelanto}%
 \end{equation}  
 
-Euler en adelanto presenta una ventaja si el tiempo de muestreo es reducido, donde el límite de Nyquist es mayor comparado con el ancho de banda del controlador. En caso de un tiempo de muestreo mayor esté método puede generar inestabilidad.
+El método de aproximación de Euler en adelanto presenta una ventaja si el tiempo de muestreo es reducido, donde el límite de Nyquist es mayor comparado con el ancho de banda del controlador. En caso de un tiempo de muestreo mayor a dicho ancho de banda se puede generar inestabilidad.
 
-\subsubsection{Trapezoidal, Bilineal ó Tustin:}
+\subsubsection{Método de aproximación Trapezoidal, Bilineal o Tustin:}
 
-Este método es utilizado para aproximar a través de trapezoides el gráfico de una señal continua. Se aprecia en el gráfico de la figura \ref{fig:trapezoidal}.
+Este método es utilizado para aproximar a través de trapezoides el gráfico de una señal continua\cite{lecture:discrete_equivalents}. El gráfico que representa este método se aprecia en la figura \ref{fig:trapezoidal}.
 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.8]{img/trapezoidal.jpg}
-	\caption{Trapezoidal, Bilineal ó Tustin.}
+	\caption{Método de aproximación Trapezoidal, Bilineal o Tustin.}
 	\label{fig:trapezoidal}
 \end{figure}
 
-La ecuación que representa el mapeo es \ref{ec:trapezoidal}
+La ecuación \ref{ec:trapezoidal} que representa el mapeo 
 
 \begin{equation}
 	s=\dfrac{2(z-1)}{T_{s}(z+1)}
 	\label{ec:trapezoidal}%
 \end{equation}
 
-Las ventajas de utilizar este método son las mismas del Euler en atraso pero de todas las fórmulas de integración disponibles, la trapezoidal tiene la coincidencia más cercana entre el dominio de frecuencia de un sistema discreto y el correspondiente sistema continuo.
+Las ventajas de utilizar este método son las mismas del método de aproximación de Euler en atraso pero de todas las fórmulas de integración disponibles, la trapezoidal tiene la coincidencia más cercana entre el dominio de frecuencia de un sistema discreto y el correspondiente sistema continuo.
 
 
 
@@ -688,10 +766,10 @@ En la sección \ref{sec:discretizacion} se presentan tres opciones para la discre
 
 En la tabla \ref{tab:Modelosdiscritizacion} se realiza una comparación entre los tres métodos con la finalidad de escoger el más adecuado para el desarrollo de este trabajo.
 
-% Table generated by Excel2LaTeX from sheet 'Hoja1'
+
 \begin{table}[H]
 	\centering
-	\caption{Comparación entre Los métodos de discretización.}
+	\caption{Comparación entre los métodos de discretización.}
 	\begin{tabular}{|p{8em}|p{8em}|p{5em}|p{8em}|}
 		\hline
 		\multicolumn{1}{|l|}{} & \textbf{¿Mantiene estabilidad al discretizar un sistema estable?} & \textbf{¿Necesita un tiempo de muestreo pequeño?} & \textbf{¿Coincidencia entre el gráfico de la señal en el dominio discreto y el sistema continuo?} \\
@@ -707,13 +785,17 @@ En la tabla \ref{tab:Modelosdiscritizacion} se realiza una comparación entre los
 \end{table}%
 
 
-En la tabla se muestra que el método de Tustin es el adecuado para la discretización del modelo continuo ya que es el que coincide mejor con las caráteristicas comparadas.
+En la tabla \ref{tab:Modelosdiscritizacion} se muestra que el método de aproximación Tustin es el adecuado para la discretización del modelo continuo, ya que es el que coincide mejor con las características comparadas. 
+
+Dicho de otra manera, al discretizar una señal continua usando el método de aproximación Tustin nos permite conservar la estabilidad en dominio discreto de un sistema estable en el dominio continuo. Al mismo tiempo, el resultado obtenido coincide altamente con la señal en dominio discreto sin la necesidad de tener un tiempo de muestreo excesivamente pequeño.
 
 \subsubsection{Discretización del sistema de segundo orden:}
 
+Para la implementación de un algoritmo que emule el comportamiento de un sistema de segundo orden, es necesario discretizar la señal continua.
+
 Partiendo de la ecuación \ref{ec:espaciodeestado2q}, se tiene:
 \begin{center}
-	\begin{equation}
+	\begin{equation*}
 		\left\{\begin{matrix}
 			\begin{bmatrix}
 				& \dot{\omega _{m}(t)}\\ 
@@ -743,7 +825,7 @@ Partiendo de la ecuación \ref{ec:espaciodeestado2q}, se tiene:
 			\end{bmatrix}
 		\end{matrix}\right.
 		%	\label{ec:espaciodeestado2q}%	
-	\end{equation}
+	\end{equation*}
 \end{center}
 
 Luego, se realiza la discretización a través del programa \ref{code2} en MATLAB.
@@ -769,7 +851,7 @@ Luego, se realiza la discretización a través del programa \ref{code2} en MATLAB.
 \end{lstlisting}
 
 
-El resultado de las matrices que conforman el espacio de estado discreto es reflejado en \ref{ec:espaciodeestadosdiscreto1} :
+El resultado de las matrices que conforman el espacio de estado discreto es reflejado en la ecuación \ref{ec:espaciodeestadosdiscreto1} :
 
 
 \begin{center}
@@ -808,7 +890,7 @@ La función de transferencia de pulso que se obtiene es:
 	\label{ec:discretizacion}%
 \end{equation}
 
-En términos de $z^-1$:
+En términos de $z^{-1}$:
 
 \begin{equation}
 G(z)=\dfrac{0.3099 + 0.6199z^{-1} + 0.3099 z^{-2}}{1 - 0.06544 z^{-1} - 0.8723z^{-2}}
@@ -823,7 +905,7 @@ Esto obedece a un sistema de la forma $B(z)/A(z)$:
 	\label{ec:discretizacionBA}%
 \end{equation}
 
-Para comparar la coincidencia entre el dominio discreto y el sistema continuo se realizo la siguiente gráfica 
+Para comparar la coincidencia entre el dominio discreto y el sistema continuo se realizó la siguiente gráfica 
 
 
 
@@ -835,28 +917,58 @@ Para comparar la coincidencia entre el dominio discreto y el sistema continuo se
 
 Se observa en el gráfico los siguientes resultados:
 
-\begin{table}[htbp]
-	\centering
+\begin{table}[H]
+\centering
 	\caption{Parámetros de la comparación del sistema discreto y el sistema continuo.}
-	\resizebox{15cm}{!} {
-		\begin{tabular}{|l|l|l|}
-			\hline
-			\textbf{Sistemas considerados} & \textbf{tiempo de alza$(t_{r})$ (seg)} & \textbf{tiempo de establecimiento $(t_{s})$ (seg)} \\
-			\hline
-			Sistema continuo & 0.1981 s & 0.3528 s \\
-			\hline
-			Sistema discreto & 0.1980 s & 0.3540 s \\
-			\hline
-		\end{tabular}%
-		\label{tab:sistemascontinuovsdiscreto}%
-	}
+%	\resizebox{15cm}{!} {
+%		
+	%}
+
+\begin{tabular}{|p{7.785em}|p{9.5em}|p{11.5em}|}
+	\hline
+	\begin{center}
+		\textbf{ Sistemas considerados}
+	\end{center} & 
+	\begin{center}
+	\textbf{Tiempo de alza $(t_{r})$}
+	\end{center}
+ & 
+ \begin{center}
+ \textbf{Tiempo de establecimiento $(t_{s})$}
+ \end{center}
+  \\
+	\hline
+	
+	\begin{center}
+		Sistema continuo
+	\end{center}
+	 & 
+	 \begin{center}
+	 	0.1981 s
+	 \end{center}
+	  & 
+	  \begin{center}
+	  	0.3528 s
+	  \end{center}
+	   \\
+	\hline
+	\begin{center}
+		Sistema discreto
+	\end{center} & \begin{center}
+	0.1980 s
+\end{center}  & \begin{center}
+0.3540 s
+\end{center}  \\
+	\hline
+\end{tabular}%
+\label{tab:sistemascontinuovsdiscreto}%
 \end{table}%
 
 Con la tabla \ref{tab:sistemascontinuovsdiscreto} se estudia el error porcentual asociado a estos modelos con la ecuación  \ref{ec:errorporcentualcontinuovsdiscreto}: 
 
 \begin{center}
 	\begin{equation}
-		Error= \left |\frac{Valor_{sistemacontinuo} - Valor_{discreto}}{Valor_{sistemacontinuo}}*100 \%\right |	
+		Error= \left |\frac{Valor_{continuo} - Valor_{discreto}}{Valor_{continuo}}*100 \%\right |	
 		\label{ec:errorporcentualcontinuovsdiscreto}
 	\end{equation}
 \end{center}
@@ -866,7 +978,7 @@ De allí se obtiene que para el tiempo de alza ($ t_{r}$) y para el tiempo de est
 
 \begin{center}
 	\begin{equation}
-		Error t_{r}= \left |\frac{0.1981 - 0.1980}{0.1981}*100\%\right | =0.0505\%	
+		Error_{t_{r}}= \left |\frac{0.1981 - 0.1980}{0.1981}*100\%\right | =0.0505\%	
 		\label{ec:errorporcentualtrconvsdis}
 	\end{equation}
 \end{center}
@@ -875,10 +987,62 @@ De allí se obtiene que para el tiempo de alza ($ t_{r}$) y para el tiempo de est
 
 \begin{center}
 	\begin{equation}
-		Error t_{s}= \left |\frac{0.3528 - 0.3540}{0.3528}*100\%\right | =0.3401\%	
+		Error_{t_{s}}= \left |\frac{0.3528 - 0.3540}{0.3528}*100\%\right | =0.3401\%	
 		\label{ec:errorporcentualtsconvsdis}
 	\end{equation}
 \end{center}
 %Los errores al ser menores al 2$\%$ son valores validos para la aproximación de nuestro modelo.
 
-Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del valor teórico, se considera que es una aproximación válida para modelar el sistema.
+%Al ser diferencias menores a dos cifras significativas o inferiores al 2$\%$ del valor teórico, se considera que es una aproximación válida para modelar el sistema.
+
+En la tabla \ref{tab:sallenvsdiscreto} se compararon los errores porcentuales entre las estimaciones hechas según el modelo de un sistema Sallen-Key, tomadas de las ecuaciones \ref{ec:errorporcentualtesta} y \ref{ec:errorporcentualtalza}; y la aproximación a un modelo discreto tomadas de las ecuaciones \ref{ec:errorporcentualtsconvsdis} y 	\ref{ec:errorporcentualtrconvsdis}.
+
+\begin{table}[H]
+	\centering
+	\caption{Comparación de errores porcentuales entre el modelo Sallen-Key y el sistema discreto.}
+	%	\resizebox{15cm}{!} {
+	%		
+	%}
+	
+	\begin{tabular}{|p{7.785em}|p{9.5em}|p{11.5em}|}
+		\hline
+		\begin{center}
+			\textbf{ Sistemas considerados}
+		\end{center} & 
+		\begin{center}
+			\textbf{Error porcentual del tiempo de alza $Error_{t_{r}}$}
+		\end{center}
+		& 
+		\begin{center}
+			\textbf{Error porcentual del tiempo de establecimiento $Error_{t_{s}}$}
+		\end{center}
+		\\
+		\hline
+		
+		\begin{center}
+			Sistema Sallen-Key
+		\end{center}
+		& 
+		\begin{center}
+			1.01\%
+		\end{center}
+		& 
+		\begin{center}
+			0.849\%
+		\end{center}
+		\\
+		\hline
+		\begin{center}
+			Sistema discreto
+		\end{center} & \begin{center}
+			0.0505\%
+		\end{center}  & \begin{center}
+			0.3401\%
+		\end{center}  \\
+		\hline
+	\end{tabular}%
+	\label{tab:sallenvsdiscreto}%
+\end{table}%
+
+
+Como se observa en esta comparación, los errores porcentuales asociados al modelo del sistema discreto son menores al modelo del sistema Sallen-Key. Por este motivo, se decidió utilizar un modelo discreto para el diseño del controlador.

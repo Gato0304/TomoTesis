@@ -1,12 +1,12 @@
-Se puede aplicar el método HIL para una alta variedad de procesos, las cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
+Se puede aplicar el método HIL para una alta variedad de procesos, los cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
 
 En este capítulo se muestran algunos conceptos relacionados al método HIL y a los motores de corriente continua, que servirán de soporte para la descripción del modelo del sistema y el controlador.
 
 \section{Hardware in the Loop}\label{HILdef}
 
-HIL es un método en donde los comandos de un controlador son conectados a un sistema en el cual se realizan pruebas que emulan la realidad. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo requiere un desarrollo en tiempo real, de esta manera se pueden realizar las pruebas e iteraciones necesarias para validar el componente.
+HIL es un método en donde los comandos de un controlador son conectados a un sistema en el cual se realizan pruebas. El controlador es conectado a este sistema de emulación con la finalidad de que este se comporte como si el producto final estuviera ensamblado y terminado. Por este motivo requiere un desarrollo en tiempo real, de esta manera se pueden realizar las pruebas e iteraciones necesarias para validar el componente.
 
- Esta emulación se realiza en tiempo real, consta de un controlador que se conecta con estímulos virtuales realistas o también se usa para determinar si el modelo utilizado para el sistema es válido. Al emplear el método HIL se obtiene también ahorro en costos y optimización del proceso, ya que al  evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
+ La emulación se realiza en tiempo real, consta de un controlador que se conecta con estímulos virtuales realistas que se usa para determinar si el modelo utilizado para el sistema es válido. Al emplear el método HIL se obtiene ahorro en costos y optimización del proceso, ya que al  evaluar el controlador por separado se pueden detectar los problemas y hacer cambios en el diseño sin la necesidad de tener el hardware.
 
 El uso de HIL permite combinar dos métodos en los cuales es posible evaluar dispositivos embebidos de control. El primero consiste en que las pruebas realizadas son verificadas en una emulación de los componentes dinámicos, y el segundo método se basa en realizar ensayos con dispositivos de hardware.
  
@@ -35,6 +35,8 @@ Algunos factores que se toman en cuenta para aplicar el método HIL son los sigui
 
 Una de las técnicas utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite la producción del producto.
 
+En el diagrama V mostrado en la figura \ref{fig:ciclov}, nos muestra que el desarrollo del proyecto comienza con el diseño el cual busca definir los requerimientos, especificaciones y el modelado de los componentes del proyecto. Continua con la etapa para el desarrollo donde se realiza la construcción e implementación de los componentes y finalmente muestra la implementación e integración que permite la producción del producto final.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{img/diagramav}
@@ -53,19 +55,34 @@ El método HIL se estructura de la siguiente manera:
 	\label{fig:estructurahil}
 \end{figure}
 
-Como se aprecia en la figura \ref{fig:estructurahil}, el método HIL se divide en tres componentes  básicos, en primer lugar se encuentra el modelo de la planta emulada, la cual debe ser programada. En esta parte del sistema se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actue como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. 
+Como se aprecia en la figura \ref{fig:estructurahil}, el método HIL se divide en tres componentes  básicos, los cuales son:
+
+\begin{itemize}
+	\item El modelo de la planta.
+	\item La interfaz de comunicación.
+	\item El controlador o hardware del sistema.
+\end{itemize} 
+
+En primer lugar se encuentra el modelo de la planta emulada, la cual debe ser programada. El sistema se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actue como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. 
 
 El componente del Hardware (DUT)  es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra el algoritmo en el cual se establecen las acciones de control que son transmitidas al emulador para poder hacer las pruebas respectivas sobre el sistema.
 
- En la componente de comunicación entre la planta y el controlador, existen varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser conversión de señales analógicas y digitales, bus de comunicación serial o paralelo, protocolos de red.
+ En la componente de comunicación entre la planta y el controlador, existen varias alternativas las cuales se escogen dependiendo de los requerimientos del sistema de control, un ejemplo puede ser la conversión de señales analógicas y digitales, el bus de comunicación serial o paralelo y los protocolos de red.
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ %TODO: APENDICE ESPECIFICO DE LO QUE SE QUIERE
+ 
+ En referencia para la implementación de este trabajo, según la estructura propuesta en la figura \ref{fig:estructurahil} y lo descrito en los párrafos anteriores, el diagrama específico para conseguir el resultado planteado se muestra en la figura %\ref{}
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
  \section{Motor de corriente continua (CC)}
  
- Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad y par. Existen varias aplicaciones para este tipo de motores como elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
+ Los motores de corriente continua son máquinas eléctricas cuya función es producir energía mecánica a partir de energía eléctrica, estos motores se distinguen por ser de diseños sencillos, económicos y precisos de control de velocidad. Existen varias aplicaciones para este tipo de motores como elevadores, fabricación de papel, actuadores para mover mecanismos de brazos mecánicos, entre otros.
  
- Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes:  el estator (parte fija del motor), el rotor (Armadura del motor), el colector y las escobillas. Poseen una estructura como la que se puede apreciar en la figura \ref{fig:motorcc}.
+ Suelen clasificarse en motores CC con escobillas y sin escobillas (motores brushless). Los motores de CC con escobillas están constituidos por cuatro partes:  el estator (parte fija del motor), el rotor (armadura del motor), el colector y las escobillas. Poseen una estructura como la que se puede apreciar en la figura \ref{fig:motorcc}.
  
-  Entre el estator y el rotor, siendo el estator el componente fijo y el rotor el componente móvil  se producen flujos magnéticos que interactúan entre si, con el objetivo de producir un par electromagnético colineal con el eje del motor.
+  Entre el estator y el rotor, siendo el estator el componente fijo y el rotor el componente móvil, se producen flujos magnéticos que interactúan entre sí, con el objetivo de producir un par electromagnético colineal con el eje del motor.
  
  \begin{figure}[H]
  	\centering
@@ -81,11 +98,11 @@ El componente del Hardware (DUT)  es el elemento de control del sistema a lazo c
   \begin{figure}[H]
  	\centering
  	\includegraphics[width=0.7\linewidth]{img/motordcarmadura}
- 	\caption{Modelo de un motor CC}
+ 	\caption{Modelo de un motor CC controlado por armadura.}
  	\label{fig:modelomotor}
  \end{figure}
 
-A continuación, se definen los parámetros y  variables que se estarán utilizando:
+A continuación, se definen los parámetros y  variables que se utilizan:
 
 \begin{itemize}
 	\item $	R_{a}$= resistencia de armadura. 
@@ -98,17 +115,17 @@ A continuación, se definen los parámetros y  variables que se estarán utilizando
 	\item $k_{f}$= constante de proporcionalidad.
 	\item $k_{b}$= constante de la fuerza contraelectromootriz.
 	\item $k_{i}= k$= constante del par.
-	\item Ø= flujo magnético en el entre hierro.
+	\item Ø= flujo magnético en el entrehierro.
 	\item $J_{m}$=inercia del rotor.
 	\item $B_{m}$=coeficiente de fricción viscosa.
-	\item $\tau_{m}$= par del motor 
+	\item $\tau_{m}$= par del motor.
 \end{itemize}
  
- Para este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generado por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El par desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este par tiene la función de accionar el sistema que posee una inercia total $J_{eq}$   y el $\theta$ es la posición angular del eje del motor.
+ Este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generada por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El par desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este par tiene la función de accionar el sistema que posee una inercia total $J_{eq}$ y $\theta$ es la posición angular del eje del motor.
  
- El rotor cuando gira genera un campo, en el cual se crea un voltaje inducido $e_{b}$  llamado fuerza contra electromotriz y es proporcional a la velocidad de rotación $W_{n}$. 
+ El rotor cuando gira genera un campo, en el cual se crea un voltaje inducido $e_{b}$  llamado fuerza contraelectromotriz y es proporcional a la velocidad de rotación $\omega_{n}$. 
  
- La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ conectada a una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor está en movimiento. El diagrama de bloques que representa a este tipo de motores es:
+ La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ en serie con una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor está en movimiento. El diagrama de bloques que representa a este tipo de motores es:
  
  \begin{figure}[H]
  	\centering
@@ -117,31 +134,45 @@ A continuación, se definen los parámetros y  variables que se estarán utilizando
  	\label{fig:diagramadebloquesarmadura}
  \end{figure}
 
-Se tomo en cuenta la siguiente aproximación para obtener un análisis lineal en las ecuaciones y el diagrama de bloques de un motor DC controlado por armadura:
+Se tomó en cuenta la siguiente aproximación para obtener un análisis lineal en las ecuaciones y el diagrama de bloques de un motor DC controlado por armadura:
+\begin{center}
+$\tau_{m}=k_{m}$Ø$i_{a}$	
+\end{center}
 
-$\tau_{m}=k_{m}$Ø$i_{a}$, ya que Ø es constante entonces la ecuación queda $\tau_{m}=k_{i}i_{a}$.
+Ya que Ø es constante entonces la ecuación queda:
+
+\begin{center}
+	 $\tau_{m}=k_{i}i_{a}$
+\end{center}
 
 El motor CC controlado por armadura es un sistema a lazo abierto, aunque el diagrama de bloques muestre un lazo realimentado provocado por la fuerza contraelectromotriz, la cual representa la realimentación que es proporcional al negativo de la velocidad del motor. Entonces $k_{b}$ es la constante que se añade a la resistencia $R_{a}$ y al coeficiente de fricción viscosa $B_{m}$, por este motivo la fuerza contraelectromotriz ayuda a mejorar la estabilidad del sistema. 
   
  
  Para controlar la velocidad se debe  ajustar el voltaje que es aplicado a la armadura y dependiendo de su polaridad se determina la dirección de rotación del motor.  Las ecuaciones  que representan un control por armadura de un motor DC son las siguientes:
+\begin{center}
+	\begin{equation}\label{ec:motorarmadura1}
+		 \tau_{m}= J_{m} \frac{d^{2}\theta}{dt^{2}}+B_{m}\frac{d\theta}{dt}
+	\end{equation}
+\end{center}
 
-	
- \begin{center}
- 	 \begin{equation}
- 	 	\left\lbrace	
- 		\begin{matrix}
- 			   \tau_{m}= J_{m} \frac{d^{2}\theta}{dt^{2}}+B_{m}\frac{d\theta}{dt}\\
- 				e_{a}=R_{a}I_{a}+L_{a}\frac{di_{a}}{dt}+ e_{m} \\
- 				e_{m}=k_{m}\frac{d \theta }{d t} \\
- 				\tau_{m}=k_{i}I_{a}
- 		\end{matrix}
- 		\right.
- 		\label{ec:motorarmadura}%
- 		\textup{Ecuaciones de un motor DC controlado por armadura}
- 	\end{equation}
- 		
- \end{center}
+\begin{center}
+	\begin{equation}\label{ec:motorarmadura2}
+			e_{a}=R_{a}I_{a}+L_{a}\frac{di_{a}}{dt}+ e_{m}
+	\end{equation}
+\end{center}
+
+\begin{center}
+	\begin{equation}\label{ec:motorarmadura3}
+		e_{m}=k_{m}\frac{d \theta }{d t} = k_{m}\omega_{m}
+	\end{equation}
+\end{center}
+
+
+\begin{center}
+	\begin{equation}\label{ec:motorarmadura4}
+		\tau_{m}=k_{i}I_{a}
+	\end{equation}
+\end{center}
 
          
 \section{Control por campo} 
@@ -164,19 +195,30 @@ La corriente de armadura se mantiene constante y el campo tiene un voltaje ajust
  \end{figure}
 
  Las ecuaciones que representan al motor DC controlado por campo son las siguientes:  
+ 
+ 
  \begin{center}
-	\begin{equation}
-		\left\{	
-		\begin{matrix}
-			\tau =k_{T} i_{f}\\
-		    \tau =J\frac{d^{2}\theta}{dt}+B\frac{d\theta}{dt} \\
-			e_{f}=R_{f} i_{f}+ L_{f}\frac{d i_{f} }{d t} 
-		\end{matrix}
-		\right.	
-		%\text{Ecuaciones de un motor DC controlado por campo}
-	\end{equation}
+ 	\begin{equation}\label{ec:motorcampo1}
+ 	\tau =k_{T} i_{f}
+ 	\end{equation}
+ \end{center}
+
+ 	
+ \begin{center}
+ 	\begin{equation}\label{ec:motorcampo2}
+ 	\tau =J\frac{d^{2}\theta}{dt}+B\frac{d\theta}{dt}
+ 	\end{equation}
+ \end{center}
+
+ 	\begin{center}
+ 		\begin{equation}\label{ec:motorcampo3}
+ 			e_{f}=R_{f} i_{f}+ L_{f}\frac{d i_{f} }{d t} 
+ 		\end{equation}
+ 	\end{center}	
+ 	
+
 	
-\end{center}
+
 
 %Se seleccionará la plataforma tecnológica para el diseño de la interfaz de emulación, incluyendo información fundamental sobre los conceptos relacionados al tema.
 
@@ -203,7 +245,7 @@ Los nombres que se encuentran en la literatura técnica son controlador PID, PI-D
 
 \section{Diferencias entre simular y emular}
 
-Como se puede apreciar el proceso de emular y simular tienen diferentes definiciones, por este motivo en la tabla \ref{tab:simulacionvsemulacion} exponen las diferencias más significativas.
+El proceso de emular y simular tienen diferentes definiciones, por este motivo en la tabla \ref{tab:simulacionvsemulacion} se exponen las diferencias más significativas.
    
 \begin{table}[H]
 	
@@ -220,7 +262,7 @@ Como se puede apreciar el proceso de emular y simular tienen diferentes definici
 			\hline
 			Se puede separar la simulación del mundo real  & Tiene el objetivo de ocupar el lugar de la realidad  \\
 			\hline
-			Son más utilizados para pruebas de comportamiento interno de equipos & Son más utilizados para pruebas del comportamiento externos de otros equipos \\
+			Son más utilizados para pruebas de comportamiento interno de equipos & Son más utilizados para pruebas del comportamiento externo de otros equipos \\
 			\hline
 		\end{tabular}%
 	\end{center}
