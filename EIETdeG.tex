@@ -296,7 +296,7 @@
 
 %======================= Página de Resumen ==========================
 \newpage
-\renewcommand*{\abstract}{\begin{center}\end{center}}
+\renewcommand{\abstract}{\begin{center}\end{center}}
 %\begin{abstract}
 \begin{spacing}{1}
 \begin{center}%
@@ -312,7 +312,7 @@
 \noindent%
 \textbf{Tutor Académico: Mercedes Arocha. Tesis.
 Caracas, Universidad Central de Venezuela. Facultad de Ingeniería.
-Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 2024.}
+Escuela de Ingeniería Eléctrica. Mención Electrónica, Computación y Control. Año 2024.}
 
 \noindent
 \textbf{Palabras clave:} Hardware in the Loop, HIL, emulación, control, controlador, sistema de segundo orden. \\[1ex]
@@ -322,7 +322,7 @@ Escuela de Ingeniería Eléctrica. Mención Electrónica Computación y Control. Año 
 %El principal objetivo de este trabajo fue el diseño de un modelo de emulación de un sistema de segundo orden aplicando el método "Hardware in the loop". Esto es, en un sistema de control real, sustituir una planta física por una computadora y usar un controlador físico. Por ello, como resultado se diseñó un programa de emulación de una planta de segundo orden basado en Python el cual incluye una interfaz gráfica. Dicho programa implementa un modelo discretizado de un sistema de segundo orden, que responde a estímulos que vienen dados por un controlador que ejecuta un algoritmo de control por ubicación de polos usando realimentación de estados y un observador de orden reducido implementado con una placa de desarrollo Espressif ESP32 en lenguaje C, con el objetivo de validar el desempeño de un sistema de control, sin necesidad de realizar pruebas físicas que puedan resultar costosas, peligrosas o difíciles de alcanzar.
 
 
-El objetivo principal de este trabajo consistió en diseñar un modelo de emulación de un sistema de segundo orden utilizando el método "Hardware in the loop". Este enfoque aplicado en sistemas de control modernos, consiste en simular un sistema físico real mediante el uso de hardware y software. Esto requiere conectar una parte del sistema de control real, llamada "hardware", a un modelo matemático del sistema bajo prueba, llamado "simulador". Como resultado, se diseñó un programa basado en Python que emula una planta de segundo orden y cuenta con una interfaz gráfica. Este programa implementa un modelo discretizado del sistema, el cual responde a estímulos generados por un controlador que utiliza un algoritmo de control por ubicación de polos con realimentación de estados y un observador de orden reducido implementado con una placa de desarrollo Espressif ESP32 en lenguaje C. El propósito de esta emulación es proporcionar un entorno de prueba seguro y eficiente para evaluar el rendimiento y las características de un controlador antes de implementarlo en el sistema real ya que al utilizar el hardware real en lugar de solo una simulación computacional, se pueden simular con mayor precisión las condiciones reales del sistema, lo que permite un análisis más realista de la respuesta del controlador y la interacción con otros componentes.
+El objetivo principal de este trabajo consistió en diseñar un modelo de emulación de un sistema de segundo orden utilizando el método "Hardware in the loop". Este enfoque aplicado en sistemas de control moderno, consiste en simular un sistema físico real mediante el uso de hardware y software. Esto requiere conectar una parte del sistema de control real, llamada "hardware", a un modelo matemático del sistema bajo prueba, llamado "simulador". Como resultado, se diseñó un programa basado en Python que emula una planta de segundo orden y cuenta con una interfaz gráfica. Este programa implementa un modelo discretizado del sistema, el cual responde a estímulos generados por un controlador que utiliza un algoritmo de control por ubicación de polos con realimentación de estados y un observador de orden reducido implementado con una placa de desarrollo Espressif ESP32 en lenguaje C. El propósito de esta emulación es proporcionar un entorno de prueba seguro y eficiente para evaluar el rendimiento y las características de un controlador antes de implementarlo en el sistema real, ya que al utilizar el hardware real en lugar de solo una simulación computacional, se pueden simular con mayor precisión las condiciones reales del sistema, lo que permite un análisis más realista de la respuesta del controlador y la interacción con otros componentes.
 
 \end{spacing}
 
@@ -361,24 +361,31 @@ El objetivo principal de este trabajo consistió en diseñar un modelo de emulació
 \input{ch0.tex}%
 
 %==================================================================
-\chapter{MARCO REFERENCIAL}\label{CAP:prob}
+\chapter{1. MARCO REFERENCIAL}\label{CAP:prob}
+%\addcontentsline{toc}{chapter}{1. MARCO REFERENCIA}%
 \input{ch1.tex}%
 
 %==================================================================
-\chapter{MARCO TEÓRICO}\label{CAP:teor}
+\chapter{2. MARCO TEÓRICO}\label{CAP:teor}
+%\addcontentsline{toc}{chapter}{2. MARCO TEÓRICO}%
 %\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
 \input{ch2.tex}%
 %==================================================================
-\chapter{Descripción del modelo de la planta de segundo orden}\label{CAP:modeloplanta}
+\chapter{3. Descripción del modelo de la planta de segundo orden}\label{CAP:modeloplanta}
+
+%\addcontentsline{toc}{chapter}{3. Descripción del modelo de la planta de segundo orden}
 %\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
 \input{ch3.tex}%
 
 %==================================================================
-\chapter{Selección de la plataforma tecnológica para el diseño de la interfaz de emulación}\label{CAP:tecni}
+\chapter{4. Selección de la plataforma tecnológica para el diseño de la interfaz de emulación}\label{CAP:tecni}
+
+%\addcontentsline{toc}{chapter}{4. Selección de la plataforma tecnológica para el diseño de la interfaz de emulación}
 %\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
 \input{ch4.tex}%
 %==================================================================
-\chapter{Diseño del controlador digital}\label{CAP:controlador}
+\chapter{5. Diseño del controlador digital}\label{CAP:controlador}
+%\addcontentsline{toc}{chapter}{5. Diseño del controlador digital}
 %\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
 \input{ch8.tex}
 
@@ -389,14 +396,16 @@ El objetivo principal de este trabajo consistió en diseñar un modelo de emulació
 %\input{ch7.tex}
 
 %==================================================================
-\chapter{Selección del dispositivo microcontrolador}\label{CAP:met}
+\chapter{6. Selección del microcontrolador}\label{CAP:met}
+%\addcontentsline{toc}{chapter}{6. Selección del dispositivo microcontrolador}
 %\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
 \input{ch6.tex}%
 
 %==================================================================
 
 %==================================================================
-\chapter{Diseño de la interfaz de emulación de la planta de segundo orden}\label{CAP:interfaz}
+\chapter{7. Diseño de la interfaz de emulación de la planta de segundo orden}\label{CAP:interfaz}
+%\addcontentsline{toc}{chapter}{7. Diseño de la interfaz de emulación de la planta de segundo orden}
 %\markboth{Tu Primer Capítulo}{Tu Primer Capítulo}%
 \input{ch5.tex}%
 
@@ -408,8 +417,9 @@ El objetivo principal de este trabajo consistió en diseñar un modelo de emulació
 
 
 %==================================================================
-\chapter{RESULTADOS}\label{CAP:resultados}
+\chapter{8. RESULTADOS}\label{CAP:resultados}
 %\markboth{Tu Segundo Capítulo}{Tu Segundo Capítulo}%
+%\addcontentsline{toc}{chapter}{8. Resultados}
 \input{resultados.tex}
 
 %==================================================================

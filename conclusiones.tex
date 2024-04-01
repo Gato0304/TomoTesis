@@ -1,15 +1,15 @@
-Tras la investigación realizada sobre el método HIL y algunas de sus aplicaciones en la ingeniería, se establecieron los conceptos necesarios para familiarizarse con la información básica, además de la teoría asociada a los servosistemas.
+Tras la investigación realizada sobre el método HIL, se establecieron los conceptos necesarios para familiarizarse con la información básica, además de la teoría asociada a los servosistemas.
 
 
 % para luego con esta información seleccionar la herramienta de Python como el recurso utilizado para el modelado del sistema.
 
 Como sistema de estudio, se decidió usar el motor Quanser DCMCT, del cual se obtuvo la información de todos los parámetros físicos para posteriormente modelarlo matemáticamente. Para describir el modelo de la planta de segundo orden, se hizo una estimación teórica con un circuito Sallen-Key del cual se obtuvo un modelo electrónico para la emulación del sistema y se comparó con las respuestas del software Matlab. Obteniendo así, una respuesta similar al sistema teórico. No obstante, la implementación física de este modelo es parte de las limitaciones de este trabajo.
 
-Para la estimación del modelo discreto, se hizo el análisis en frecuencia del sistema original usando Espacio de Estados, con ello se obtuvo el tiempo de muestreo ideal para la discretización. Luego de esto, se tomó el método Trapezoidal para una mayor coincidencia entre el dominio discreto y el dominio continuo.
+En cuanto a la estimación del modelo discreto, se hizo el análisis en frecuencia del sistema original usando Espacio de Estados y obtuvo el tiempo de muestreo ideal para la discretización. Luego de esto, se tomó el método Trapezoidal para una mayor coincidencia entre el dominio discreto y el dominio continuo.
 
 Como el método HIL se usó para emular la planta de segundo orden era necesario elegir una plataforma tecnológica para esta interfaz de emulación. Tras comparar con diversos softwares y el modelado por el circuito Sallen-Key, se tomó como herramienta de diseño el lenguaje de programación Python y algunas librerías compatibles para así desarrollar una interfaz gráfica para el usuario con las características dinámicas del modelo emulado.
 
-Para controlar las ubicación de los polos de la planta de segundo orden se decidió utilizar un observador de orden reducido para la estimación del estado oculto y una realimentación de estados usando la fórmula de Ackerman para calcular las ganancias $K_{ackerman}$ que cumplen con los polos deseados.
+Para controlar la ubicación de los polos $z_{d}= 0.6668\pm j 0.2432 $ de la planta de segundo orden se decidió utilizar un observador de orden reducido para la estimación del estado oculto y una realimentación de estados usando la fórmula de Ackermam para calcular las ganancias $K_{ackermam}$ que cumplen con los polos deseados.
 
 Tras comparar entre diversos microcontroladores y microprocesadores, se eligió la placa de desarrollo ESP32 como la herramienta que mejor se ajusta para la implementación del controlador. El programa desarrollado en lenguaje C hizo uso del doble núcleo para el procesamiento de los datos recibidos y cálculos necesarios para la respuesta en tiempo real hacia la interfaz de emulación en la computadora a través de comunicación serial. 
 
@@ -17,7 +17,7 @@ Para validar la propuesta se hizo una comparación de resultados obtenidos con la
 
 En los resultados se obtuvo un valor práctico del tiempo de establecimiento superior al calculado teóricamente, esto se debió a tres posibles razones: El truncamiento de decimales en las operaciones ejecutadas, el efecto de las oscilaciones muertas en el diseño del observador, y el impacto sobre el factor de amortiguamiento con la incorporación de un observador real dentro del lazo de control. 
 
-Por otra parte, los resultados del tiempo de alza y el tiempo de pico fueron los esperados según los cálculos teóricos.
+Por otra parte, los resultados del tiempo de alza y el tiempo de pico fueron los esperados según los cálculos teóricos comparados en la tabla \ref{tab:matlabeinterfazvalores}.
 
 Se puede concluir que el método HIL depende en gran medida de un hardware calibrado con una tasa de muestreo adecuada específicamente al sistema a estudiar y al algoritmo implementado dentro del equipo que procesa las señales, esto considera el uso de herramientas analógicas y de optimización numéricas.
 

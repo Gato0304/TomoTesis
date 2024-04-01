@@ -1,4 +1,4 @@
-Se puede aplicar el método HIL para una alta variedad de procesos, los cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
+Se puede aplicar el método HIL en una alta variedad de procesos, los cuales pueden ser sistemas simples como controlar la presión del agua, hasta sistemas más complejos como el sistema de control de movimiento de un automóvil. 
 
 En este capítulo se muestran algunos conceptos relacionados al método HIL y a los motores de corriente continua, que servirán de soporte para la descripción del modelo del sistema y el controlador.
 
@@ -33,9 +33,9 @@ Algunos factores que se toman en cuenta para aplicar el método HIL son los sigui
 	\item Si el software de control tiene una complejidad elevada.
 \end{itemize}
 
-Una de las técnicas utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite la producción del producto.
+Una de las técnicas utilizadas en la ingeniería es el diagrama de V el cual se representa con los siguientes pasos: diseño, desarrollo, implementación y prueba del sistema. En la figura \ref{fig:ciclov} se muestra cómo en el ciclo de integración se recurre al método HIL, para luego realizar las pruebas de campo necesarias y en el caso que lo amerite, la producción del producto.
 
-En el diagrama V mostrado en la figura \ref{fig:ciclov}, nos muestra que el desarrollo del proyecto comienza con el diseño el cual busca definir los requerimientos, especificaciones y el modelado de los componentes del proyecto. Continua con la etapa para el desarrollo donde se realiza la construcción e implementación de los componentes y finalmente muestra la implementación e integración que permite la producción del producto final.
+El ciclo en V mostrado en la figura \ref{fig:ciclov}, nos muestra que el desarrollo del proyecto comienza con el diseño, el cual busca definir los requerimientos, especificaciones y el modelado de los componentes del proyecto. Continua con la etapa para el desarrollo donde se realiza la construcción e implementación de los componentes y finalmente muestra la implementación e integración que permite la producción del producto final.
 
 \begin{figure}[H]
 	\centering
@@ -45,7 +45,7 @@ En el diagrama V mostrado en la figura \ref{fig:ciclov}, nos muestra que el desa
 	\label{fig:ciclov}
 \end{figure}
 
-El método HIL se estructura de la siguiente manera:
+El método HIL se estructura de la manera indicada en la figura \ref{fig:estructurahil}:
 
 \begin{figure}[H]
 	\centering
@@ -63,7 +63,7 @@ Como se aprecia en la figura \ref{fig:estructurahil}, el método HIL se divide en
 	\item El controlador o hardware del sistema.
 \end{itemize} 
 
-En primer lugar se encuentra el modelo de la planta emulada, la cual debe ser programada. El sistema se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actue como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. 
+En primer lugar se encuentra el modelo de la planta emulada, la cual debe ser programada. El sistema se puede utilizar desde una computadora hasta un dispositivo como un microcontrolador que actúe como esclavo y esté conectado a un sistema superior, también se pueden incluir actuadores y sensores de ser necesario para completar el sistema de control. 
 
 El componente del Hardware (DUT)  es el elemento de control del sistema a lazo cerrado, este controlador recibe las salidas del modelo simulado. En esta parte se encuentra el algoritmo en el cual se establecen las acciones de control que son transmitidas al emulador para poder hacer las pruebas respectivas sobre el sistema.
 
@@ -73,7 +73,7 @@ El componente del Hardware (DUT)  es el elemento de control del sistema a lazo c
  
  %TODO: APENDICE ESPECIFICO DE LO QUE SE QUIERE
  
- En referencia para la implementación de este trabajo, según la estructura propuesta en la figura \ref{fig:estructurahil} y lo descrito en los párrafos anteriores, el diagrama específico para conseguir el resultado planteado se muestra en la figura %\ref{}
+% En referencia para la implementación de este trabajo, según la estructura propuesta en la figura \ref{fig:estructurahil} y lo descrito en los párrafos anteriores, el diagrama específico para conseguir el resultado planteado se muestra en la figura %\ref{}
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
  \section{Motor de corriente continua (CC)}
@@ -121,9 +121,9 @@ A continuación, se definen los parámetros y  variables que se utilizan:
 	\item $\tau_{m}$= par del motor.
 \end{itemize}
  
- Este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generada por una fuente DC fija. Entonces el flujo es Ø=$K_{f}$*$I_{f}$, donde $K_{f}$  es constante. El par desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este par tiene la función de accionar el sistema que posee una inercia total $J_{eq}$ y $\theta$ es la posición angular del eje del motor.
+ Este tipo de motores el campo es excitado por una corriente constante $I_{f}$ generada por una fuente DC fija. Entonces el flujo es Ø=$k_{f}$*$I_{f}$, donde $k_{f}$  es constante. El par desarrollado por el motor es proporcional al producto del flujo y la corriente de armadura. Este par tiene la función de accionar el sistema que posee una inercia total $J_{eq}$ y $\theta$ es la posición angular del eje del motor.
  
- El rotor cuando gira genera un campo, en el cual se crea un voltaje inducido $e_{b}$  llamado fuerza contraelectromotriz y es proporcional a la velocidad de rotación $\omega_{n}$. 
+  Cuando el rotor gira genera un campo, en el cual se crea un voltaje inducido $e_{b}$  llamado fuerza contraelectromotriz y es proporcional a la velocidad de rotación $\omega_{n}$. 
  
  La armadura de un motor DC se modela con un circuito con una resistencia $R_{a}$ en serie con una inductancia $L_{a}$ y una fuente de voltaje $e_{b}$ que representaría la fuerza contraelectromotriz cuando el motor está en movimiento. El diagrama de bloques que representa a este tipo de motores es:
  
@@ -136,13 +136,17 @@ A continuación, se definen los parámetros y  variables que se utilizan:
 
 Se tomó en cuenta la siguiente aproximación para obtener un análisis lineal en las ecuaciones y el diagrama de bloques de un motor DC controlado por armadura:
 \begin{center}
-$\tau_{m}=k_{m}$Ø$i_{a}$	
+	\begin{equation}
+\tau_{m}=k_{m}Øi_{a}
+\end{equation}	
 \end{center}
 
-Ya que Ø es constante entonces la ecuación queda:
+Ya que Ø es constante, entonces la ecuación queda:
 
 \begin{center}
-	 $\tau_{m}=k_{i}i_{a}$
+	\begin{equation}
+	 \tau_{m}=k_{i}i_{a}
+	\end{equation}
 \end{center}
 
 El motor CC controlado por armadura es un sistema a lazo abierto, aunque el diagrama de bloques muestre un lazo realimentado provocado por la fuerza contraelectromotriz, la cual representa la realimentación que es proporcional al negativo de la velocidad del motor. Entonces $k_{b}$ es la constante que se añade a la resistencia $R_{a}$ y al coeficiente de fricción viscosa $B_{m}$, por este motivo la fuerza contraelectromotriz ayuda a mejorar la estabilidad del sistema. 
@@ -189,7 +193,7 @@ La corriente de armadura se mantiene constante y el campo tiene un voltaje ajust
           
   \begin{figure}[H]
  	\centering
- 	\includegraphics[width=0.7\linewidth]{img/motorcampo}
+ 	\includegraphics[width=1\linewidth]{img/motorcampo}
  	\caption{Motor DC controlado por campo}
  	\label{fig:ecuacionesmotorcampo}
  \end{figure}
@@ -245,7 +249,7 @@ Los nombres que se encuentran en la literatura técnica son controlador PID, PI-D
 
 \section{Diferencias entre simular y emular}
 
-El proceso de emular y simular tienen diferentes definiciones, por este motivo en la tabla \ref{tab:simulacionvsemulacion} se exponen las diferencias más significativas.
+Los procesos de emular y simular tienen diferentes definiciones, por este motivo en la tabla \ref{tab:simulacionvsemulacion} se exponen las diferencias más significativas entre estos dos términos.
    
 \begin{table}[H]
 	

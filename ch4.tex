@@ -18,7 +18,7 @@ En este capítulo se muestran los requisitos y las características que se necesit
 
 \section{Requerimientos para el desarrollo del proyecto }\label{sec:requerimientos}
 
-Para emular el sistema de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos aproximados a un sistema físico y con resultados precisos. 
+Para emular el sistema de segundo orden, es necesario cumplir con ciertos requerimientos con el objetivo de obtener comportamientos aproximados a un sistema físico y con resultados. 
 
 Para esto se tomó en cuenta lo siguiente:
 
@@ -35,13 +35,13 @@ Para esto se tomó en cuenta lo siguiente:
 \end{itemize}
 
 %Se necesitaba un dispositivo real que pudiera cumplir con los requerimientos para realizar la emulación de la planta de segundo orden, de las cuales se obtuvo dos opciones la primera fue un filtro Sallen-Key y el segundo fue un computador personal
-\section{Posibles formas de emular una sistema de segundo orden}
+\section{Emulación de un sistema de segundo orden}
 A continuación, se presentarán cuatro posibles formas de trabajar y emular un sistema de segundo orden.
 \subsection{Emulación mediante un circuito electrónico}
 
-La ventaja principal de los circuitos electrónicos es que ofrecen una aproximación rápida y de bajo costo para algunos sistemas. Sin embargo, sus comportamientos no siempre se ajustan correctamente a los de un sistema de segundo orden físico debido a limitaciones de hardware y a la tolerancia de los componentes usados. Además, para su debido procesamiento es necesario el uso de periféricos convertidores de señal analógica y microcontroladores con una alta tasa de bits de muestreo.
+La ventaja principal de los circuitos electrónicos es que ofrecen una aproximación rápida y de bajo costo para algunos sistemas. Sin embargo, sus comportamientos no siempre se ajustan correctamente a los de un sistema de segundo orden físico, debido a limitaciones de hardware y a la tolerancia de los componentes usados. Además, para su debido procesamiento es necesario el uso de periféricos convertidores de señal analógica y microcontroladores con una alta tasa de bits de muestreo.
 
-Teniendo esto en cuenta y para cumplir con los requerimientos mencionados en la sección \ref{sec:requerimientos} y las estimaciones hechas en  la sección \ref{sec:modeladocircuito} se determina que el uso de un circuito para emular el sistema de segundo orden no ofrece una solución de aproximación óptima debido a las limitaciones que se tienen en este trabajo para medir su desempeño a través del método HIL y la comparación hecha en la tabla \ref{tab:sallenvsdiscreto}.
+Teniendo esto en cuenta y para cumplir con los requerimientos mencionados en la sección \ref{sec:requerimientos} y las estimaciones hechas en  la sección \ref{sec:modeladocircuito}, se determina que el uso de un circuito para emular el sistema de segundo orden no ofrece una solución de aproximación óptima debido a las limitaciones que se tienen en este trabajo para medir su desempeño a través del método HIL y la comparación hecha en la tabla \ref{tab:sallenvsdiscreto}.
 
 
 %Este tipo de filtros se utiliza como un circuito que permite implementar filtros activos de orden superior.
@@ -55,7 +55,7 @@ Por lo tanto, se implementó la planta de segundo orden en Simulink para que se c
 
 \begin{itemize}
 	
-	\item La comunicación serial no era en tiempo real y los dos dispositivos no podían comunicarse correctamente.
+	\item La comunicación serial no es en tiempo real y los dos dispositivos no podían comunicarse correctamente.
     \item Es una herramienta que no posee licencia libre.
     \item Consume demasiados recursos gráficos y de memoria para su ejecución.
 \end{itemize}
@@ -70,7 +70,7 @@ Existe una extensión de LabVIEW, que es LabVIEW-Multisim el cuál contiene el mód
 \begin{itemize}
 	
 	\item Consume demasiados recursos gráficos y de memorias para su ejecución.
-	\item Es un software que posee una licencia paga.
+	\item Es un software que requiere licencia.
 \end{itemize}
 
  \subsection{Python}
@@ -112,7 +112,7 @@ Python permite instalar varias librerías, bibliotecas y herramientas para realiz
 	
 	\item \textbf{numpy:} Significa "Numerical Python" permite proporcionar estructuras de datos con matrices. Para el modelado de sistemas lineales de control, numpy cuenta con  algunos métodos y funciones que permiten operar matemáticamente funciones de transferencia. Algunas de estas funciones son:
 	\subitem \textbf{np.array():} Permite trabajar con  matrices n-dimensionales, con forma de filas y columnas, ubicados en varios elementos de memoria.
-	\subitem\textbf{np.linspace():} Esta función genera un arreglo formado por un cantidad arbitraria de números equiespaciados en un intervalo dado.
+	\subitem\textbf{np.linspace():} Esta función genera un arreglo formado por una cantidad arbitraria de números equiespaciados en un intervalo dado.
 	
 	\subitem\textbf{np.append():} Permite agregar elementos al final del arreglo. 
 
@@ -134,7 +134,7 @@ Python permite instalar varias librerías, bibliotecas y herramientas para realiz
 En esta sección se consideran los recursos descritos anteriormente que son de utilidad para emular el sistema de segundo orden. En la tabla \ref{tab:requisitos} se presenta el resultado de la comparación entre estas herramientas, tomando en cuenta los criterios expuestos a inicios de este capítulo.
 
 
-En la tabla \ref{tab:requisitos} se muestra que la herramienta que cumple con todos los criterios es Python. Por lo tanto se considerará como el recurso de desarrollo para el modelado del sistema.
+Asimismo, en la tabla \ref{tab:requisitos} se muestra que la herramienta que cumple con todos los criterios es Python. Por lo tanto se considerará como el recurso de desarrollo para el modelado del sistema.
 
 
 

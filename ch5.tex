@@ -1,4 +1,4 @@
-De acuerdo con la tabla \ref{tab:requisitos}, la plataforma tecnológica seleccionada para el diseño está basada en el lenguaje de programación Python. Para esto se contempló realizar una interfaz gráfica que contenga comunicación serial, cálculos matemáticos, modificación de texto y posibilidad de mostrar el gráfico de las señales, para lo cual se utilizaron varios paquetes integrados como lo es TKinter, Matplotlib y Numpy.
+De acuerdo con la tabla \ref{tab:requisitos} ubicada en el capítulo \ref{CAP:tecni}, donde se realiza una comparación entre las herramientas para la realizar la emulación del sistema, la plataforma tecnológica seleccionada para el diseño está basada en el lenguaje de programación Python. Para esto se contempló realizar una interfaz gráfica que contenga comunicación serial, cálculos matemáticos, modificación de texto y posibilidad de mostrar el gráfico de las señales, para lo cual se utilizaron varios paquetes integrados como lo es TKinter, Matplotlib y Numpy.
 
 \section{Estructura del programa}
 
@@ -9,11 +9,11 @@ Esto obedece a la estructura propuesta en la figura \ref{fig:estructurahil} dond
 
 \section{Configuración}
 
-En la interfaz se deben realizar las configuraciones del sistema de segundo orden, puerto serial y los parámetros del controlador.
+En la interfaz se pueden cambiar las configuraciones predeterminadas del sistema de segundo orden, puerto serial y los parámetros del controlador.
 
 \subsection{Configuración del puerto}
 
-Previo a todas las tareas que se pueden llevar a cabo en el sistema, es necesario como primer paso la configuración del puerto serial que se usará como medio de comunicación con el controlador. 
+Previo a todas las tareas que se pueden llevar a cabo en el sistema, fue necesario como primer paso configurar el del puerto serial que se utilizó como medio de comunicación con el controlador. 
 
 Por lo tanto, se considera el uso de la librería pySerial \cite{serial} que es una extensión compatible con  Windows 32 bits, OSX, Linux, BSD, Jython y IronPython, permitiendo configurar el puerto a través de las propiedades de Python. 
 
@@ -66,7 +66,7 @@ Luego, tomando la antitransformada $\mathcal{Z}$ en ambos sentidos de la igualda
 	%\label{ec:discretizacionBA}%
 \end{equation}
 
-Del cual se obtiene:
+Obteniendo:
 
 \begin{equation}
 	a_{2}y(k) = b_{2}u(k) + b_{1}u(k-1) + b_{0}u(k-2) -a_{1}y(k-1) - a_{0}y(k-2)
@@ -99,7 +99,7 @@ Entonces, la ecuación \ref{ec:salidaDiscreta} se convierte en:
 	\label{ec:salidaDiscretaCodigo}%
 \end{equation}
 
-La ecuación \ref{ec:salidaDiscretaCodigo} es una representación discreta del sistema dado por la ecuación \ref{ec:discretizacionSO}, la cuál será utilizada para el desarrollo del algoritmo en Python. 
+La ecuación \ref{ec:salidaDiscretaCodigo} es una representación discreta del sistema dado por la ecuación \ref{ec:discretizacionSO}, la cual será utilizada para el desarrollo del algoritmo en Python. 
 
 En el diagrama de la figura \ref{fig:confip} se muestra como configurar el sistema de segundo orden en la interfaz. 
 
@@ -116,7 +116,7 @@ En el diagrama de la figura \ref{fig:confip} se muestra como configurar el siste
 
 La trama de comunicación entre el sistema y el controlador consta de un campo de caracteres variables, que representan el valor numérico decimal que se manejará en las ecuaciones y un caracter de salto de línea (ASCII hexadecimal: 0x0A) para culminar el mensaje. El valor enviado o recibido debe ser procesado según corresponda. Es decir, para enviar al controlador el valor $a = 123.56$, debe multiplicarse por $100000000$, quedando $a= 12356000000$
 
-Una vez hecho esto, se transforma de valor numérico 12356000000 a una cadena de caracteres ``12356000000'' a la cuál se adiciona un salto de línea para concluir el mensaje, quedando de la siguiente manera:
+Una vez hecho esto, se transforma de valor numérico 12356000000 a una cadena de caracteres ``12356000000'' a la cual se adiciona un salto de línea para concluir el mensaje, quedando de la siguiente manera:
 
 
 Mensaje a enviar = ``12356000000(0x0A)''
@@ -131,11 +131,11 @@ En la tabla \ref{tab:trama} se encuentra la estructura que debe poseer la trama 
 		\hline
 		\multicolumn{3}{|c|}{Estructura de trama de comunicación} \\
 		\hline
-		& Descripcion & \multicolumn{1}{l|}{Tamaño} \\
+		& Descripción & \multicolumn{1}{l|}{Tamaño} \\
 		\hline
 		Inicio & valor decimal x 100000000 & \multicolumn{1}{l|}{Variable} \\
 		\hline
-		Final & ``0x0A$"$ o ``Salto de linea$"$ & 1 \\
+		Final & ``0x0A$"$ o ``Salto de línea$"$ & 1 \\
 		\hline
 	\end{tabular}%
 	\label{tab:trama}%
@@ -182,7 +182,7 @@ La comunicación se establece entre el sistema de segundo orden y el controlador 
 
 \subsection{Comunicación entre el sistema y el controlador}
 
-Una vez recibido un nuevo valor desde el puerto serial, se evalúa la longitud del mensaje, ya que pueden existir valores vacios. Si este es válido, se procederá a procesar la respuesta según la ecuación \ref{ec:salidaDiscretaCodigo}. En el caso contrario, el valor se ignora.
+Una vez recibido un nuevo valor desde el puerto serial, se evalúa la longitud del mensaje, ya que pueden existir valores vacíos. Si la longitud es la correcta, se procederá a procesar la respuesta dada en la ecuación \ref{ec:salidaDiscretaCodigo}. En el caso contrario, el valor se ignora.
  
 La comunicación termina cuando se alcanza el número de muestras finitas y se envía el comando de fin de comunicación indicado en la tabla \ref{tab:comandos}.
 

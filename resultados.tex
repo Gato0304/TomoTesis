@@ -1,5 +1,5 @@
 
-A continuación se mostrarán los resultados de esta investigación
+A continuación se muestran y analizan los resultados de esta investigación
 
 \section{Controlador digital}
 
@@ -13,23 +13,23 @@ La ecuación que da forma al algoritmo es:
 	u(k+1)= -[(k_{1}+GK_{2})y(k+1) + G_{y}y(k)+ G_{u}u(k)]
 	%\label{ec:dinamicareducida2}
 \end{equation*}
-De acuerdo a lo indicado en el diagrama de la figura 
+De acuerdo a lo indicado en el diagrama de la figura \ref{fig:diagramasimplificado11}
  \begin{figure}[H]
  	\centering
  	\includegraphics[width=1.0\linewidth ]{img/diagramasimplificado}
  	\caption{Diagrama de bloques del sistema simplificado}
- 	%\label{fig:diagramasimplificado}
+ \label{fig:diagramasimplificado11}
  \end{figure}
  
 \begin{itemize}
 	\item aproxTask: Tarea usada para aproximar los cálculos, alojada en el núcleo 0.
-	\item controllerTask: Tarea usada para dar la respuesta del controlador, alojada en el núcleo 0.
+	\item controllerTask: Tarea realizada para dar la respuesta del controlador, alojada en el núcleo 0.
 	\item rx\_task: Tarea siempre activa, usada para el monitoreo de la comunicación serial, alojada en el núcleo 1.
 \end{itemize}
 
-La tarea de aproximación obedece a la acción del bloque sumador en la realimentación del lazo de control. Esto sugiere que para estimar la salida del controlador en tiempo real, se tiene que estimar aproximadamente la salida del sistema mediante la solución de una ecuación no lineal.
+La tarea de aproximación obedece a la acción del bloque sumador en la realimentación del lazo de control. Esto sugiere que para estimar la salida del controlador en tiempo real, se tiene que estimar la salida del sistema mediante la solución de una ecuación no lineal.
 
-Se usó el método de la secante de análisis numérico, el cual consiste en aproximar la raíz de una ecuación de forma iterativa a partir de dos valores iniciales.
+Se usó el método de la secante de análisis numérico, para aproximar la raíz de una ecuación de forma iterativa a partir de dos valores iniciales.
 
 Para estimar la raíz de $f(x) = 0$, se define la relación de recurrencia \cite{secantefuente}:
 
@@ -68,9 +68,9 @@ Entonces, para aplicar el método se debe estimar $Y(z)$ tal que
 	f(Y(z)) =  Y(z) - U_{e}G_{discreta}(z)(R(z) - U_{y}Y(z)) = 0
 \end{equation}
 
-para dar solución a la ecuación \ref{metodosecante4}, se tiene el siguiente fragmento de código el cuál interpreta la ecuación \ref{metodosecante}:
+para dar solución a la ecuación \ref{metodosecante4}  por el método de aproximación de la secante, se tiene el siguiente fragmento de código el cuál interpreta la ecuación \ref{metodosecante}:
 
-\begin{lstlisting}[caption = {Solución de la ecuación \ref{metodosecante4} por el método de aproximación de la secante},captionpos=b,label={codedisrangobs},language=C]
+\begin{lstlisting}[label={codedisrangobs},language=C]
 	
 	double secanteAprox()
 	{
@@ -91,10 +91,10 @@ para dar solución a la ecuación \ref{metodosecante4}, se tiene el siguiente frag
 	}
 \end{lstlisting}
 
-En él se observa que la iteración tiene un límite de 20 ciclos con una convergencia del 0.01\%
+En él fragmento de código se observa que la iteración tiene un límite de 20 ciclos con una convergencia del 0.01\%
 
-Para dar la respuesta del controlador basada en esta estimación:
-\begin{lstlisting}[caption = {Cálculo de la respuesta en tiempo real del controlador digital basado en la respuesta de la planta},captionpos=b,label={codedisrangobs},language=C]
+Para dar la respuesta del controlador basada en esta estimación, se realizo el cálculo de la respuesta en tiempo real del controlador digital basado en la respuesta de la planta:
+\begin{lstlisting}[label={codedisrangobs},language=C]
 	
 	void controlador(double plantaDouble)
 	{
@@ -132,7 +132,7 @@ La interfaz gráfica realizada con Python se muestra en la figura \ref{fig:interf
 	\label{fig:interfazgrafica}
 \end{figure}
 
-Desglosando la pantalla de la interfaz como se observa en la figura \ref{fig:puerto} en la parte izquierda se debe escribir el nombre del puerto de comunicación y luego se debe presionar el botón conectar. 
+Desglosando la pantalla de la interfaz, como se observa en la figura \ref{fig:puerto},, en la parte izquierda se debe escribir el nombre del puerto de comunicación y luego se debe presionar el botón conectar. 
 
 \begin{figure}[H]
 	\centering
@@ -207,7 +207,7 @@ Para validar la propuesta se decidió comparar los resultados obtenidos en Matlab
 
 Se utilizó el software Matlab y Simulink junto con los resultados obtenidos en la sección \ref{subsec:observador}, con los cuales se determinó de forma teórica la respuesta del sistema ante un escalón unitario indicada en la figura \ref{fig:graficomatlab}. 
 
-\subsection{Respuesta natural}
+\subsection{Respuesta a una señal escalón unitario a lazo abierto}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1.0\linewidth]{img/respuestamatlaboriginal}
@@ -223,7 +223,7 @@ Se utilizó el software Matlab y Simulink junto con los resultados obtenidos en l
 \end{figure}
 
 
-\subsection{Respuesta controlada}
+\subsection{Respuesta a una señal escalón unitario a lazo cerrado}
   
 \begin{figure}[H]
 	\centering

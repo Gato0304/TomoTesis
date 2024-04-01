@@ -12,7 +12,7 @@ El sistema está definido por
 x((k+1)T)= A x(kT)+ Bu(kT)	
 \end{equation}
 
-donde $x(kT)$ es un vector de dimensión n, $A$ es una matriz de $n \times n$ y $B$ es una matriz de $n \times r$, entonces para que un sistema tenga controlabilidad completa se debe cumplir que la matriz de la ecuación \ref{ec:ecuacioncontrolab} de $n \times nr$ sea de rango n. \cite{ogatacontrolabilidad}
+donde $x(kT)$ es un vector de estados con dimensión n, $A$ es una matriz de $n \times n$ y $B$ es una matriz de $n \times r$, entonces para que un sistema tenga controlabilidad completa se debe cumplir que la matriz de la ecuación \ref{ec:ecuacioncontrolab} de $n \times nr$ sea de rango n. \cite{ogatacontrolabilidad}
 
 \begin{equation}\label{ec:ecuacioncontrolab}
 	M_{controlabilidad} = [B \vdots AB \vdots  \cdots \vdots A^{n-1}B]	
@@ -29,31 +29,62 @@ La ecuación \ref{ec:ecuacioncontrolabilidadrango} representa la condición de con
  
 \subsection{Controlabilidad completa de la salida}
 
-La controlabilidad completa de los estados no se traduce en la controlabilidad de la salida, ya que no es una condición necesaria ni suficiente. 
-
-Sin embargo, teniendo en cuenta que el sistema de control se puede definir con el Espacio de Estados de la ecuación \ref{ec:espaciodeestadosdiscreto}.
+La controlabilidad completa de los estados no se traduce en la controlabilidad de la salida, ya que no es una condición necesaria ni suficiente. Sin embargo, al considerar que el sistema de control puede definirse utilizando el Espacio de Estados, se tiene controlabilidad completa de la salida sí y sólo sí todos los renglones de la matríz C son linealmente independientes. Según la ecuaciones \ref{ec:espaciodeestadosdiscreto} y \ref{ec:espaciodeestadosdiscretos1}.
 
 \begin{center}
-	\begin{equation}
-		\left\{\begin{matrix}
-			
-				 x(k+1)
-			
-			= A x(k) + B x(k) \\
-			
-			y(k)=C x(k)
-		\end{matrix}\right.	
+	\begin{equation}		
+				 x(k+1)	
+			= A x(k) + B x(k) 
 		\label{ec:espaciodeestadosdiscreto}%
 	\end{equation}
 \end{center}
 
-Se tiene controlabilidad completa de salida, sí y sólo sí todos los renglones de la matríz C son linealmente independientes.
+\begin{center}
+	\begin{equation}	
+			y(k)=C x(k)
+		\label{ec:espaciodeestadosdiscretos1}%
+	\end{equation}
+\end{center}
+
+
 
 
 \subsection{Controlabilidad del sistema de segundo orden}
 %% calcular controlabilidad
 
-Partiendo del sistema descrito en la ecuación \ref{ec:espaciodeestadosdiscreto1} se tienen las ecuaciones del espacio de estado discreto dadas por \ref{ec:espaciodeestadosdiscret}:
+Partiendo del sistema descrito en la ecuaciones:
+
+\begin{center}
+	\begin{equation}
+		x(k+1)
+		=
+		\begin{bmatrix}
+			& 0.9689 & 0.3389 & \\ 
+			&   -0.0089& -0.9034 & \\ 
+		\end{bmatrix}
+		x(k)
+		+
+		\begin{bmatrix}
+			& 0.6199 \\ 
+			&  0.1766
+		\end{bmatrix}
+		u(k)	
+	\end{equation}
+\end{center}
+
+\begin{center}
+	\begin{equation}
+		y(k)=\begin{bmatrix}
+			0.9844 & 0.1694
+		\end{bmatrix}
+		x(k) 
+		+0.3099 \quad
+		u(k)	
+	\end{equation}
+\end{center}
+
+
+Se obtienen las ecuaciones del espacio de estado discreto dadas por \ref{ec:espaciodeestadosdiscret}:
 
 \begin{center}
 	\begin{equation}
@@ -84,9 +115,9 @@ Partiendo del sistema descrito en la ecuación \ref{ec:espaciodeestadosdiscreto1}
 	\end{equation}
 \end{center}
 
-Para obtener el rango del sistema se utilizó el programa \ref{codedisrang} en MATLAB.
+Para obtener el rango del sistema se utilizó el programa para la estimación del rango de la matriz de controlabilidad en MATLAB.
 
-\begin{lstlisting}[caption = {Estimación del rango de la matriz de controlabilidad},captionpos=b,label={codedisrang},language=Matlab]
+\begin{lstlisting}[label={codedisrang},language=Matlab]
 	
 	% Espacio de estados discretizado
 	Ad=[0.9689 0.3389; -0.0089 -0.9034];
@@ -111,7 +142,7 @@ M_{controlabilidad}
 \label{ec:m_con}%
 \end{equation}
 
-El rango de esta es igual a 2. Por lo tanto el sistema es completamente controlable.
+El rango de esta matriz es igual a 2. Por lo tanto, el sistema es completamente controlable.
 
 Al observar que la matriz C es linealmente independiente, se dice que la salida también es completamente controlable.
 
@@ -169,7 +200,7 @@ Al tener un sistema realimentado como en la figura \ref{fig:ackermann}, la ley d
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth ]{img/ackermann}
-	\caption{Representación de la realimentación de variables de estado con una matriz de ganancias estimadas por la fórmula de Ackermann}
+	\caption{Representación de la realimentación de variables de estado con una matriz de ganancias estimada por la fórmula de Ackermann}
 	\label{fig:ackermann}
 \end{figure}
 
@@ -188,7 +219,7 @@ Siendo $[B \vdots AB \vdots  \cdots \vdots A^{n-1}B]$ la matriz de controlabilid
 
 Para los cálculos de la $K_{Ackermann}$ se utilizó el programa \ref{codeackermann} en MATLAB 
 
-\begin{lstlisting}[caption = {K de Ackermann},captionpos=b,label={codeackermann},language=Matlab]
+\begin{lstlisting}[label={codeackermann},language=Matlab]
 	% Espacio de estados discreto
 	Ad=[ 0.9689    0.3389;    -0.0089   -0.9034];
 	Bd=[0.6199;0.1766];
@@ -238,7 +269,6 @@ Siendo el espacio de estado descrito por
 
 \begin{center}
 	\begin{equation*}
-		\left\{\begin{matrix}
 			x(k+1)
 			=
 			\begin{bmatrix}
@@ -251,24 +281,26 @@ Siendo el espacio de estado descrito por
 				& 0.6199 \\ 
 				&  0.1766
 			\end{bmatrix}
-			u(k)\\ 
-			y(k)=\begin{bmatrix}
-				0.9844 & 0.1694
-			\end{bmatrix}
-			x(k) 
-			
-			+0.3099 \quad
-			u(k)
-			
-		\end{matrix}\right.	
+			u(k)	
 	\end{equation*}
 \end{center}
 
+
+\begin{center}
+	\begin{equation*}
+			y(k)=\begin{bmatrix}
+				0.9844 & 0.1694
+			\end{bmatrix}
+			x(k) 	
+			+0.3099 \quad
+			u(k)		
+	\end{equation*}
+\end{center}
 Se tiene que cumplir el criterio de observabilidad para poder acceder a los estados que se realimentarán con las ganancias estimadas en la ecuación \ref{ec:resultadokackerman}.
 
-Para obtener el rango del sistema se utilizó el programa \ref{codedisrangobs} en MATLAB.
+Estimación del rango de la matriz de  observabilidad en MATLAB.
 
-\begin{lstlisting}[caption = {Estimación del rango de la matriz de  observabilidad},captionpos=b,label={codedisrangobs},language=Matlab]
+\begin{lstlisting}[label={codedisrangobs},language=Matlab]
 	
 % Observabilidad del sistema
 
@@ -328,28 +360,31 @@ Sea el sistema de segundo orden dado por:
 
 
 \begin{center}
-	\begin{equation}
-		\left\{\begin{matrix}
-			x(k+1)
-			=A
-			x(k)
-			+B
-			u(k)\\ 
+	\begin{equation} 
 			y(k+1)=C
 			x(k) 
 			+D
 			u(k)	
-		\end{matrix}\right.	
 	\label{ec:sissegundoorden}
 	\end{equation}
+\end{center}
 
+
+\begin{center}
+	\begin{equation}
+			y(k+1)=C
+			x(k) 
+			+D
+			u(k)		
+		\label{ec:sissegundoorden1}
+	\end{equation}
+	
 \end{center}
 
 Siendo $A,B,C,D$ las matrices correspondientes al sistema 
 
 \begin{center}
 	\begin{equation}
-		\left\{\begin{matrix}
 			x(k+1)
 			=
 			\begin{bmatrix}
@@ -362,17 +397,21 @@ Siendo $A,B,C,D$ las matrices correspondientes al sistema
 				& 0.6199 \\ 
 				&  0.1766
 			\end{bmatrix}
-			u(k)\\ 
+			u(k)	
+		\label{ec:espaciodeestadosDiscretoSistema}%	
+	\end{equation}
+\end{center}
+
+
+\begin{center}
+	\begin{equation}
 			y(k)=\begin{bmatrix}
 				0.9844 & 0.1694
 			\end{bmatrix}
-			x(k) 
-			
+			x(k) 	
 			+0.3099 \quad
-			u(k)
-			
-		\end{matrix}\right.
-		\label{ec:espaciodeestadosDiscretoSistema}%	
+			u(k)	
+		\label{ec:espaciodeestadosDiscretoSistema1}%	
 	\end{equation}
 \end{center}
 
@@ -416,37 +455,41 @@ Se tiene que la ecuación de estados de un observador de orden completo es:
 
 \begin{center}
 	\begin{equation}
-		\left\{\begin{matrix}
 			x(k+1)
-			= (A-GC) x(k)+Gy(k)+Bu(K)\\ 
-			y(k)=Cx(k)
-		\end{matrix}\right.	
+			= (A-GC) x(k)+Gy(k)+Bu(K)
 	\label{ec:observadordeestado}
 	\end{equation}
+\end{center}
 
+\begin{center}
+	\begin{equation}
+			y(k)=Cx(k)
+		\label{ec:observadordeestados1}
+	\end{equation}
 \end{center}
 
 Siendo G la ganancia del observador que debe ser calculada.
 
-Según el sistema de la ecuación \ref{ec:sissegundoorden} como el estado $y(k)$ es conocido, se plantea un observador de orden mínimo para estimar $\omega(k)$, por lo tanto quedaría de esta forma:
+Según el sistema compuesto por las ecuaciones \ref{ec:sissegundoorden} y \ref{ec:sissegundoorden1} como el estado $y(k)$ es conocido, se plantea un observador de orden mínimo para estimar $\omega(k)$, por lo tanto quedaría de esta forma:
 
 
 \begin{center}
 	\begin{equation}
-		\left\{\begin{matrix}
 			\omega(k+1)
 			=A_{22}
 		\omega(k)+A_{21}y(k)+B_{2}u(k)
-			
-	\\ 
-			y(k+1)-A_{11}y(k)-B_{1}u(k)=A_{21}\omega(k)
-		\end{matrix}\right.
 	\label{ec:sissegundoorden2}	
-	\end{equation}
-	
+	\end{equation}	
 \end{center}
 
-Entonces la ecuación de estado del observador para la variable $\omega(k+1)$ según lo indicado en la ecuación \ref{ec:observadordeestado} se convierte en:
+\begin{center}
+	\begin{equation}
+			y(k+1)-A_{11}y(k)-B_{1}u(k)=A_{21}\omega(k)
+		\label{ec:sissegundoorden2/2}	
+	\end{equation}	
+\end{center}
+
+Entonces la ecuación de estado del observador para la variable $\omega(k+1)$ según lo indicado en la ecuación \ref{ec:observadordeestado} y \ref{ec:observadordeestados1} se convierte en:
 
 
 \begin{center}
@@ -527,15 +570,16 @@ La cual es de utilidad para estimar el estado $\omega(k)$ necesario para calcula
 
 
 	\begin{equation}
-		\left\{\begin{matrix}
 		    \omega(k)
 			=\eta(k)+Gy(k)
-			\\ 
+	\label{ec:observadorfinal}	
+	\end{equation}
+	
+		\begin{equation}
 			\eta(k+1)
 			=(A_{22}-GA_{12}) \eta(k)
 			\\+[(A_{22}-GA_{12})G\\+A_{21}-GA_{11}]y(k)\\+(B_{2}-GB_{1})u(k)
-		\end{matrix}\right.
-	\label{ec:observadorfinal}	
+		\label{ec:observadorfinal}	
 	\end{equation}
 	
  
@@ -639,7 +683,7 @@ Para el sistema de la ecuación \ref{ec:espaciodeestadosDiscretoSistema}, los val
 
 \subsubsection {Efecto de la modificación del sistema de regulación}
 
-Al modificar el sistema de regulación en un sistema de control, la ubicación de polos con el observador de estados modifica la ganancia de la totalidad del sistema. Por lo que es necesario compensar con una ganancia $K_{o}$ en la trayectoria de la señal de entrada, de tal forma que la ganancia de entrada de la totalidad del sistema de control pueda determinarse para que la salida sea unitaria en estado permanente a una entrada escalón unitario.\cite{ogataregulacion}
+Al modificar el sistema de regulación en un sistema de control, la ubicación de polos con el observador de estados modifica la ganancia de la totalidad del sistema. Por lo que es necesario compensar con una ganancia $K_{o}$ en la trayectoria de la señal de entrada, de tal forma que la ganancia de entrada de la totalidad del sistema de control pueda determinarse para que la salida sea unitaria en estado permanente ante una entrada escalón unitario.\cite{ogataregulacion}
 
 Entonces, según el teorema del valor final
 \[\lim _{k \to \infty }y(k)= \lim _{z \to 1 } (1 - z^{-1}) Y(z)  \]
